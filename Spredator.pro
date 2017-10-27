@@ -24,8 +24,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        view.cpp
+        view.cpp \
+    model.cpp
 
-HEADERS  += view.h
+HEADERS  += view.h \
+    model.h
 
 FORMS    += view.ui
