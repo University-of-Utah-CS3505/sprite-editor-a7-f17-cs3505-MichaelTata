@@ -5,6 +5,10 @@
 #include <QImage>
 #include <QColor>
 #include <vector>
+#include <QPainter>
+#include <QColorDialog>
+#include <QFileDialog>
+#include <QMouseEvent>
 
 class Model : public QObject
 {
@@ -18,7 +22,7 @@ private:
     std::vector<QImage> redoes;
     // The view will show the current image and it is the only image
     // that can be worked on at a time.
-    QImage& currentImage;
+    QImage currentImage;
     /* The current tool directs how the image will be manipulated.
      * An encoding for the tools would work best to distinguish them
      * from each other.
@@ -42,8 +46,12 @@ public:
     explicit Model(QObject *parent = 0);
 
 signals:
+    void redrawImage(QImage&);
+
 
 public slots:
+    void manipulateImage(QMouseEvent *e);
+
 };
 
 #endif // MODEL_H

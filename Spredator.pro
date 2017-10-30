@@ -25,9 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         view.cpp \
-    model.cpp
-
+    model.cpp \
+    drawingwidget.cpp
 HEADERS  += view.h \
-    model.h
+    model.h \
+    drawingwidget.h
 
 FORMS    += view.ui
