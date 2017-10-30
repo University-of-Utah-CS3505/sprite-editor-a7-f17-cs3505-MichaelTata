@@ -16,18 +16,14 @@ public:
     explicit DrawingWidget(QWidget *parent = 0);
 
 private:
-
     QImage currImage;
+    QSize scale;
 
 protected:
     void paintEvent(QPaintEvent *);
-
     void mousePressEvent(QMouseEvent *e);
-
     void mouseReleaseEvent(QMouseEvent *e);
-
     void mouseMoveEvent(QMouseEvent *e);
-
 
 signals:
     //Signal for funneling mouse click

@@ -13,9 +13,6 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->drawingBoard, &DrawingWidget::click, m, &Model::manipulateImage);
 
     connect(ui->drawingBoard, &DrawingWidget::mouseMove, m, &Model::manipulateImage);
-
-
-    connect(ui->drawingBoard, &DrawingWidget::mouseMove, m, &Model::manipulateImage);
 }
 View::~View()
 {

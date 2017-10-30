@@ -51,7 +51,6 @@ signals:
 
 public slots:
     void manipulateImage(QMouseEvent *e);
-
 };
 
 #endif // MODEL_H
