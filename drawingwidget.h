@@ -24,6 +24,7 @@ protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void resizeEvent(QResizeEvent *e);
 
 signals:
     //Signal for funneling mouse click
@@ -35,6 +36,10 @@ signals:
     //Signal for funneling unclick(Using this so we can create a "preview" of
     //where we are moving a line or rect if we are using them
     void unclick(QMouseEvent *e);
+
+    //used to control the rescale factor for our image, so we can resize and still maintain the original image
+    void rescale(QSize);
+
 
 public slots:
     //Slot for resizing board?? Will probably need it to resize widget to fit an image.

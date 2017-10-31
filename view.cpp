@@ -6,6 +6,7 @@ View::View(Model* m, QWidget *parent) :
     ui(new Ui::View)
 {
     ui->setupUi(this);
+
     //Connection to redraw the board. Model sends new image to be drawn to drawing widget.
     connect(m, &Model::redrawImage, ui->drawingBoard, &DrawingWidget::drawImage);
 
@@ -13,6 +14,9 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->drawingBoard, &DrawingWidget::click, m, &Model::manipulateImage);
 
     connect(ui->drawingBoard, &DrawingWidget::mouseMove, m, &Model::manipulateImage);
+
+    connect(ui->drawingBoard, &DrawingWidget::rescale, m, &Model::rescale);
+
 }
 View::~View()
 {

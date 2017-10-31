@@ -5,6 +5,7 @@
 #include <QImage>
 #include <QColor>
 #include <vector>
+#include <QSize>
 #include <QPainter>
 #include <QColorDialog>
 #include <QFileDialog>
@@ -37,6 +38,9 @@ private:
      * Add more tools as needed.
      */
     int currentTool;
+    double xScale;
+    double yScale;
+
     QColor currentColor;
     QPainter painter;
     QColorDialog colorPicker;
@@ -51,6 +55,8 @@ signals:
 
 public slots:
     void manipulateImage(QMouseEvent *e);
+
+    void rescale(QSize);
 };
 
 #endif // MODEL_H
