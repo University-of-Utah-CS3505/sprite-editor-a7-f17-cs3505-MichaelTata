@@ -46,16 +46,22 @@ void Model::manipulateImage(QMouseEvent *e)
             painter.drawPoint(tempX, tempY);
             emit redrawImage(currentImage);
             break; 
+
+
         }
     }   
 }
 
 
-void Model::rescale(QSize temp)
+void Model::rescale()
 {
-    xScale = temp.width()/100;
-    yScale = temp.height()/100;
+    int t = 2;
+    //xScale = temp.width()/100;
+    // yScale = temp.height()/100;
+    xScale *= 2;
+    yScale *= 2;
 
+    emit sendRescale(2);
 
 
 }

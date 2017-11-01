@@ -52,11 +52,13 @@ public:
 signals:
     void redrawImage(QImage&);
 
+    void sendRescale(int);
+
 
 public slots:
     void manipulateImage(QMouseEvent *e);
 
-    void rescale(QSize);
+    void rescale();
 };
 
 #endif // MODEL_H

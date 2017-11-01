@@ -18,6 +18,7 @@ public:
 private:
     QImage currImage;
     QSize scale;
+    int scaleFactor;
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -43,8 +44,9 @@ signals:
 
 public slots:
     //Slot for resizing board?? Will probably need it to resize widget to fit an image.
+    void changeScale(int);
 
-    void drawImage(QImage ourIm);
+    void drawUpdatedImage(QImage ourIm);
 
 };
 

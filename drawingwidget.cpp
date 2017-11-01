@@ -6,6 +6,8 @@
 DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent), scale(500, 500),
     currImage(500, 500, QImage::Format_ARGB32)
 {
+
+    scaleFactor = 1;
     //Default Gray drawing board, Can set variable size here.
     //currImage = QPixmap(500, 500).toImage();
 
@@ -14,16 +16,20 @@ DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent), scale(500, 500)
 
 }
 
-void DrawingWidget::drawImage(QImage ourIm)
+void DrawingWidget::drawUpdatedImage(QImage ourIm)
 {
     currImage = ourIm.scaled(scale, Qt::KeepAspectRatio);
-    repaint();
+    update();
 }
 
 void DrawingWidget::paintEvent(QPaintEvent *e)
 {
     QPainter painter(this);
-    painter.drawImage(0, 0, currImage, 0, 0, currImage.width(), currImage.height() );
+    painter.drawImage(0, 0, currImage, 0, 0, currImage.width()/scaleFactor, currImage.height()/scaleFactor );
+
+
+
+
 }
 
 void DrawingWidget::mousePressEvent(QMouseEvent *e)
@@ -38,20 +44,35 @@ void DrawingWidget::mouseReleaseEvent(QMouseEvent *e)
 
 void DrawingWidget::resizeEvent(QResizeEvent *e)
 {
-    //Get new width and height of the drawing widget for scale and set new image.
-    //Round to nearest 100th for res
-    int h = round((double)this->height()/100 + 0.5)*100;
-    int w = round((double)this->width()/100 + 0.5)*100;
 
-    scale.setWidth(w);
-    scale.setHeight(h);
-    std::cout << w << "-wid, height - " << h << " ";
 
-    currImage = currImage.scaled(scale, Qt::KeepAspectRatio);
 
-    emit rescale(scale);
+    //scale.setWidth(w);
+    //scale.setHeight(h);
+    //std::cout << w << "-wid, height - " << h << " ";
+
+    //currImage = currImage.scaled(scale, Qt::KeepAspectRatio);
+
+    //emit rescale(scale);
 
 }
+
+
+void DrawingWidget::changeScale(int passScaleFactor)
+{
+    scale.setWidth(scale.width() * passScaleFactor);
+    scale.setHeight(scale.height()* passScaleFactor);
+
+    scaleFactor *= passScaleFactor;
+
+    currImage = currImage.scaled(scale, Qt::KeepAspectRatio);
+    update();
+}
+
+
+
+
+
 
 void DrawingWidget::mouseMoveEvent(QMouseEvent *e)
 {
