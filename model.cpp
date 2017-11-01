@@ -1,7 +1,6 @@
 #include "model.h"
 #include <iostream>
 
-
 Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32)
 {
     //Temporary default value as we use 500,500 for default image
@@ -28,28 +27,28 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
 //Slot to receive a drawing event. Used Specifically for when a click(or unclick) has occurred
 void Model::manipulateImage(QMouseEvent *e)
 {
+
+    int tempX = e->pos().x() / xScale;
+    int tempY = e->pos().y() / yScale;
+    QPoint point(tempX, tempY);
+
     //Left mouse button click or click+hold+drag?
     if(e->buttons() == Qt::LeftButton)
     {
-        //Switch-case here for all tools?
         switch(currentTool) {
         case 0:
 
-
-            int tempX = e->pos().x() / xScale;
-
-            int tempY = e->pos().y() / yScale;
-
-
             //Make sure we only allow ~25 or so undo otherwise program crashes
             //undoes.push_back(currentImage);
-            painter.drawPoint(tempX, tempY);
+            painter.drawPoint(point);
             emit redrawImage(currentImage);
-            break; 
-
-
+            break;
         }
-    }   
+    }
+    else {
+        if (tempX < currentImage.width() && tempY < currentImage.height())
+            emit sendHighlight(point);
+    }
 }
 
 void Model::scaleOut()

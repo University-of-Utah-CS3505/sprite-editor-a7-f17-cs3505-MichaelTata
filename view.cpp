@@ -25,7 +25,7 @@ View::View(Model* m, QWidget *parent) :
 
     connect(m, &Model::sendScaleOut, ui->drawingBoard, &DrawingWidget::scaleOut);
 
-
+    connect(m, &Model::sendHighlight, ui->drawingBoard, &DrawingWidget::highlightPixel);
 
 
 }

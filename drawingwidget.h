@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QImage>
 #include <QWidget>
+#include <QPoint>
+#include <QColor>
 
 class DrawingWidget : public QWidget
 {
@@ -14,6 +16,7 @@ public:
 
 private:
     QImage currImage;
+    QImage tempImage;
     qreal scaleFactor;
 
 protected:
@@ -41,7 +44,7 @@ signals:
 
 
 public slots:
-
+    void highlightPixel(QPoint coords);
 
     void scaleIn(int);
 

@@ -10,6 +10,7 @@
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QMouseEvent>
+#include <QPoint>
 
 class Model : public QObject
 {
@@ -55,6 +56,8 @@ signals:
     void sendScaleIn(int);
 
     void sendScaleOut(int);
+
+    void sendHighlight(QPoint);
 
 
 public slots:

@@ -4,7 +4,7 @@
 #include <math.h>
 
 DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
-    currImage(500, 500, QImage::Format_ARGB32)
+    currImage(100, 100, QImage::Format_ARGB32)
 {
 
     scaleFactor = 1;
@@ -12,6 +12,7 @@ DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
     //currImage = QPixmap(500, 500).toImage();
 
     currImage.fill(Qt::gray);
+    tempImage = currImage;
 
 
 }
@@ -20,16 +21,14 @@ void DrawingWidget::drawUpdatedImage(QImage ourIm)
 {
     ourIm.setDevicePixelRatio(scaleFactor);
     currImage = ourIm;
+    tempImage = currImage;
     update();
 }
 
 void DrawingWidget::paintEvent(QPaintEvent *e)
 {
     QPainter painter(this);
-    painter.drawImage(0, 0, currImage, 0, 0, currImage.width()/scaleFactor, currImage.height()/scaleFactor );
-
-
-
+    painter.drawImage(0, 0, tempImage, 0, 0, tempImage.width(), tempImage.height());
 
 }
 
@@ -68,6 +67,7 @@ void DrawingWidget::scaleIn(int passScaleFactor)
     scaleFactor /= passScaleFactor;
 
     currImage.setDevicePixelRatio(scaleFactor);
+    tempImage.setDevicePixelRatio(scaleFactor);
     update();
 }
 
@@ -76,17 +76,18 @@ void DrawingWidget::scaleOut(int passScaleFactor)
     scaleFactor *= passScaleFactor;
 
     currImage.setDevicePixelRatio(scaleFactor);
+    tempImage.setDevicePixelRatio(scaleFactor);
     update();
 }
 
-
-
-
 void DrawingWidget::mouseMoveEvent(QMouseEvent *e)
 {
-
     emit mouseMove(e);
+}
 
-
+void DrawingWidget::highlightPixel(QPoint point) {
+    tempImage = currImage;
+    tempImage.setPixel(point, qRgb(255, 255, 0));
+    update();
 }
 
