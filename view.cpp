@@ -15,9 +15,15 @@ View::View(Model* m, QWidget *parent) :
 
     connect(ui->drawingBoard, &DrawingWidget::mouseMove, m, &Model::manipulateImage);
 
-    connect(ui->ZoomButton, &QPushButton::clicked, m, &Model::rescale);
+    connect(ui->ZoomInButton, &QPushButton::clicked, m, &Model::scaleIn);
 
-    connect(m, &Model::sendRescale, ui->drawingBoard, &DrawingWidget::changeScale);
+    connect(ui->ZoomOutButton, &QPushButton::clicked, m, &Model::scaleOut);
+
+
+
+    connect(m, &Model::sendScaleIn, ui->drawingBoard, &DrawingWidget::scaleIn);
+
+    connect(m, &Model::sendScaleOut, ui->drawingBoard, &DrawingWidget::scaleOut);
 
 
 

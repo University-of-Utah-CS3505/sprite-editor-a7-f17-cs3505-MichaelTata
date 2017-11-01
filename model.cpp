@@ -5,8 +5,8 @@
 Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32)
 {
     //Temporary default value as we use 500,500 for default image
-    xScale = 5;
-    yScale = 5;
+    xScale = 1;
+    yScale = 1;
 
 
     //currentImage(64, 64, QImage::Format_ARGB32);
@@ -52,16 +52,24 @@ void Model::manipulateImage(QMouseEvent *e)
     }   
 }
 
-
-void Model::rescale()
+void Model::scaleOut()
 {
-    int t = 2;
-    //xScale = temp.width()/100;
-    // yScale = temp.height()/100;
+    xScale/=2;
+    yScale/=2;
+
+    emit sendScaleOut(2);
+
+
+}
+
+
+void Model::scaleIn()
+{
+
     xScale *= 2;
     yScale *= 2;
 
-    emit sendRescale(2);
+    emit sendScaleIn(2);
 
 
 }

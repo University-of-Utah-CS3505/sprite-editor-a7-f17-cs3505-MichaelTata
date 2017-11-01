@@ -3,7 +3,7 @@
 #include <QMouseEvent>
 #include <math.h>
 
-DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent), scale(500, 500),
+DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
     currImage(500, 500, QImage::Format_ARGB32)
 {
 
@@ -18,7 +18,8 @@ DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent), scale(500, 500)
 
 void DrawingWidget::drawUpdatedImage(QImage ourIm)
 {
-    currImage = ourIm.scaled(scale, Qt::KeepAspectRatio);
+    ourIm.setDevicePixelRatio(scaleFactor);
+    currImage = ourIm;
     update();
 }
 
@@ -57,19 +58,26 @@ void DrawingWidget::resizeEvent(QResizeEvent *e)
 
 }
 
-
-void DrawingWidget::changeScale(int passScaleFactor)
+void DrawingWidget::scaleIn(int passScaleFactor)
 {
-    scale.setWidth(scale.width() * passScaleFactor);
-    scale.setHeight(scale.height()* passScaleFactor);
 
-    scaleFactor *= passScaleFactor;
 
-    currImage = currImage.scaled(scale, Qt::KeepAspectRatio);
+    //scale.setWidth(scale.width() * passScaleFactor);
+    //scale.setHeight(scale.height()* passScaleFactor);
+
+    scaleFactor /= passScaleFactor;
+
+    currImage.setDevicePixelRatio(scaleFactor);
     update();
 }
 
+void DrawingWidget::scaleOut(int passScaleFactor)
+{
+    scaleFactor *= passScaleFactor;
 
+    currImage.setDevicePixelRatio(scaleFactor);
+    update();
+}
 
 
 

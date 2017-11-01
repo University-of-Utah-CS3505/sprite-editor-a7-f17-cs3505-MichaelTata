@@ -4,9 +4,6 @@
 
 #include <QPainter>
 #include <QImage>
-
-
-
 #include <QWidget>
 
 class DrawingWidget : public QWidget
@@ -17,8 +14,7 @@ public:
 
 private:
     QImage currImage;
-    QSize scale;
-    int scaleFactor;
+    qreal scaleFactor;
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -39,12 +35,17 @@ signals:
     void unclick(QMouseEvent *e);
 
     //used to control the rescale factor for our image, so we can resize and still maintain the original image
-    void rescale(QSize);
+    void sendScaleIn(QSize);
+
+    void sendScaleOut(QSize);
 
 
 public slots:
-    //Slot for resizing board?? Will probably need it to resize widget to fit an image.
-    void changeScale(int);
+
+
+    void scaleIn(int);
+
+    void scaleOut(int);
 
     void drawUpdatedImage(QImage ourIm);
 
