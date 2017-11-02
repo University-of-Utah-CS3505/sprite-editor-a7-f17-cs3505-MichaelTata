@@ -15,9 +15,9 @@ View::View(Model* m, QWidget *parent) :
 
     connect(ui->drawingBoard, &DrawingWidget::mouseMove, m, &Model::manipulateImage);
 
-    connect(ui->ZoomInButton, &QPushButton::clicked, m, &Model::scaleIn);
+    connect(ui->zoomInButton, &QPushButton::clicked, m, &Model::scaleIn);
 
-    connect(ui->ZoomOutButton, &QPushButton::clicked, m, &Model::scaleOut);
+    connect(ui->zoomOutButton, &QPushButton::clicked, m, &Model::scaleOut);
 
 
 
@@ -26,6 +26,20 @@ View::View(Model* m, QWidget *parent) :
     connect(m, &Model::sendScaleOut, ui->drawingBoard, &DrawingWidget::scaleOut);
 
     connect(m, &Model::sendHighlight, ui->drawingBoard, &DrawingWidget::highlightPixel);
+
+
+    connect(ui->drawingBoard, &DrawingWidget::unclick, m, &Model::addShapeToImage);
+
+
+
+
+
+
+
+    connect(ui->penButton, &QPushButton::clicked, m, &Model::penSelected);
+
+    connect(ui->lineButton, &QPushButton::clicked, m, &Model::lineSelected);
+
 
 
 }

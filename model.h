@@ -42,6 +42,13 @@ private:
     double xScale;
     double yScale;
 
+    //These variables are used exclusively for drawing shapes/lines.
+    //We need the starting coord and to know when we are making a shape, this way we can make a preview.
+    int shapeCoordX;
+    int shapeCoordY;
+    bool activePreview;
+
+
     QColor currentColor;
     QPainter painter;
     QColorDialog colorPicker;
@@ -63,9 +70,21 @@ signals:
 public slots:
     void manipulateImage(QMouseEvent *e);
 
+    void addShapeToImage(QMouseEvent *e);
+
     void scaleIn();
 
     void scaleOut();
+
+    void penSelected();
+
+    void lineSelected();
+
+
+
+
+
+
 };
 
 #endif // MODEL_H

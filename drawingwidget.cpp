@@ -39,7 +39,7 @@ void DrawingWidget::mousePressEvent(QMouseEvent *e)
 
 void DrawingWidget::mouseReleaseEvent(QMouseEvent *e)
 {
-
+    emit unclick(e);
 }
 
 void DrawingWidget::resizeEvent(QResizeEvent *e)

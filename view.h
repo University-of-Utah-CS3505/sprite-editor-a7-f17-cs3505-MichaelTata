@@ -23,9 +23,11 @@ private:
 
 public slots:
 
+
+
+
 signals:
-    //Signal for pen tool being pressed(And used)
-    void penBtnPress();
+
 
 };
 

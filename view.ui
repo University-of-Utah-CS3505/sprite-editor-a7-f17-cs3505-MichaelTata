@@ -33,21 +33,28 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QPushButton" name="ZoomInButton">
+          <widget class="QPushButton" name="zoomInButton">
            <property name="text">
             <string>Zoom In</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="ZoomOutButton">
+          <widget class="QPushButton" name="zoomOutButton">
            <property name="text">
             <string>Zoom Out</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="TemporaryPenButton">
+          <widget class="QPushButton" name="lineButton">
+           <property name="text">
+            <string>Line</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="penButton">
            <property name="text">
             <string>Pen</string>
            </property>
@@ -61,35 +68,35 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="FillButton">
+          <widget class="QPushButton" name="fillButton">
            <property name="text">
             <string>Fill</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="EllipseButton">
+          <widget class="QPushButton" name="ellipseButton">
            <property name="text">
             <string>Ellipse</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="RectangleButton">
+          <widget class="QPushButton" name="rectangleButton">
            <property name="text">
             <string>Rectangle</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="UndoButton">
+          <widget class="QPushButton" name="undoButton">
            <property name="text">
             <string>Undo</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="RedoButton">
+          <widget class="QPushButton" name="redoButton">
            <property name="text">
             <string>Redo</string>
            </property>
@@ -136,7 +143,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

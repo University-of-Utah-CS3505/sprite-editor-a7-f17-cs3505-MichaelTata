@@ -24,6 +24,27 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     emit redrawImage(currentImage);
 }
 
+//Slot for released mouse click event. So if we have a shape/line tool chosen
+//This will add the actual shape to the image. This is needed as manipulate image only handles
+//Previews, as the mouse event cannot be used to determine mouse button release, only move and click/drag
+void Model::addShapeToImage(QMouseEvent *e)
+{
+    QPointF firstPt(shapeCoordX, shapeCoordY);
+    QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
+
+    switch(currentTool)
+    {
+        case 4:
+            painter.drawLine(firstPt, secondPt);
+
+            emit redrawImage(currentImage);
+        break;
+    }
+
+    activePreview = false;
+}
+
+
 //Slot to receive a drawing event. Used Specifically for when a click(or unclick) has occurred
 void Model::manipulateImage(QMouseEvent *e)
 {
@@ -43,6 +64,42 @@ void Model::manipulateImage(QMouseEvent *e)
             painter.drawPoint(point);
             emit redrawImage(currentImage);
             break;
+
+        case 1:
+
+            break;
+
+        case 4:
+            //factor this into its own method to be used by all tools
+            if(activePreview)
+            {
+                QImage tempIm = currentImage;
+                QPainter tempPaint(&tempIm);
+                QPointF firstPt(shapeCoordX, shapeCoordY);
+                QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
+                tempPaint.drawLine(firstPt, secondPt);
+
+                emit redrawImage(tempIm);
+
+
+            }
+            else
+            {
+                activePreview = true;
+                shapeCoordX = e->pos().x() / xScale;
+                shapeCoordY = e->pos().y() / yScale;
+                //save image here?
+
+            }
+
+
+
+
+            break;
+
+
+
+
         }
     }
     else {
@@ -70,5 +127,22 @@ void Model::scaleIn()
 
     emit sendScaleIn(2);
 
+
+}
+
+
+
+
+//All tool selection slots go here.
+
+void Model::penSelected()
+{
+    currentTool = 0;
+
+}
+
+void Model::lineSelected()
+{
+    currentTool = 4;
 
 }
