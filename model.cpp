@@ -1,5 +1,7 @@
 #include "model.h"
 #include <iostream>
+#include <QColorDialog>
+#include <QColor>
 
 Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32)
 {
@@ -69,6 +71,12 @@ void Model::manipulateImage(QMouseEvent *e)
 
             break;
 
+        case 3:
+
+            fillZone(point, painter.pen().color());
+            emit redrawImage(currentImage);
+            break;
+
         case 4:
             //factor this into its own method to be used by all tools
             if(activePreview)
@@ -130,10 +138,50 @@ void Model::scaleIn()
 
 }
 
+void Model::fillZone(QPoint coords,QColor color) {
+    QColor currColor = currentImage.pixelColor(coords);
+    fillPixel(coords, color, currColor);
+}
+
+void Model::fillPixel(QPoint coords, QColor nColor, QColor oColor) {
+    if(validPixel(coords)){
+        QColor currColor = currentImage.pixelColor(coords);
+        if(currColor == oColor && currColor.isValid() && nColor != oColor){
+            currentImage.setPixelColor(coords, nColor);
+            int px = coords.x();
+            int py = coords.y();
+            QPoint point1(px - 1, py);
+            QPoint point2(px + 1, py);
+            QPoint point3(px, py - 1);
+            QPoint point4(px, py + 1);
+            fillPixel(point1, nColor, oColor);
+            fillPixel(point2, nColor, oColor);
+            fillPixel(point3, nColor, oColor);
+            fillPixel(point4, nColor, oColor);
 
 
+        }
+    }
+
+}
+bool Model::validPixel(QPoint coords){
+    int px = coords.x();
+    int py = coords.y();
+    if(px<0 || px >= currentImage.width() || py < 0 || py >= currentImage.height()){
+        return false;
+    }
+    return true;
+}
 
 //All tool selection slots go here.
+
+void Model::colorOpen()
+{
+    QColor penColor =  QColorDialog::getColor(Qt::white,nullptr,"Choose Color");
+    painter.setPen(penColor);
+    painter.setBrush(penColor);
+}
+
 
 void Model::penSelected()
 {
@@ -145,4 +193,9 @@ void Model::lineSelected()
 {
     currentTool = 4;
 
+}
+
+void Model::fillSelected()
+{
+    currentTool = 3;
 }

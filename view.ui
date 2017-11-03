@@ -127,6 +127,13 @@
     <item>
      <layout class="QVBoxLayout" name="previewLayout">
       <item>
+       <widget class="QPushButton" name="colorbutton">
+        <property name="text">
+         <string>Color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>PushButton</string>

@@ -1,6 +1,7 @@
 #include "view.h"
 #include "ui_view.h"
 
+
 View::View(Model* m, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::View)
@@ -13,13 +14,15 @@ View::View(Model* m, QWidget *parent) :
     //Connection from a drawing board click to an image manipulation in the model.
     connect(ui->drawingBoard, &DrawingWidget::click, m, &Model::manipulateImage);
 
+    //Connection to fill an area.
+
     connect(ui->drawingBoard, &DrawingWidget::mouseMove, m, &Model::manipulateImage);
 
     connect(ui->zoomInButton, &QPushButton::clicked, m, &Model::scaleIn);
 
     connect(ui->zoomOutButton, &QPushButton::clicked, m, &Model::scaleOut);
 
-
+    connect(ui->colorbutton, &QPushButton::clicked, m, &Model::colorOpen);
 
     connect(m, &Model::sendScaleIn, ui->drawingBoard, &DrawingWidget::scaleIn);
 
@@ -40,6 +43,7 @@ View::View(Model* m, QWidget *parent) :
 
     connect(ui->lineButton, &QPushButton::clicked, m, &Model::lineSelected);
 
+    connect(ui->fillButton, &QPushButton::clicked, m, &Model::fillSelected);
 
 
 }

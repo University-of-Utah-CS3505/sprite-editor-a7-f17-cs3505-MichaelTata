@@ -3,10 +3,10 @@
 #include <QMouseEvent>
 #include <math.h>
 
+
 DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
     currImage(100, 100, QImage::Format_ARGB32)
 {
-
     scaleFactor = 1;
     //Default Gray drawing board, Can set variable size here.
     //currImage = QPixmap(500, 500).toImage();
@@ -87,7 +87,10 @@ void DrawingWidget::mouseMoveEvent(QMouseEvent *e)
 
 void DrawingWidget::highlightPixel(QPoint point) {
     tempImage = currImage;
-    tempImage.setPixel(point, qRgb(255, 255, 0));
+    QColor currColor = tempImage.pixelColor(point);
+    currColor.setAlpha(40);
+    tempImage.setPixelColor(point, currColor);
     update();
 }
+
 

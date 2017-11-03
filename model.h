@@ -56,7 +56,10 @@ private:
     QFileDialog fileDia;
 public:
     explicit Model(QObject *parent = 0);
-
+protected:
+    void fillZone(QPoint, QColor);
+    void fillPixel(QPoint, QColor, QColor);
+    bool validPixel(QPoint);
 signals:
     void redrawImage(QImage&);
 
@@ -65,6 +68,7 @@ signals:
     void sendScaleOut(int);
 
     void sendHighlight(QPoint);
+
 
 
 public slots:
@@ -76,9 +80,13 @@ public slots:
 
     void scaleOut();
 
+    void colorOpen();
+
     void penSelected();
 
     void lineSelected();
+
+    void fillSelected();
 
 
 
