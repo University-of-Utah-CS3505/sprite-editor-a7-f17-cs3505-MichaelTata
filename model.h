@@ -15,7 +15,7 @@
 class Model : public QObject
 {
     Q_OBJECT
-private:
+private:    
     // frames will contain all of the frames, or images, of the current project.
     std::vector<QImage> frames;
     // undoes and redoes hold the different states of the current image
@@ -38,6 +38,11 @@ private:
      * 6 = oval
      * Add more tools as needed.
      */
+
+    //This is used to keep track of what frame we are currently
+    //sending to be previewed.
+    int currentFrame;
+
     int currentTool;
     double xScale;
     double yScale;
@@ -63,6 +68,9 @@ protected:
 signals:
     void redrawImage(QImage&);
 
+    //Sends image to preview to be displayed
+    void sendPreview(QImage&);
+
     void sendScaleIn(int);
 
     void sendScaleOut(int);
@@ -84,11 +92,15 @@ public slots:
 
     void penSelected();
 
+    void rectSelected();
+
     void lineSelected();
 
     void fillSelected();
 
+    void frameRequested();
 
+    void addToFrames();
 
 
 

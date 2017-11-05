@@ -9,6 +9,7 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     xScale = 1;
     yScale = 1;
 
+    currentFrame = 0;
 
     //currentImage(64, 64, QImage::Format_ARGB32);
     //Default value until we add load and creation of custom sized sprite
@@ -83,6 +84,7 @@ void Model::manipulateImage(QMouseEvent *e)
             {
                 QImage tempIm = currentImage;
                 QPainter tempPaint(&tempIm);
+                tempPaint.setPen(painter.pen().color());
                 QPointF firstPt(shapeCoordX, shapeCoordY);
                 QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
                 tempPaint.drawLine(firstPt, secondPt);
@@ -99,12 +101,30 @@ void Model::manipulateImage(QMouseEvent *e)
                 //save image here?
 
             }
+            break;
+
+         case 5:
+
+            if(activePreview)
+            {
+                QImage tempIm = currentImage;
+                QPainter tempPaint(&tempIm);
+                tempPaint.setPen(painter.pen().color());
+                QPointF firstPt(shapeCoordX, shapeCoordY);
+                QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
 
 
+
+            }
+            else
+            {
+                activePreview = true;
+                shapeCoordX = e->pos().x() / xScale;
+                shapeCoordY = e->pos().y() / yScale;
+            }
 
 
             break;
-
 
 
 
@@ -116,13 +136,57 @@ void Model::manipulateImage(QMouseEvent *e)
     }
 }
 
+
+void Model::frameRequested()
+{
+    if(frames.size() <= 1)
+    {
+        emit sendPreview(currentImage);
+    }
+
+    if(currentFrame <= frames.size()-1)
+    {
+
+        emit sendPreview(frames[currentFrame]);
+        currentFrame++;
+    }
+    else
+    {
+        currentFrame = 0;
+    }
+
+
+//    if(frames.size() <= 1)
+//    {
+//        emit sendPreview(currentImage);
+//    }
+
+//    else if(currentFrame == frames.size()-1)
+//    {
+//        currentFrame = 0;
+//        emit sendPreview(frames[currentFrame]);
+//        currentFrame++;
+//    }
+
+//    else if(currentFrame < frames.size())
+//    {
+//        currentFrame++;
+//        emit sendPreview(frames[currentFrame]);
+//    }
+
+}
+
+void Model::addToFrames()
+{
+    frames.push_back(currentImage);
+}
+
 void Model::scaleOut()
 {
     xScale/=2;
     yScale/=2;
 
     emit sendScaleOut(2);
-
 
 }
 
@@ -193,6 +257,11 @@ void Model::lineSelected()
 {
     currentTool = 4;
 
+}
+
+void Model::rectSelected()
+{
+    currentTool = 5;
 }
 
 void Model::fillSelected()

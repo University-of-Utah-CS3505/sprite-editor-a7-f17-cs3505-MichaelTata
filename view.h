@@ -5,6 +5,7 @@
 #include "model.h"
 #include "drawingwidget.h"
 #include <QObject>
+#include <QTimer>
 
 namespace Ui {
 class View;
@@ -21,7 +22,11 @@ public:
 private:
     Ui::View *ui;
 
+    //Timer for how fast to send frames to be displayed.
+    QTimer *frameTimer;
+
 public slots:
+    void fpsChange(int);
 
 
 

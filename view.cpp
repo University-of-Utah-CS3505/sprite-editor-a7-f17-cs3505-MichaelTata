@@ -34,10 +34,13 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->drawingBoard, &DrawingWidget::unclick, m, &Model::addShapeToImage);
 
 
+    frameTimer = new QTimer(this);
+    connect(frameTimer, SIGNAL(timeout()), m, SLOT(frameRequested()));
+    frameTimer->start(1000/ui->fpsSlider->value());
 
+    connect(ui->fpsSlider, &QSlider::valueChanged, this, &View::fpsChange);
 
-
-
+    connect(ui->addFrameButton, &QPushButton::clicked, m, &Model::addToFrames);
 
     connect(ui->penButton, &QPushButton::clicked, m, &Model::penSelected);
 
@@ -45,8 +48,18 @@ View::View(Model* m, QWidget *parent) :
 
     connect(ui->fillButton, &QPushButton::clicked, m, &Model::fillSelected);
 
+    connect(m, &Model::sendPreview, ui->previewWidget, &DrawingWidget::drawUpdatedImage);
+
 
 }
+
+void View::fpsChange(int change)
+{
+
+    frameTimer->stop();
+    frameTimer->start(1000/change);
+}
+
 View::~View()
 {
     delete ui;
