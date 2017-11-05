@@ -42,6 +42,14 @@ void Model::addShapeToImage(QMouseEvent *e)
 
             emit redrawImage(currentImage);
         break;
+
+        case 5:
+            QRectF tempRec = getRectangle(firstPt, secondPt);
+            painter.drawRect(tempRec);
+
+            emit redrawImage(currentImage);
+
+        break;
     }
 
     activePreview = false;
@@ -98,7 +106,7 @@ void Model::manipulateImage(QMouseEvent *e)
                 activePreview = true;
                 shapeCoordX = e->pos().x() / xScale;
                 shapeCoordY = e->pos().y() / yScale;
-                //save image here?
+
 
             }
             break;
@@ -107,14 +115,15 @@ void Model::manipulateImage(QMouseEvent *e)
 
             if(activePreview)
             {
+                //Draw a temporary image to send to be drawn
                 QImage tempIm = currentImage;
                 QPainter tempPaint(&tempIm);
                 tempPaint.setPen(painter.pen().color());
                 QPointF firstPt(shapeCoordX, shapeCoordY);
                 QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
+                tempPaint.drawRect(getRectangle(firstPt, secondPt));
 
-
-
+                emit redrawImage(tempIm);
             }
             else
             {
@@ -136,15 +145,54 @@ void Model::manipulateImage(QMouseEvent *e)
     }
 }
 
+QRectF Model::getRectangle(QPointF pivot, QPointF secondPt)
+{
+
+    //Second Pt is top left of rect, pivot is bottom right.
+    if(secondPt.x() < pivot.x() && secondPt.y() < pivot.y())
+    {
+        QRectF temp(secondPt, pivot);
+        return temp;
+    }
+    //Second pt is top right of rect, pivot is bottom left.
+    else if(secondPt.x() > pivot.x() && secondPt.y() < pivot.y())
+    {
+        QRectF temp;
+        temp.setTopRight(secondPt);
+        temp.setBottomLeft(pivot);
+        //do we need to add top left and bottom right for this to work?
+        return temp;
+    }
+    //Second pt is bottom left of rect, pivot is top right.
+    else if(secondPt.x() < pivot.x() && secondPt.y() > pivot.y())
+    {
+        QRectF temp;
+        temp.setBottomLeft(secondPt);
+        temp.setTopRight(pivot);
+        return temp;
+    }
+    //Second pt is bottom right, pivot is top left.
+    else if(secondPt.x() > pivot.x() && secondPt.y() > pivot.y())
+    {
+        QRectF temp(pivot, secondPt);
+        return temp;
+    }
+
+}
+
 
 void Model::frameRequested()
 {
-    if(frames.size() <= 1)
+    if(frames.size() <= 1 && firstImage)
     {
         emit sendPreview(currentImage);
     }
-
-    if(currentFrame <= frames.size()-1)
+    else if(currentFrame == frames.size())
+    {
+        emit sendPreview(currentImage);
+        currentFrame = 0;
+    }
+    else if(currentFrame <= frames.size()-1)
     {
 
         emit sendPreview(frames[currentFrame]);
@@ -153,32 +201,23 @@ void Model::frameRequested()
     else
     {
         currentFrame = 0;
+        emit sendPreview(frames[currentFrame]);
     }
-
-
-//    if(frames.size() <= 1)
-//    {
-//        emit sendPreview(currentImage);
-//    }
-
-//    else if(currentFrame == frames.size()-1)
-//    {
-//        currentFrame = 0;
-//        emit sendPreview(frames[currentFrame]);
-//        currentFrame++;
-//    }
-
-//    else if(currentFrame < frames.size())
-//    {
-//        currentFrame++;
-//        emit sendPreview(frames[currentFrame]);
-//    }
 
 }
 
 void Model::addToFrames()
 {
-    frames.push_back(currentImage);
+    if(frames.size()==1 && firstImage)
+    {
+        frames[0] = currentImage;
+        firstImage = false;
+    }
+    else
+    {
+        frames.push_back(currentImage);
+    }
+
 }
 
 void Model::scaleOut()
@@ -243,7 +282,7 @@ void Model::colorOpen()
 {
     QColor penColor =  QColorDialog::getColor(Qt::white,nullptr,"Choose Color");
     painter.setPen(penColor);
-    painter.setBrush(penColor);
+    painter.setBrush(Qt::NoBrush);
 }
 
 

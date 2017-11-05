@@ -38,6 +38,8 @@ View::View(Model* m, QWidget *parent) :
     connect(frameTimer, SIGNAL(timeout()), m, SLOT(frameRequested()));
     frameTimer->start(1000/ui->fpsSlider->value());
 
+    ui->previewWidget->scaleIn(2);
+
     connect(ui->fpsSlider, &QSlider::valueChanged, this, &View::fpsChange);
 
     connect(ui->addFrameButton, &QPushButton::clicked, m, &Model::addToFrames);
@@ -47,6 +49,8 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->lineButton, &QPushButton::clicked, m, &Model::lineSelected);
 
     connect(ui->fillButton, &QPushButton::clicked, m, &Model::fillSelected);
+
+    connect(ui->rectangleButton, &QPushButton::clicked, m, &Model::rectSelected);
 
     connect(m, &Model::sendPreview, ui->previewWidget, &DrawingWidget::drawUpdatedImage);
 

@@ -59,6 +59,14 @@ private:
     QColorDialog colorPicker;
     // This file dialog will handle creating a new project, saving, loading, and exporting a gif.
     QFileDialog fileDia;
+
+    //Used to temporarily get around the flicker on preview.
+    //As the first image needs to be added before drawing so we have a blank image in our frames
+    bool firstImage;
+
+    QRectF getRectangle(QPointF, QPointF);
+
+
 public:
     explicit Model(QObject *parent = 0);
 protected:
