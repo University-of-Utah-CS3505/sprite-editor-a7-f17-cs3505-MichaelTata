@@ -51,7 +51,7 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->fillButton, &QPushButton::clicked, m, &Model::fillSelected);
 
     connect(ui->rectangleButton, &QPushButton::clicked, m, &Model::rectSelected);
-
+    connect(ui->ellipseButton, &QPushButton::clicked, m, &Model::ellipseSelected);
     connect(m, &Model::sendPreview, ui->previewWidget, &DrawingWidget::drawUpdatedImage);
 
 

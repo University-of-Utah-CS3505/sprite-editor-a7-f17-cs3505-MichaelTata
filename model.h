@@ -15,7 +15,7 @@
 class Model : public QObject
 {
     Q_OBJECT
-private:    
+private:
     // frames will contain all of the frames, or images, of the current project.
     std::vector<QImage> frames;
     // undoes and redoes hold the different states of the current image
@@ -105,6 +105,8 @@ public slots:
     void lineSelected();
 
     void fillSelected();
+
+    void ellipseSelected();
 
     void frameRequested();
 

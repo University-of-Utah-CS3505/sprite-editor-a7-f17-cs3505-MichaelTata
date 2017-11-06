@@ -34,7 +34,7 @@ void Model::addShapeToImage(QMouseEvent *e)
 {
     QPointF firstPt(shapeCoordX, shapeCoordY);
     QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
-
+    QRectF tempRec = getRectangle(firstPt, secondPt);
     switch(currentTool)
     {
         case 4:
@@ -44,11 +44,15 @@ void Model::addShapeToImage(QMouseEvent *e)
         break;
 
         case 5:
-            QRectF tempRec = getRectangle(firstPt, secondPt);
+
             painter.drawRect(tempRec);
 
             emit redrawImage(currentImage);
+        break;
+        case 6:
+            painter.drawEllipse(tempRec);
 
+            emit redrawImage(currentImage);
         break;
     }
 
@@ -134,6 +138,30 @@ void Model::manipulateImage(QMouseEvent *e)
 
 
             break;
+
+        case 6:
+
+           if(activePreview)
+           {
+               //Draw a temporary image to send to be drawn
+               QImage tempIm = currentImage;
+               QPainter tempPaint(&tempIm);
+               tempPaint.setPen(painter.pen().color());
+               QPointF firstPt(shapeCoordX, shapeCoordY);
+               QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
+               tempPaint.drawEllipse(getRectangle(firstPt, secondPt));
+
+               emit redrawImage(tempIm);
+           }
+           else
+           {
+               activePreview = true;
+               shapeCoordX = e->pos().x() / xScale;
+               shapeCoordY = e->pos().y() / yScale;
+           }
+
+
+           break;
 
 
 
@@ -302,7 +330,10 @@ void Model::rectSelected()
 {
     currentTool = 5;
 }
-
+void Model::ellipseSelected()
+{
+    currentTool = 6;
+}
 void Model::fillSelected()
 {
     currentTool = 3;
