@@ -24,6 +24,12 @@ View::View(Model* m, QWidget *parent) :
 
     connect(ui->colorbutton, &QPushButton::clicked, m, &Model::colorOpen);
 
+    connect(ui->undoButton, &QPushButton::clicked, m, &Model::undoAction);
+
+    connect(ui->redoButton, &QPushButton::clicked, m, &Model::colorOpen);
+
+
+
     connect(m, &Model::sendScaleIn, ui->drawingBoard, &DrawingWidget::scaleIn);
 
     connect(m, &Model::sendScaleOut, ui->drawingBoard, &DrawingWidget::scaleOut);
@@ -45,6 +51,7 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->addFrameButton, &QPushButton::clicked, m, &Model::addToFrames);
 
     connect(ui->penButton, &QPushButton::clicked, m, &Model::penSelected);
+    //connect(ui->penButton, &QPushButton::clicked, m, &QPushButton::setEnabled(false));
 
     connect(ui->lineButton, &QPushButton::clicked, m, &Model::lineSelected);
 
@@ -52,6 +59,7 @@ View::View(Model* m, QWidget *parent) :
 
     connect(ui->rectangleButton, &QPushButton::clicked, m, &Model::rectSelected);
     connect(ui->ellipseButton, &QPushButton::clicked, m, &Model::ellipseSelected);
+    connect(ui->eraseButton, &QPushButton::clicked, m, &Model::eraseSelected);
     connect(m, &Model::sendPreview, ui->previewWidget, &DrawingWidget::drawUpdatedImage);
 
 

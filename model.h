@@ -55,6 +55,9 @@ private:
 
 
     QColor currentColor;
+    QColor colorBeingFilled;
+    QPointF currentPoint;
+
     QPainter painter;
     QColorDialog colorPicker;
     // This file dialog will handle creating a new project, saving, loading, and exporting a gif.
@@ -70,9 +73,10 @@ private:
 public:
     explicit Model(QObject *parent = 0);
 protected:
-    void fillZone(QPoint, QColor);
-    void fillPixel(QPoint, QColor, QColor);
+    void fillZone(QPoint);
+    void fillPixel(QPoint);
     bool validPixel(QPoint);
+    void drawShapePreview(QMouseEvent *e);
 signals:
     void redrawImage(QImage&);
 
@@ -108,9 +112,15 @@ public slots:
 
     void ellipseSelected();
 
+    void eraseSelected();
+
     void frameRequested();
 
     void addToFrames();
+
+    void undoAction();
+
+    void redoAction();
 
 
 

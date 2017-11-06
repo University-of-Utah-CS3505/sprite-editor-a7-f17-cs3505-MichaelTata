@@ -88,7 +88,7 @@ void DrawingWidget::mouseMoveEvent(QMouseEvent *e)
 void DrawingWidget::highlightPixel(QPoint point) {
     tempImage = currImage;
     QColor currColor = tempImage.pixelColor(point);
-    currColor.setAlpha(40);
+    currColor.setAlpha(100);
     tempImage.setPixelColor(point, currColor);
     update();
 }
