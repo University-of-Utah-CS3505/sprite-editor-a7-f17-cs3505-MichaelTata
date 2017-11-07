@@ -26,9 +26,6 @@ View::View(Model* m, QWidget *parent) :
 
     connect(ui->undoButton, &QPushButton::clicked, m, &Model::undoAction);
 
-    connect(ui->redoButton, &QPushButton::clicked, m, &Model::colorOpen);
-
-
     connect(m, &Model::showColor, ui->colorview, &QLabel::setStyleSheet);
 
     connect(m, &Model::sendScaleIn, ui->drawingBoard, &DrawingWidget::scaleIn);
@@ -52,7 +49,6 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->addFrameButton, &QPushButton::clicked, m, &Model::addToFrames);
 
     connect(ui->penButton, &QPushButton::clicked, m, &Model::penSelected);
-    //connect(ui->penButton, &QPushButton::clicked, m, &QPushButton::setEnabled(false));
 
     connect(ui->lineButton, &QPushButton::clicked, m, &Model::lineSelected);
 

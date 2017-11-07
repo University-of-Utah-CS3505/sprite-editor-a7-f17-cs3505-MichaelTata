@@ -148,10 +148,10 @@
             <bool>false</bool>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color : grey</string>
+            <string notr="true">background-color : black</string>
            </property>
            <property name="text">
-            <string>                    </string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -262,7 +262,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
