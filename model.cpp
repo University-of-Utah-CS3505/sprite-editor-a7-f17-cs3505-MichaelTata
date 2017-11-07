@@ -94,6 +94,10 @@ void Model::manipulateImage(QMouseEvent *e)
         case 3:
             fillZone(point);
             emit redrawImage(currentImage);
+            qDebug() << "fillPixel called : " << fillCount << " times.";
+            qDebug() << "fillPixel entered if statement: " << fillCountTwo << " times.";
+            fillCount = 0;
+            fillCountTwo = 0;
             break;
 
         case 4:
@@ -297,42 +301,45 @@ void Model::fillZone(QPoint coords) {
     if(validPixel(coords))
     {
         colorBeingFilled = currentImage.pixelColor(coords);
-        fillPixel(coords);
+        fillPixel(coords, 0);
     }
 }
 
-void Model::fillPixel(QPoint coords) {
+void Model::fillPixel(QPoint coords, int direction) {
 
-
-    int px = coords.x();
-    int py = coords.y();
+    fillCount++;
+    int px = coords.rx();
+    int py = coords.ry();
 
     //if((px >=0 && px < 100) && (py >= 0 && py < 100)){
         QColor currColor = currentImage.pixelColor(coords);
 
         if((currColor == colorBeingFilled) && (colorBeingFilled != currentColor)){
             currentImage.setPixelColor(coords, currentColor);
+            fillCountTwo++;
 
-        if(px > 0)
+
+        if(px > 0 && direction != 2)
         {
             QPoint point1(px - 1, py);
-            fillPixel(point1);
+            fillPixel(point1, 1);
         }
-        if(px < 99)
+        if(px < 99 && direction != 1)
         {
             QPoint point2(px + 1, py);
-            fillPixel(point2);
+            fillPixel(point2, 2);
         }
-        if(py > 0)
+        if(py > 0 && direction != 4)
         {
             QPoint point3(px, py - 1);
-            fillPixel(point3);
+            fillPixel(point3, 3);
         }
-        if(py < 99)
+        if(py < 99 && direction != 3)
         {
             QPoint point4(px, py + 1);
-            fillPixel(point4);
+            fillPixel(point4, 4);
         }
+
         }
     //}
 

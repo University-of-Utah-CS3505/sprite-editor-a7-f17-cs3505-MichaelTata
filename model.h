@@ -53,6 +53,9 @@ private:
     int shapeCoordY;
     bool activePreview;
 
+    int fillCount = 0;
+    int fillCountTwo = 0;
+
 
     QColor currentColor;
     QColor colorBeingFilled;
@@ -74,7 +77,7 @@ public:
     explicit Model(QObject *parent = 0);
 protected:
     void fillZone(QPoint);
-    void fillPixel(QPoint);
+    void fillPixel(QPoint, int direction);
     bool validPixel(QPoint);
     void drawShapePreview(QMouseEvent *e);
 signals:
