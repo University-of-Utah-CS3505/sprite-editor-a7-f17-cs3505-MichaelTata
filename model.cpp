@@ -87,103 +87,25 @@ void Model::manipulateImage(QMouseEvent *e)
             emit redrawImage(currentImage);
             break;
 
-//        case 1:
-
-//            //painter.setPen(Qt::gray);
-//            painter.drawPoint(point);
-//            emit redrawImage(currentImage);
-//            break;
-
         case 3:
             fill(point);
-//            fillZone(point);
-
-//            qDebug() << "fillPixel called : " << fillCount << " times.";
-//            qDebug() << "fillPixel entered if statement: " << fillCountTwo << " times.";
-//            fillCount = 0;
-//            fillCountTwo = 0;
             emit redrawImage(currentImage);
             break;
 
         case 4:
-            //factor this into its own method to be used by all tools
-//            if(activePreview)
-//            {
-//                QImage tempIm = currentImage;
-//                QPainter tempPaint(&tempIm);
-//                tempPaint.setPen(painter.pen().color());
-//                QPointF firstPt(shapeCoordX, shapeCoordY);
-//                QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
-//                tempPaint.drawLine(firstPt, secondPt);
-
-//                emit redrawImage(tempIm);
-
-
-
-//            }
-//            else
-//            {
-//                activePreview = true;
-//                shapeCoordX = e->pos().x() / xScale;
-//                shapeCoordY = e->pos().y() / yScale;
-
-
-//            }
             drawShapePreview(e);
             break;
 
          case 5:
-
-//            if(activePreview)
-//            {
-//                //Draw a temporary image to send to be drawn
-//                QImage tempIm = currentImage;
-//                QPainter tempPaint(&tempIm);
-//                tempPaint.setPen(painter.pen().color());
-//                QPointF firstPt(shapeCoordX, shapeCoordY);
-//                QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
-//                tempPaint.drawRect(getRectangle(firstPt, secondPt));
-
-//                emit redrawImage(tempIm);
-//            }
-//            else
-//            {
-//                activePreview = true;
-//                shapeCoordX = e->pos().x() / xScale;
-//                shapeCoordY = e->pos().y() / yScale;
-//            }
             drawShapePreview(e);
             break;
 
         case 6:
-
-//           if(activePreview)
-//           {
-//               //Draw a temporary image to send to be drawn
-//               QImage tempIm = currentImage;
-//               QPainter tempPaint(&tempIm);
-//               tempPaint.setPen(painter.pen().color());
-//               QPointF firstPt(shapeCoordX, shapeCoordY);
-//               QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
-//               tempPaint.drawEllipse(getRectangle(firstPt, secondPt));
-
-//               emit redrawImage(tempIm);
-//           }
-//           else
-//           {
-//               activePreview = true;
-//               shapeCoordX = e->pos().x() / xScale;
-//               shapeCoordY = e->pos().y() / yScale;
-//           }
-
            drawShapePreview(e);
            break;
         case 7:
             changeColor(currentImage.pixelColor(point));
-
             break;
-
-
         }
     }
     else {
@@ -283,76 +205,18 @@ void Model::redoAction()
 
 }
 
-void Model::scaleOut()
-{
+void Model::scaleOut() {
     xScale/=2;
     yScale/=2;
-
     emit sendScaleOut(2);
-
 }
 
 
-void Model::scaleIn()
-{
-
+void Model::scaleIn() {
     xScale *= 2;
     yScale *= 2;
-
     emit sendScaleIn(2);
-
-
 }
-
-//void Model::fillZone(QPoint coords) {
-
-//    if(validPixel(coords))
-//    {
-//        colorBeingFilled = currentImage.pixelColor(coords);
-//        fillPixel(coords, 0);
-//    }
-//}
-
-//void Model::fillPixel(QPoint coords, int direction) {
-
-//    fillCount++;
-//    int px = coords.rx();
-//    int py = coords.ry();
-
-//    //if((px >=0 && px < 100) && (py >= 0 && py < 100)){
-//        QColor currColor = currentImage.pixelColor(coords);
-
-//        if((currColor == colorBeingFilled) && (colorBeingFilled != currentColor)){
-
-//            currentImage.setPixelColor(coords, currentColor);
-//            fillCountTwo++;
-
-
-//        if(px > 0 && direction != 2)
-//        {
-//            QPoint point1(px - 1, py);
-//            fillPixel(point1, 1);
-//        }
-//        if(px < 99 && direction != 1)
-//        {
-//            QPoint point2(px + 1, py);
-//            fillPixel(point2, 2);
-//        }
-//        if(py > 0 && direction != 4)
-//        {
-//            QPoint point3(px, py - 1);
-//            fillPixel(point3, 3);
-//        }
-//        if(py < 99 && direction != 3)
-//        {
-//            QPoint point4(px, py + 1);
-//            fillPixel(point4, 4);
-//        }
-
-//        }
-//    //}
-
-//}
 
 void Model::fill(QPoint coords) {
     if(!validPixel(coords))
@@ -393,7 +257,7 @@ bool Model::validPixel(QPoint coords){
     int px = coords.rx();
     int py = coords.ry();
 
-    if(px<0 || px >= 100 || py < 0 || py >= 100){
+    if(px < 0 || px >= currentImage.width() || py < 0 || py >= currentImage.height()) {
         return false;
     }
     return true;
@@ -453,7 +317,6 @@ void Model::changeColor(QColor penColor){
 void Model::colorOpen()
 {
     changeColor(QColorDialog::getColor(Qt::white,nullptr,"Choose Color"));
-
 }
 
 
@@ -461,7 +324,6 @@ void Model::penSelected()
 {
     painter.setPen(currentColor);
     currentTool = 0;
-
 }
 
 void Model::lineSelected()
