@@ -385,8 +385,8 @@ void Model::fill(QPoint coords) {
     }
 }
 bool Model::validPixel(QPoint coords){
-    int px = coords.x();
-    int py = coords.y();
+    int px = coords.rx();
+    int py = coords.ry();
 
     if(px<0 || px >= 100 || py < 0 || py >= 100){
         return false;
@@ -430,10 +430,7 @@ void Model::drawShapePreview(QMouseEvent *e)
         shapeCoordX = e->pos().x() / xScale;
         shapeCoordY = e->pos().y() / yScale;
 
-
         //emit redrawImage(currentImage);
-
-
     }
 }
 
@@ -457,32 +454,46 @@ void Model::penSelected()
 
 void Model::lineSelected()
 {
+    //want to set activePreview to false to begin this tool.
     activePreview = false;
+
+    //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
+
     currentTool = 4;
 
 }
 
 void Model::rectSelected()
 {
+    //want to set activePreview to false to begin this tool.
     activePreview = false;
+
+    //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
+
     currentTool = 5;
 }
 void Model::ellipseSelected()
 {
+    //want to set activePreview to false to begin this tool.
     activePreview = false;
+
+    //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
+
     currentTool = 6;
 }
 
 void Model::eraseSelected()
 {
+    //Just using pen tool and setting pen color to gray but not changing currentColor variable.
     painter.setPen(Qt::gray);
     currentTool = 0;
 }
 void Model::fillSelected()
 {
+    //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
     currentTool = 3;
 }
