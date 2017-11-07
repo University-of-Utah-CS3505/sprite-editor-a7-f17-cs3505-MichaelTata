@@ -148,6 +148,7 @@
            </property>
            <property name="text">
             <string>Color red?</string>
+
            </property>
           </widget>
          </item>
@@ -258,7 +259,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
