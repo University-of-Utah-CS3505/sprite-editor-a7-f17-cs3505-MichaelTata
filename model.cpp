@@ -11,6 +11,8 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     xScale = 1;
     yScale = 1;
 
+
+    firstImage = true;
     currentFrame = 0;
     currentColor = Qt::black;
 
