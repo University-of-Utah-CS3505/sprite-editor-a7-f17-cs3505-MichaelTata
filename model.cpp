@@ -85,12 +85,11 @@ void Model::manipulateImage(QMouseEvent *e)
             emit redrawImage(currentImage);
             break;
 
-//        case 1:
+         case 1:
 
-//            //painter.setPen(Qt::gray);
-//            painter.drawPoint(point);
-//            emit redrawImage(currentImage);
-//            break;
+            painter.drawPoint(point);
+            emit redrawImage(currentImage);
+            break;
 
         case 3:
             fill(point);
@@ -439,9 +438,11 @@ void Model::drawShapePreview(QMouseEvent *e)
 
 void Model::changeColor(QColor penColor){
     currentColor = penColor;
-    painter.setPen(penColor);
-    painter.setBrush(Qt::NoBrush);
-    QString style = "background-color : rgb(%1, %2, %3);";
+    if(currentTool != 1){
+         painter.setPen(penColor);
+         painter.setBrush(Qt::NoBrush);
+    }
+    QString style = "background-color : rgb(%1, %2, %3); border: none;";
     emit showColor(style.arg(penColor.red()).arg(penColor.green()).arg(penColor.blue()));
 }
 
@@ -499,7 +500,7 @@ void Model::eraseSelected()
 {
     //Just using pen tool and setting pen color to gray but not changing currentColor variable.
     painter.setPen(Qt::gray);
-    currentTool = 0;
+    currentTool = 1;
 }
 void Model::fillSelected()
 {
