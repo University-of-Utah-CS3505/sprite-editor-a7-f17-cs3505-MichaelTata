@@ -176,7 +176,10 @@ void Model::manipulateImage(QMouseEvent *e)
 
            drawShapePreview(e);
            break;
+        case 7:
+            changeColor(currentImage.pixelColor(point));
 
+            break;
 
 
         }
@@ -434,14 +437,21 @@ void Model::drawShapePreview(QMouseEvent *e)
     }
 }
 
+void Model::changeColor(QColor penColor){
+    currentColor = penColor;
+    painter.setPen(penColor);
+    painter.setBrush(Qt::NoBrush);
+    QString style = "background-color : rgb(%1, %2, %3);";
+    emit showColor(style.arg(penColor.red()).arg(penColor.green()).arg(penColor.blue()));
+}
+
+
 //All tool selection slots go here.
 
 void Model::colorOpen()
 {
-    QColor penColor =  QColorDialog::getColor(Qt::white,nullptr,"Choose Color");
-    currentColor = penColor;
-    painter.setPen(penColor);
-    painter.setBrush(Qt::NoBrush);
+    changeColor(QColorDialog::getColor(Qt::white,nullptr,"Choose Color"));
+
 }
 
 
@@ -496,4 +506,8 @@ void Model::fillSelected()
     //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
     currentTool = 3;
+}
+void Model::colorpickerSelected()
+{
+    currentTool = 7;
 }

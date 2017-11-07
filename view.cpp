@@ -29,6 +29,7 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->redoButton, &QPushButton::clicked, m, &Model::colorOpen);
 
 
+    connect(m, &Model::showColor, ui->colorview, &QLabel::setStyleSheet);
 
     connect(m, &Model::sendScaleIn, ui->drawingBoard, &DrawingWidget::scaleIn);
 
@@ -60,6 +61,7 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->rectangleButton, &QPushButton::clicked, m, &Model::rectSelected);
     connect(ui->ellipseButton, &QPushButton::clicked, m, &Model::ellipseSelected);
     connect(ui->eraseButton, &QPushButton::clicked, m, &Model::eraseSelected);
+    connect(ui->cpButton, &QPushButton::clicked, m, &Model::colorpickerSelected);
     connect(m, &Model::sendPreview, ui->previewWidget, &DrawingWidget::drawUpdatedImage);
 
 

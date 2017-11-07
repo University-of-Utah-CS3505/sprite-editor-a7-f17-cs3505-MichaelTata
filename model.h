@@ -36,6 +36,7 @@ private:
      * 4 = line
      * 5 = rectangle
      * 6 = oval
+     * 7 = color picker
      * Add more tools as needed.
      */
 
@@ -67,6 +68,7 @@ private:
     bool firstImage;
 
     QRectF getRectangle(QPointF, QPointF);
+    void changeColor(QColor);
 
 
 public:
@@ -88,6 +90,8 @@ signals:
     void sendScaleOut(int);
 
     void sendHighlight(QPoint);
+
+    void showColor(QString);
 
 
 
@@ -113,6 +117,8 @@ public slots:
     void ellipseSelected();
 
     void eraseSelected();
+
+    void colorpickerSelected();
 
     void frameRequested();
 
