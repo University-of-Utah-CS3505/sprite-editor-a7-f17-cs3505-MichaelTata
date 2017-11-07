@@ -80,6 +80,7 @@ protected:
     void fillPixel(QPoint, int direction);
     bool validPixel(QPoint);
     void drawShapePreview(QMouseEvent *e);
+    void fill(QPoint);
 signals:
     void redrawImage(QImage&);
 

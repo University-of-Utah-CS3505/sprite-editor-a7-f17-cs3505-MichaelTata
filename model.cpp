@@ -3,6 +3,7 @@
 #include <QColorDialog>
 #include <QColor>
 #include <QDebug>
+#include <queue>
 
 Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32)
 {
@@ -92,12 +93,14 @@ void Model::manipulateImage(QMouseEvent *e)
 //            break;
 
         case 3:
-            fillZone(point);
+            fill(point);
+//            fillZone(point);
+
+//            qDebug() << "fillPixel called : " << fillCount << " times.";
+//            qDebug() << "fillPixel entered if statement: " << fillCountTwo << " times.";
+//            fillCount = 0;
+//            fillCountTwo = 0;
             emit redrawImage(currentImage);
-            qDebug() << "fillPixel called : " << fillCount << " times.";
-            qDebug() << "fillPixel entered if statement: " << fillCountTwo << " times.";
-            fillCount = 0;
-            fillCountTwo = 0;
             break;
 
         case 4:
@@ -296,53 +299,90 @@ void Model::scaleIn()
 
 }
 
-void Model::fillZone(QPoint coords) {
+//void Model::fillZone(QPoint coords) {
 
-    if(validPixel(coords))
-    {
-        colorBeingFilled = currentImage.pixelColor(coords);
-        fillPixel(coords, 0);
+//    if(validPixel(coords))
+//    {
+//        colorBeingFilled = currentImage.pixelColor(coords);
+//        fillPixel(coords, 0);
+//    }
+//}
+
+//void Model::fillPixel(QPoint coords, int direction) {
+
+//    fillCount++;
+//    int px = coords.rx();
+//    int py = coords.ry();
+
+//    //if((px >=0 && px < 100) && (py >= 0 && py < 100)){
+//        QColor currColor = currentImage.pixelColor(coords);
+
+//        if((currColor == colorBeingFilled) && (colorBeingFilled != currentColor)){
+
+//            currentImage.setPixelColor(coords, currentColor);
+//            fillCountTwo++;
+
+
+//        if(px > 0 && direction != 2)
+//        {
+//            QPoint point1(px - 1, py);
+//            fillPixel(point1, 1);
+//        }
+//        if(px < 99 && direction != 1)
+//        {
+//            QPoint point2(px + 1, py);
+//            fillPixel(point2, 2);
+//        }
+//        if(py > 0 && direction != 4)
+//        {
+//            QPoint point3(px, py - 1);
+//            fillPixel(point3, 3);
+//        }
+//        if(py < 99 && direction != 3)
+//        {
+//            QPoint point4(px, py + 1);
+//            fillPixel(point4, 4);
+//        }
+
+//        }
+//    //}
+
+//}
+
+void Model::fill(QPoint coords) {
+    if(!validPixel(coords))
+        return;
+    QColor colorBeingFilled = currentImage.pixelColor(coords);
+    if (colorBeingFilled == currentColor)
+        return;
+    currentImage.setPixelColor(coords, currentColor);
+
+
+    std::queue<QPoint> que;
+    que.push(coords);
+    while(!que.empty()) {
+        const QPoint& point = que.front();
+        que.pop();
+
+        int px = point.x();
+        int py = point.y();
+
+        QPoint points[4];
+        points[0] = QPoint(px - 1, py);
+        points[1] = QPoint(px + 1, py);
+        points[2] = QPoint(px, py - 1);
+        points[3] = QPoint(px, py + 1);
+
+        for (int i = 0; i < 4; i++) {
+            if (validPixel(points[i])) {
+                QColor pointColor = currentImage.pixelColor(points[i]);
+                if(pointColor == colorBeingFilled) {
+                    currentImage.setPixelColor(points[i], currentColor);
+                    que.push(points[i]);
+                }
+            }
+        }
     }
-}
-
-void Model::fillPixel(QPoint coords, int direction) {
-
-    fillCount++;
-    int px = coords.rx();
-    int py = coords.ry();
-
-    //if((px >=0 && px < 100) && (py >= 0 && py < 100)){
-        QColor currColor = currentImage.pixelColor(coords);
-
-        if((currColor == colorBeingFilled) && (colorBeingFilled != currentColor)){
-            currentImage.setPixelColor(coords, currentColor);
-            fillCountTwo++;
-
-
-        if(px > 0 && direction != 2)
-        {
-            QPoint point1(px - 1, py);
-            fillPixel(point1, 1);
-        }
-        if(px < 99 && direction != 1)
-        {
-            QPoint point2(px + 1, py);
-            fillPixel(point2, 2);
-        }
-        if(py > 0 && direction != 4)
-        {
-            QPoint point3(px, py - 1);
-            fillPixel(point3, 3);
-        }
-        if(py < 99 && direction != 3)
-        {
-            QPoint point4(px, py + 1);
-            fillPixel(point4, 4);
-        }
-
-        }
-    //}
-
 }
 bool Model::validPixel(QPoint coords){
     int px = coords.x();
