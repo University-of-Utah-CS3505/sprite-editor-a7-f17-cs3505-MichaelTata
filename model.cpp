@@ -13,8 +13,9 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
 
 
     firstImage = true;
-    currentFrame = 0;
+    currentPreviewFrame = 0;
     currentColor = Qt::black;
+    currentFrame = 0;
 
     //currentImage(64, 64, QImage::Format_ARGB32);
     //Default value until we add load and creation of custom sized sprite
@@ -22,8 +23,7 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     currentImage.fill(Qt::transparent);
 
     frames.push_back(currentImage);
-    undoes.push_back(currentImage);
-    redoes.push_back(currentImage);
+    undoes.push_back(frames);
 
     currentTool = 0;
 
@@ -46,38 +46,41 @@ void Model::addShapeToImage(QMouseEvent *e)
     switch(currentTool)
     {
         case 0:
-            undoes.push_back(currentImage);
+            updateFrames();
+            undoes.push_back(frames);
         break;
 
         case 1:
-            undoes.push_back(currentImage);
+            updateFrames();
+            undoes.push_back(frames);
 
         break;
 
         case 3:
-            undoes.push_back(currentImage);
+            updateFrames();
+            undoes.push_back(frames);
         break;
 
         case 4:
             painter.drawLine(firstPt, secondPt);
-
+            updateFrames();
             emit redrawImage(currentImage);
-            undoes.push_back(currentImage);
+            undoes.push_back(frames);
         break;
 
         case 5:
 
             painter.drawRect(tempRec);
-
+            updateFrames();
             emit redrawImage(currentImage);
-            undoes.push_back(currentImage);
+            undoes.push_back(frames);
         break;
 
         case 6:
             painter.drawEllipse(tempRec);
-
+            updateFrames();
             emit redrawImage(currentImage);
-            undoes.push_back(currentImage);
+            undoes.push_back(frames);
         break;
     }
 
@@ -181,52 +184,73 @@ QRectF Model::getRectangle(QPointF pivot, QPointF secondPt)
 
 void Model::frameRequested()
 {
-    if(frames.size() <= 1 && firstImage)
+/*    if(frames.size() <= 1 && firstImage)
     {
-        emit sendPreview(currentImage);
+        emit sendPreview(frames[currentPreviewFrame]);
     }
-    else if(currentFrame == frames.size())
+    else if(currentPreviewFrame == frames.size() - 1)
     {
-        emit sendPreview(currentImage);
-        currentFrame = 0;
+        emit sendPreview(frames[currentPreviewFrame]);
+        currentPreviewFrame = 0;
     }
-    else if(currentFrame <= frames.size()-1)
+    else if(currentPreviewFrame < frames.size()-1)
     {
 
-        emit sendPreview(frames[currentFrame]);
-        currentFrame++;
+        emit sendPreview(frames[currentPreviewFrame]);
+        currentPreviewFrame++;
     }
     else
     {
-        currentFrame = 0;
-        emit sendPreview(frames[currentFrame]);
+        currentPreviewFrame = 0;
+        emit sendPreview(frames[currentPreviewFrame]);
     }
-
+*/
+    if(currentPreviewFrame == frames.size() - 1){
+        emit sendPreview(frames[currentPreviewFrame]);
+        currentPreviewFrame = 0;
+    }
+    else if(currentPreviewFrame > frames.size()-1)
+    {
+        currentPreviewFrame = 0;
+    } else {
+        emit sendPreview(frames[currentPreviewFrame]);
+        currentPreviewFrame++;
+    }
 }
 
 void Model::addToFrames()
 {
+    /*
     if(frames.size()==1 && firstImage)
     {
         //undoes.push_back();
         frames[0] = currentImage;
         firstImage = false;
+        currentPreviewFrame = 0;
     }
     else
     {
         frames.push_back(currentImage);
+        currentPreviewFrame = 0;
     }
+    */
+
+    frames.push_back(currentImage);
+    currentPreviewFrame = 0;
 
 }
-
+void Model::updateFrames(){
+    frames[currentFrame] = currentImage;
+}
 void Model::undoAction()
 {
     if(undoes.size() > 1)
     {
+        updateFrames();
         redoes.push_back(undoes.back());
         undoes.pop_back();
-        currentImage = undoes.back();
-
+        frames = undoes.back();
+        recalcCurrentImage();
         emit redrawImage(currentImage);
     }
 
@@ -234,15 +258,22 @@ void Model::undoAction()
 
 void Model::redoAction()
 {
-    if(redoes.size() > 1)
+    if(redoes.size() > 0)
     {
+        updateFrames();
         undoes.push_back(redoes.back());
         redoes.pop_back();
-        currentImage = undoes.back();
+        frames = undoes.back();
+        recalcCurrentImage();
         emit redrawImage(currentImage);
     }
 }
+void Model::recalcCurrentImage(){
 
+        currentFrame = 0;
+        currentImage = frames[currentFrame];
+
+}
 void Model::scaleOut() {
     xScale/=2;
     yScale/=2;

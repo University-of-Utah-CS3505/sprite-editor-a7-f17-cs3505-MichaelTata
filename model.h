@@ -20,8 +20,8 @@ private:
     std::vector<QImage> frames;
     // undoes and redoes hold the different states of the current image
     // and allow for them to be undone or redone.
-    std::vector<QImage> undoes;
-    std::vector<QImage> redoes;
+    std::vector<std::vector<QImage>> undoes;
+    std::vector<std::vector<QImage>> redoes;
     // The view will show the current image and it is the only image
     // that can be worked on at a time.
     QImage currentImage;
@@ -42,7 +42,12 @@ private:
 
     //This is used to keep track of what frame we are currently
     //sending to be previewed.
+    int currentPreviewFrame;
+
+    //This is used to keep track of cwhat frame you are currently editing.
     int currentFrame;
+
+
 
     int currentTool;
     double xScale;
@@ -79,6 +84,8 @@ protected:
     bool validPixel(QPoint);
     void drawShapePreview(QMouseEvent *e);
     void fill(QPoint);
+    void updateFrames();
+    void recalcCurrentImage();
 signals:
     void redrawImage(QImage&);
 
@@ -92,6 +99,7 @@ signals:
     void sendHighlight(QPoint);
 
     void showColor(QString);
+
 
 
 
