@@ -1,5 +1,5 @@
 #include "createnewsprite.h"
-#include "ui_newspritewindow.h"
+#include "ui_createnewsprite.h"
 
 CreateNewSprite::CreateNewSprite(QWidget *parent) :
     QDialog(parent),
