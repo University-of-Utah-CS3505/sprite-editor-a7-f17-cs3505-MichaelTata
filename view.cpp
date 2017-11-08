@@ -8,6 +8,11 @@ View::View(Model* m, QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+    connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
+
+
+
     //Connection to redraw the board. Model sends new image to be drawn to drawing widget.
     connect(m, &Model::redrawImage, ui->drawingBoard, &DrawingWidget::drawUpdatedImage);
 
@@ -63,6 +68,12 @@ View::View(Model* m, QWidget *parent) :
     connect(m, &Model::sendPreview, ui->previewWidget, &DrawingWidget::drawUpdatedImage);
 
 
+}
+
+void View::openNewSpriteWindow()
+{
+    newSprite = new CreateNewSprite();
+    newSprite->show();
 }
 
 void View::fpsChange(int change)

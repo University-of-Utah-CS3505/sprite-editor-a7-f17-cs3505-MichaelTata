@@ -26,9 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         view.cpp \
     model.cpp \
-    drawingwidget.cpp
+    drawingwidget.cpp \
+    createnewsprite.cpp
 HEADERS  += view.h \
     model.h \
-    drawingwidget.h
+    drawingwidget.h \
+    createnewsprite.h
 
-FORMS    += view.ui
+FORMS    += view.ui \
+    createnewsprite.ui
