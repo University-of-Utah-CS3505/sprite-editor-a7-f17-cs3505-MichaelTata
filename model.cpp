@@ -22,6 +22,8 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     currentImage.fill(Qt::transparent);
 
     frames.push_back(currentImage);
+    undoes.push_back(currentImage);
+    redoes.push_back(currentImage);
 
     currentTool = 0;
 
@@ -43,10 +45,24 @@ void Model::addShapeToImage(QMouseEvent *e)
     QRectF tempRec = getRectangle(firstPt, secondPt);
     switch(currentTool)
     {
+        case 0:
+            undoes.push_back(currentImage);
+        break;
+
+        case 1:
+            undoes.push_back(currentImage);
+
+        break;
+
+        case 3:
+            undoes.push_back(currentImage);
+        break;
+
         case 4:
             painter.drawLine(firstPt, secondPt);
 
             emit redrawImage(currentImage);
+            undoes.push_back(currentImage);
         break;
 
         case 5:
@@ -54,11 +70,14 @@ void Model::addShapeToImage(QMouseEvent *e)
             painter.drawRect(tempRec);
 
             emit redrawImage(currentImage);
+            undoes.push_back(currentImage);
         break;
+
         case 6:
             painter.drawEllipse(tempRec);
 
             emit redrawImage(currentImage);
+            undoes.push_back(currentImage);
         break;
     }
 
@@ -189,6 +208,7 @@ void Model::addToFrames()
 {
     if(frames.size()==1 && firstImage)
     {
+        //undoes.push_back();
         frames[0] = currentImage;
         firstImage = false;
     }
@@ -201,12 +221,26 @@ void Model::addToFrames()
 
 void Model::undoAction()
 {
+    if(undoes.size() > 1)
+    {
+        redoes.push_back(undoes.back());
+        undoes.pop_back();
+        currentImage = undoes.back();
+
+        emit redrawImage(currentImage);
+    }
 
 }
 
 void Model::redoAction()
 {
-
+    if(redoes.size() > 1)
+    {
+        undoes.push_back(redoes.back());
+        redoes.pop_back();
+        currentImage = undoes.back();
+        emit redrawImage(currentImage);
+    }
 }
 
 void Model::scaleOut() {
