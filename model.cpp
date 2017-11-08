@@ -1,16 +1,9 @@
 #include "model.h"
-#include <iostream>
-#include <QColorDialog>
-#include <QColor>
-#include <QDebug>
-#include <queue>
 
-Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32)
-{
+Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32) {
     //Temporary default value as we use 500,500 for default image
     xScale = 1;
     yScale = 1;
-
 
     firstImage = true;
     currentFrame = 0;
@@ -84,7 +77,6 @@ void Model::addShapeToImage(QMouseEvent *e)
     activePreview = false;
 }
 
-
 //Slot to receive a drawing event. Used Specifically for when a click(or unclick) has occurred
 void Model::manipulateImage(QMouseEvent *e)
 {
@@ -106,7 +98,7 @@ void Model::manipulateImage(QMouseEvent *e)
             break;
 
          case 1:
-            painter.drawPoint(point);
+            currentImage.setPixelColor(point, Qt::transparent);
             emit redrawImage(currentImage);
             break;
 
@@ -137,9 +129,7 @@ void Model::manipulateImage(QMouseEvent *e)
     }
 }
 
-QRectF Model::getRectangle(QPointF pivot, QPointF secondPt)
-{
-
+QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
     //Second Pt is top left of rect, pivot is bottom right.
     if(secondPt.x() < pivot.x() && secondPt.y() < pivot.y())
     {
@@ -155,7 +145,7 @@ QRectF Model::getRectangle(QPointF pivot, QPointF secondPt)
         //do we need to add top left and bottom right for this to work?
         return temp;
     }
-    //Second pt is bottom left of rect, pivot is top right.
+    // Second pt is bottom left of rect, pivot is top right.
     else if(secondPt.x() < pivot.x() && secondPt.y() > pivot.y())
     {
         QRectF temp;
@@ -388,6 +378,7 @@ void Model::rectSelected()
 
     currentTool = 5;
 }
+
 void Model::ellipseSelected()
 {
     //want to set activePreview to false to begin this tool.
@@ -401,16 +392,16 @@ void Model::ellipseSelected()
 
 void Model::eraseSelected()
 {
-    //Just using pen tool and setting pen color to gray but not changing currentColor variable.
-    painter.setPen(Qt::transparent);
     currentTool = 1;
 }
+
 void Model::fillSelected()
 {
     //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
     currentTool = 3;
 }
+
 void Model::colorpickerSelected()
 {
     currentTool = 7;
