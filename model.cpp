@@ -39,41 +39,50 @@ void Model::addShapeToImage(QMouseEvent *e)
     switch(currentTool)
     {
         case 0:
+
             updateFrames();
-            undoes.push_back(frames);
+//            undoes.push_back(frames);
+//            redoes.clear();
         break;
 
         case 1:
             updateFrames();
-            undoes.push_back(frames);
+//            undoes.push_back(frames);
+//            redoes.clear();
 
         break;
 
         case 3:
             updateFrames();
-            undoes.push_back(frames);
+//            undoes.push_back(frames);
+//            redoes.clear();
         break;
 
         case 4:
-            painter.drawLine(firstPt, secondPt);
-            updateFrames();
+            painter.drawLine(firstPt, secondPt);      
             emit redrawImage(currentImage);
-            undoes.push_back(frames);
+
+            updateFrames();
+//            undoes.push_back(frames);
+//            redoes.clear();
         break;
 
         case 5:
 
             painter.drawRect(tempRec);
-            updateFrames();
             emit redrawImage(currentImage);
-            undoes.push_back(frames);
+            updateFrames();
+//            undoes.push_back(frames);
+//            redoes.clear();
         break;
 
         case 6:
-            painter.drawEllipse(tempRec);
-            updateFrames();
+            painter.drawEllipse(tempRec);         
             emit redrawImage(currentImage);
-            undoes.push_back(frames);
+
+            updateFrames();
+//            undoes.push_back(frames);
+//            redoes.clear();
         break;
     }
 
@@ -226,17 +235,21 @@ void Model::addToFrames()
     */
 
     frames.push_back(currentImage);
+    undoes.push_back(frames);
+    redoes.clear();
     currentPreviewFrame = 0;
 
 }
 void Model::updateFrames(){
     frames[currentFrame] = currentImage;
+    undoes.push_back(frames);
+    redoes.clear();
 }
 void Model::undoAction()
 {
     if(undoes.size() > 1)
     {
-        updateFrames();
+        //updateFrames();
         redoes.push_back(undoes.back());
         undoes.pop_back();
         frames = undoes.back();
@@ -250,7 +263,7 @@ void Model::redoAction()
 {
     if(redoes.size() > 0)
     {
-        updateFrames();
+        //updateFrames();
         undoes.push_back(redoes.back());
         redoes.pop_back();
         frames = undoes.back();
@@ -262,7 +275,6 @@ void Model::recalcCurrentImage(){
 
         currentFrame = 0;
         painter.end();
-
         currentImage = frames[currentFrame];
         painter.begin(&currentImage);
         painter.setPen(currentColor);
@@ -347,22 +359,13 @@ void Model::drawShapePreview(QMouseEvent *e)
         {
             tempPaint.drawEllipse(getRectangle(firstPt, secondPt));
         }
-
-
         emit redrawImage(tempIm);
-
-
-
     }
     else
     {
-
         activePreview = true;
-
         shapeCoordX = e->pos().x() / xScale;
         shapeCoordY = e->pos().y() / yScale;
-
-        //emit redrawImage(currentImage);
     }
 }
 
