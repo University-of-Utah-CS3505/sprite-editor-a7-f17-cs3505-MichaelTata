@@ -1,5 +1,5 @@
-#ifndef NEWSPRITEWINDOW_H
-#define NEWSPRITEWINDOW_H
+#ifndef CREATENEWSPRITE_H
+#define CREATENEWSPRITE_H
 
 #include <QDialog>
 
