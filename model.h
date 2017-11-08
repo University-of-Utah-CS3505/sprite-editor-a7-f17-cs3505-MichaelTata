@@ -11,6 +11,9 @@
 #include <QFileDialog>
 #include <QMouseEvent>
 #include <QPoint>
+#include <iostream>
+#include <QDebug>
+#include <queue>
 
 class Model : public QObject
 {
