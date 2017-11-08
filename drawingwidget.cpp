@@ -11,7 +11,7 @@ DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
     //Default Gray drawing board, Can set variable size here.
     //currImage = QPixmap(500, 500).toImage();
 
-    currImage.fill(Qt::gray);
+    currImage.fill(Qt::transparent);
     tempImage = currImage;
 
 

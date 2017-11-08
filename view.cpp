@@ -26,7 +26,7 @@ View::View(Model* m, QWidget *parent) :
 
     connect(ui->undoButton, &QPushButton::clicked, m, &Model::undoAction);
 
-    connect(m, &Model::showColor, ui->colorview, &QLabel::setStyleSheet);
+    connect(m, &Model::showColor, ui->colorbutton, &QPushButton::setStyleSheet);
 
     connect(m, &Model::sendScaleIn, ui->drawingBoard, &DrawingWidget::scaleIn);
 

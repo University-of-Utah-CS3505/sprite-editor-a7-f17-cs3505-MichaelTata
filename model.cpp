@@ -19,7 +19,7 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     //currentImage(64, 64, QImage::Format_ARGB32);
     //Default value until we add load and creation of custom sized sprite
     //currentImage = QPixmap(64, 64).toImage();
-    currentImage.fill(Qt::gray);
+    currentImage.fill(Qt::transparent);
 
     frames.push_back(currentImage);
 
@@ -79,10 +79,14 @@ void Model::manipulateImage(QMouseEvent *e)
     {
         switch(currentTool) {
         case 0:
-
             //Make sure we only allow ~25 or so undo otherwise program crashes
             //undoes.push_back(currentImage);
 
+            painter.drawPoint(point);
+            emit redrawImage(currentImage);
+            break;
+
+         case 1:
             painter.drawPoint(point);
             emit redrawImage(currentImage);
             break;
@@ -103,14 +107,14 @@ void Model::manipulateImage(QMouseEvent *e)
         case 6:
            drawShapePreview(e);
            break;
+
         case 7:
             changeColor(currentImage.pixelColor(point));
             break;
         }
     }
-    else {
-        if (tempX < currentImage.width() && tempY < currentImage.height())
-            emit sendHighlight(point);
+    else if (validPixel(point)) {
+        emit sendHighlight(point);
     }
 }
 
@@ -305,9 +309,11 @@ void Model::drawShapePreview(QMouseEvent *e)
 
 void Model::changeColor(QColor penColor){
     currentColor = penColor;
-    painter.setPen(penColor);
-    painter.setBrush(Qt::NoBrush);
-    QString style = "background-color : rgb(%1, %2, %3);";
+    if(currentTool != 1){
+         painter.setPen(penColor);
+         painter.setBrush(Qt::NoBrush);
+    }
+    QString style = "background-color : rgb(%1, %2, %3); border: none;";
     emit showColor(style.arg(penColor.red()).arg(penColor.green()).arg(penColor.blue()));
 }
 
@@ -362,8 +368,8 @@ void Model::ellipseSelected()
 void Model::eraseSelected()
 {
     //Just using pen tool and setting pen color to gray but not changing currentColor variable.
-    painter.setPen(Qt::gray);
-    currentTool = 0;
+    painter.setPen(Qt::transparent);
+    currentTool = 1;
 }
 void Model::fillSelected()
 {
