@@ -1,6 +1,7 @@
 #ifndef VIEW_H
 #define VIEW_H
 
+#include "createnewsprite.h"
 #include <QMainWindow>
 #include "model.h"
 #include "drawingwidget.h"
@@ -25,8 +26,11 @@ private:
     //Timer for how fast to send frames to be displayed.
     QTimer *frameTimer;
 
+    CreateNewSprite *newSprite;
+
 public slots:
     void fpsChange(int);
+    void openNewSpriteWindow();
 
 
 
