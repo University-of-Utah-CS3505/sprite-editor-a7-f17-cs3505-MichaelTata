@@ -261,7 +261,11 @@ void Model::redoAction()
 void Model::recalcCurrentImage(){
 
         currentFrame = 0;
+        painter.end();
+
         currentImage = frames[currentFrame];
+        painter.begin(&currentImage);
+        painter.setPen(currentColor);
 
 }
 void Model::scaleOut() {
