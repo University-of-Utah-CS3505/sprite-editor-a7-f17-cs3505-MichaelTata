@@ -20,6 +20,8 @@ void CreateNewSprite::getInfoToSend()
    int height = ui->heightChanger->value();
 
    emit sendSpriteInfo(width, height);
+
+   this->close();
 }
 
 
