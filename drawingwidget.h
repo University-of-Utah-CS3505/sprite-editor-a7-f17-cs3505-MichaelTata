@@ -44,6 +44,8 @@ signals:
 
 
 public slots:
+    void createNewBoard(int, int);
+
     void highlightPixel(QPoint coords);
 
     void scaleIn(int);

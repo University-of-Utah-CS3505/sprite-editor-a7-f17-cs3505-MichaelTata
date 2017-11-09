@@ -8,9 +8,19 @@ View::View(Model* m, QWidget *parent) :
 {
     ui->setupUi(this);
 
+    newSprite = new CreateNewSprite();
 
 
     connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
+
+    //Connection from createnewsprite window, which will send size info to drawing board and model.
+
+    connect(m, &Model::sendNewInfo, ui->drawingBoard, &DrawingWidget::createNewBoard);
+
+    //Connection to model to create a new sprite
+    connect(newSprite, &CreateNewSprite::sendSpriteInfo, m, &Model::createNewSprite);
+
+
 
 
     connect(ui->actionLoad, &QAction::triggered, m, &Model::open);
@@ -82,7 +92,7 @@ View::View(Model* m, QWidget *parent) :
 
 void View::openNewSpriteWindow()
 {
-    newSprite = new CreateNewSprite();
+
     newSprite->show();
 }
 

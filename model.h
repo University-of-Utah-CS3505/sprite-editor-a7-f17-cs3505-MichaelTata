@@ -29,6 +29,9 @@ private:
     // The view will show the current image and it is the only image
     // that can be worked on at a time.
     QImage currentImage;
+    //QImage startNewImage;
+
+
     /* The current tool directs how the image will be manipulated.
      * An encoding for the tools would work best to distinguish them
      * from each other.
@@ -106,10 +109,15 @@ signals:
 
     void setMaxScroll(int);
 
+    void sendNewInfo(int, int);
+
 
 
 
 public slots:
+
+    void createNewSprite(int, int);
+
     void manipulateImage(QMouseEvent *e);
 
     void addShapeToImage(QMouseEvent *e);

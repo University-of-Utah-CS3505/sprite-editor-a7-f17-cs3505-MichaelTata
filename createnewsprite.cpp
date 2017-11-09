@@ -7,8 +7,8 @@ CreateNewSprite::CreateNewSprite(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
-
+    connect(ui->confirmButton, &QPushButton::clicked, this, &CreateNewSprite::getInfoToSend);
+    connect(ui->cancelButton, &QPushButton::clicked, this, &CreateNewSprite::close);
 
 
 

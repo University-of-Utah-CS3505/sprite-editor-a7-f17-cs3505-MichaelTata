@@ -17,6 +17,22 @@ DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
 
 }
 
+
+void DrawingWidget::createNewBoard(int w, int h)
+{
+    scaleFactor = 1;
+    currImage.fill(Qt::transparent);
+
+    //QImage temp(w, h, QImage::Format_ARGB32);
+
+    currImage= QImage(w, h,  QImage::Format_ARGB32 );
+    tempImage = currImage;
+
+
+
+}
+
+
 void DrawingWidget::drawUpdatedImage(QImage ourIm)
 {
     ourIm.setDevicePixelRatio(scaleFactor);
