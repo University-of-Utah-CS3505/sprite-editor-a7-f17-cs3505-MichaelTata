@@ -24,15 +24,13 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
 
     painter.setPen(currentColor);
 
-
     emit redrawImage(currentImage);
 }
 
 //Slot for released mouse click event. So if we have a shape/line tool chosen
 //This will add the actual shape to the image. This is needed as manipulate image only handles
 //Previews, as the mouse event cannot be used to determine mouse button release, only move and click/drag
-void Model::addShapeToImage(QMouseEvent *e)
-{
+void Model::addShapeToImage(QMouseEvent *e) {
     QPointF firstPt(shapeCoordX, shapeCoordY);
     QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
     QRectF tempRec = getRectangle(firstPt, secondPt);
@@ -41,57 +39,39 @@ void Model::addShapeToImage(QMouseEvent *e)
         case 0:
 
             updateFrames();
-//            undoes.push_back(frames);
-//            redoes.clear();
         break;
 
         case 1:
             updateFrames();
-//            undoes.push_back(frames);
-//            redoes.clear();
-
         break;
 
         case 3:
             updateFrames();
-//            undoes.push_back(frames);
-//            redoes.clear();
         break;
 
         case 4:
             painter.drawLine(firstPt, secondPt);      
             emit redrawImage(currentImage);
-
             updateFrames();
-//            undoes.push_back(frames);
-//            redoes.clear();
         break;
 
         case 5:
-
             painter.drawRect(tempRec);
             emit redrawImage(currentImage);
             updateFrames();
-//            undoes.push_back(frames);
-//            redoes.clear();
         break;
 
         case 6:
             painter.drawEllipse(tempRec);         
             emit redrawImage(currentImage);
-
             updateFrames();
-//            undoes.push_back(frames);
-//            redoes.clear();
         break;
     }
-
     activePreview = false;
 }
 
 //Slot to receive a drawing event. Used Specifically for when a click(or unclick) has occurred
-void Model::manipulateImage(QMouseEvent *e)
-{
+void Model::manipulateImage(QMouseEvent *e) {
     //qDebug() << "manipulating";
     int tempX = e->pos().x() / xScale;
     int tempY = e->pos().y() / yScale;
@@ -110,8 +90,12 @@ void Model::manipulateImage(QMouseEvent *e)
             break;
 
          case 1:
-            currentImage.setPixelColor(point, Qt::transparent);
-            emit redrawImage(currentImage);
+            if(validPixel(point))
+            {
+                currentImage.setPixelColor(point, Qt::transparent);
+                emit redrawImage(currentImage);
+            }
+
             break;
 
         case 3:
@@ -177,12 +161,9 @@ QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
         QRectF temp(pivot, secondPt);
         return temp;
     }
-
 }
 
-
-void Model::frameRequested()
-{
+void Model::frameRequested() {
 /*    if(frames.size() <= 1 && firstImage)
     {
         emit sendPreview(frames[currentPreviewFrame]);
@@ -217,8 +198,7 @@ void Model::frameRequested()
     }
 }
 
-void Model::addToFrames()
-{
+void Model::addToFrames() {
     /*
     if(frames.size()==1 && firstImage)
     {
@@ -245,11 +225,9 @@ void Model::updateFrames(){
     undoes.push_back(frames);
     redoes.clear();
 }
-void Model::undoAction()
-{
+void Model::undoAction() {
     if(undoes.size() > 1)
     {
-        //updateFrames();
         redoes.push_back(undoes.back());
         undoes.pop_back();
         frames = undoes.back();
@@ -259,11 +237,9 @@ void Model::undoAction()
 
 }
 
-void Model::redoAction()
-{
+void Model::redoAction() {
     if(redoes.size() > 0)
     {
-        //updateFrames();
         undoes.push_back(redoes.back());
         redoes.pop_back();
         frames = undoes.back();
@@ -328,7 +304,7 @@ void Model::fill(QPoint coords) {
         }
     }
 }
-bool Model::validPixel(QPoint coords){
+bool Model::validPixel(QPoint coords) {
     int px = coords.rx();
     int py = coords.ry();
 
@@ -338,8 +314,7 @@ bool Model::validPixel(QPoint coords){
     return true;
 }
 
-void Model::drawShapePreview(QMouseEvent *e)
-{
+void Model::drawShapePreview(QMouseEvent *e) {
     if(activePreview)
     {
         QImage tempIm = currentImage;
@@ -369,7 +344,7 @@ void Model::drawShapePreview(QMouseEvent *e)
     }
 }
 
-void Model::changeColor(QColor penColor){
+void Model::changeColor(QColor penColor) {
     currentColor = penColor;
     if(currentTool != 1){
          painter.setPen(penColor);
@@ -379,23 +354,18 @@ void Model::changeColor(QColor penColor){
     emit showColor(style.arg(penColor.red()).arg(penColor.green()).arg(penColor.blue()));
 }
 
-
 //All tool selection slots go here.
-
-void Model::colorOpen()
-{
+void Model::colorOpen() {
     changeColor(QColorDialog::getColor(Qt::white,nullptr,"Choose Color"));
 }
 
 
-void Model::penSelected()
-{
+void Model::penSelected() {
     painter.setPen(currentColor);
     currentTool = 0;
 }
 
-void Model::lineSelected()
-{
+void Model::lineSelected() {
     //want to set activePreview to false to begin this tool.
     activePreview = false;
 
@@ -406,8 +376,7 @@ void Model::lineSelected()
 
 }
 
-void Model::rectSelected()
-{
+void Model::rectSelected() {
     //want to set activePreview to false to begin this tool.
     activePreview = false;
 
@@ -417,8 +386,7 @@ void Model::rectSelected()
     currentTool = 5;
 }
 
-void Model::ellipseSelected()
-{
+void Model::ellipseSelected() {
     //want to set activePreview to false to begin this tool.
     activePreview = false;
 
@@ -428,19 +396,16 @@ void Model::ellipseSelected()
     currentTool = 6;
 }
 
-void Model::eraseSelected()
-{
+void Model::eraseSelected() {
     currentTool = 1;
 }
 
-void Model::fillSelected()
-{
+void Model::fillSelected() {
     //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
     currentTool = 3;
 }
 
-void Model::colorpickerSelected()
-{
+void Model::colorpickerSelected() {
     currentTool = 7;
 }
