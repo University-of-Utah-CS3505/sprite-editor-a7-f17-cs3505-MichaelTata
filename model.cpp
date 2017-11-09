@@ -27,7 +27,6 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     emit redrawImage(currentImage);
 }
 
-
 void Model::createNewSprite(int w, int h)
 {
     painter.end();
@@ -46,12 +45,9 @@ void Model::createNewSprite(int w, int h)
     currentColor = Qt::black;
     currentFrame = 0;
 
-
     painter.begin(&currentImage);
 
     painter.setPen(currentColor);
-
-
 
     emit sendNewInfo(w, h);
 
@@ -67,10 +63,8 @@ void Model::addShapeToImage(QMouseEvent *e) {
     QPointF firstPt(shapeCoordX, shapeCoordY);
     QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
     QRectF tempRec = getRectangle(firstPt, secondPt);
-    switch(currentTool)
-    {
+    switch(currentTool) {
         case 0:
-
             updateFrames();
         break;
 
@@ -118,17 +112,14 @@ void Model::manipulateImage(QMouseEvent *e) {
             //Make sure we only allow ~25 or so undo otherwise program crashes
             //undoes.push_back(currentImage);
             painter.drawPoint(point);
-
             emit redrawImage(currentImage);
             break;
 
          case 1:
-            if(validPixel(point))
-            {
+            if(validPixel(point)) {
                 currentImage.setPixelColor(point, Qt::transparent);
                 emit redrawImage(currentImage);
             }
-
             break;
 
         case 3:

@@ -28,8 +28,6 @@ void DrawingWidget::createNewBoard(int w, int h)
     currImage= QImage(w, h,  QImage::Format_ARGB32 );
     tempImage = currImage;
 
-
-
 }
 
 
