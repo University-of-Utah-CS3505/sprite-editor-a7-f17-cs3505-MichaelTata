@@ -13,6 +13,10 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
 
 
+    connect(ui->actionLoad, &QAction::triggered, m, &Model::open);
+
+    connect(ui->actionSave, &QAction::triggered, m, &Model::save);
+
 
     //Connection to redraw the board. Model sends new image to be drawn to drawing widget.
     connect(m, &Model::redrawImage, ui->drawingBoard, &DrawingWidget::drawUpdatedImage);

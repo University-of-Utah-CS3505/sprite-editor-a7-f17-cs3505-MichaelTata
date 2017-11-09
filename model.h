@@ -14,6 +14,7 @@
 #include <iostream>
 #include <QDebug>
 #include <queue>
+#include <fstream>
 
 class Model : public QObject
 {
@@ -143,6 +144,9 @@ public slots:
 
     void redoAction();
 
+    void open();
+
+    void save();
 
 };
 
