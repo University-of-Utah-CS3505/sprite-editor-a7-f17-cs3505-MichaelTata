@@ -103,6 +103,8 @@ signals:
 
     void showColor(QString);
 
+    void setMaxScroll(int);
+
 
 
 
@@ -110,6 +112,8 @@ public slots:
     void manipulateImage(QMouseEvent *e);
 
     void addShapeToImage(QMouseEvent *e);
+
+    void changeFrame(int);
 
     void scaleIn();
 

@@ -104,8 +104,8 @@ void Model::manipulateImage(QMouseEvent *e)
         case 0:
             //Make sure we only allow ~25 or so undo otherwise program crashes
             //undoes.push_back(currentImage);
-
             painter.drawPoint(point);
+
             emit redrawImage(currentImage);
             break;
 
@@ -238,7 +238,13 @@ void Model::addToFrames()
     undoes.push_back(frames);
     redoes.clear();
     currentPreviewFrame = 0;
+    emit setMaxScroll(frames.size() - 1);
 
+}
+void Model::changeFrame(int currFrame){
+    currentFrame = currFrame;
+    recalcCurrentImage();
+    emit redrawImage(currentImage);
 }
 void Model::updateFrames(){
     frames[currentFrame] = currentImage;
@@ -255,6 +261,7 @@ void Model::undoAction()
         frames = undoes.back();
         recalcCurrentImage();
         emit redrawImage(currentImage);
+        emit setMaxScroll(frames.size() - 1);
     }
 
 }
@@ -269,11 +276,12 @@ void Model::redoAction()
         frames = undoes.back();
         recalcCurrentImage();
         emit redrawImage(currentImage);
+        emit setMaxScroll(frames.size() - 1);
     }
 }
 void Model::recalcCurrentImage(){
 
-        currentFrame = 0;
+//        currentFrame = 0;
         painter.end();
         currentImage = frames[currentFrame];
         painter.begin(&currentImage);
