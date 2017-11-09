@@ -28,6 +28,39 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     emit redrawImage(currentImage);
 }
 
+
+void Model::createNewSprite(int w, int h)
+{
+    painter.end();
+
+    xScale = 1;
+    yScale = 1;
+
+    //startNewImage(w, h, QImage::Format_ARGB32);
+
+    currentImage = QImage(w, h, QImage::Format_ARGB32);
+
+    currentTool = 0;
+
+    firstImage = true;
+    currentPreviewFrame = 0;
+    currentColor = Qt::black;
+    currentFrame = 0;
+
+
+    painter.begin(&currentImage);
+
+    painter.setPen(currentColor);
+
+
+
+    emit sendNewInfo(w, h);
+
+    emit redrawImage(currentImage);
+
+}
+
+
 //Slot for released mouse click event. So if we have a shape/line tool chosen
 //This will add the actual shape to the image. This is needed as manipulate image only handles
 //Previews, as the mouse event cannot be used to determine mouse button release, only move and click/drag
