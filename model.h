@@ -14,6 +14,7 @@
 #include <iostream>
 #include <QDebug>
 #include <queue>
+#include <fstream>
 
 class Model : public QObject
 {
@@ -103,6 +104,8 @@ signals:
 
     void showColor(QString);
 
+    void setMaxScroll(int);
+
 
 
 
@@ -110,6 +113,8 @@ public slots:
     void manipulateImage(QMouseEvent *e);
 
     void addShapeToImage(QMouseEvent *e);
+
+    void changeFrame(int);
 
     void scaleIn();
 
@@ -139,6 +144,9 @@ public slots:
 
     void redoAction();
 
+    void open();
+
+    void save();
 
 };
 

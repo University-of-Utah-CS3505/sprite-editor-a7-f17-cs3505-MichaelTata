@@ -84,8 +84,8 @@ void Model::manipulateImage(QMouseEvent *e) {
         case 0:
             //Make sure we only allow ~25 or so undo otherwise program crashes
             //undoes.push_back(currentImage);
-
             painter.drawPoint(point);
+
             emit redrawImage(currentImage);
             break;
 
@@ -218,7 +218,13 @@ void Model::addToFrames() {
     undoes.push_back(frames);
     redoes.clear();
     currentPreviewFrame = 0;
+    emit setMaxScroll(frames.size() - 1);
 
+}
+void Model::changeFrame(int currFrame){
+    currentFrame = currFrame;
+    recalcCurrentImage();
+    emit redrawImage(currentImage);
 }
 void Model::updateFrames(){
     frames[currentFrame] = currentImage;
@@ -233,6 +239,7 @@ void Model::undoAction() {
         frames = undoes.back();
         recalcCurrentImage();
         emit redrawImage(currentImage);
+        emit setMaxScroll(frames.size() - 1);
     }
 
 }
@@ -245,17 +252,68 @@ void Model::redoAction() {
         frames = undoes.back();
         recalcCurrentImage();
         emit redrawImage(currentImage);
+        emit setMaxScroll(frames.size() - 1);
     }
 }
-void Model::recalcCurrentImage(){
 
-        currentFrame = 0;
+
+void Model::recalcCurrentImage()
+{
+
+//        currentFrame = 0;
         painter.end();
         currentImage = frames[currentFrame];
         painter.begin(&currentImage);
         painter.setPen(currentColor);
 
 }
+
+void Model::open()
+{
+QString fileName = QFileDialog::getOpenFileName();
+    QFile file(fileName);
+    qreal r = 0, g = 0, b = 0, a = 0;
+    do{
+        if(file.open(QIODevice::ReadOnly)){
+            std::ifstream in(fileName.toStdString());
+            for(int y=0; y < currentImage.height(); y++){
+               for(int x=0; x < currentImage.width(); x++){
+                   QPoint coords(x,y);
+                   in >> r >> g >> b >> a;
+                   QColor color(r, g, b, a);
+                   currentImage.setPixelColor(coords, color);
+               }
+            }
+        }
+        file.close();
+    } while (file.isOpen());
+    emit redrawImage(currentImage);
+}
+
+void Model::save()
+{
+    QString fileName = QFileDialog::getSaveFileName();
+    QFile file(fileName);
+    QString str;
+    qreal r = 0, b = 0, g = 0, a = 0;
+    if(file.open(QIODevice::WriteOnly)){
+        std::ofstream out(fileName.toStdString());
+        for(int y=0; y < currentImage.height(); y++){
+           for(int x=0; x < currentImage.width(); x++){
+               currentImage.pixelColor(x,y).getRgbF(&r, &g, &b, &a);
+               str = str.number(r*255) + " " + str.number(g*255) + " " + str.number(b*255) + " " + str.number(a*255) + " ";
+               out << str.toStdString();
+           }
+           str.clear();
+           out << "\n";
+        }
+    }
+    file.close();
+}
+
+
+
+
 void Model::scaleOut() {
     xScale/=2;
     yScale/=2;

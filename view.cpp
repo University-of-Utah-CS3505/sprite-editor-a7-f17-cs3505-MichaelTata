@@ -9,8 +9,13 @@ View::View(Model* m, QWidget *parent) :
     ui->setupUi(this);
 
 
+
     connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
 
+
+    connect(ui->actionLoad, &QAction::triggered, m, &Model::open);
+
+    connect(ui->actionSave, &QAction::triggered, m, &Model::save);
 
 
     //Connection to redraw the board. Model sends new image to be drawn to drawing widget.
@@ -18,6 +23,10 @@ View::View(Model* m, QWidget *parent) :
 
     //Connection from a drawing board click to an image manipulation in the model.
     connect(ui->drawingBoard, &DrawingWidget::click, m, &Model::manipulateImage);
+
+    //Connection from model to scrollbar
+    connect(m, &Model::setMaxScroll, ui->previewscrollbar, &QScrollBar::setMaximum);
+    connect(ui->previewscrollbar, &QScrollBar::valueChanged, m, &Model::changeFrame);
 
     //Connection to fill an area.
 
