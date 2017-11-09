@@ -148,6 +148,8 @@ public slots:
 
     void save();
 
+    void exportToGif();
+
 };
 
 #endif // MODEL_H

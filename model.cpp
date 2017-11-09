@@ -311,6 +311,10 @@ void Model::save()
     file.close();
 }
 
+void Model::exportToGif() {
+
+}
+
 
 
 

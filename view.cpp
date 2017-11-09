@@ -16,6 +16,7 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->actionLoad, &QAction::triggered, m, &Model::open);
 
     connect(ui->actionSave, &QAction::triggered, m, &Model::save);
+    connect(ui->actionExport_to_Gif, &QAction::triggered, m, &Model::exportToGif);
 
 
     //Connection to redraw the board. Model sends new image to be drawn to drawing widget.
