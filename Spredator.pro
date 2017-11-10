@@ -35,3 +35,6 @@ HEADERS  += view.h \
 
 FORMS    += view.ui \
     createnewsprite.ui
+
+RESOURCES += \
+    images.qrc

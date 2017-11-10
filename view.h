@@ -31,7 +31,9 @@ private:
 public slots:
     void fpsChange(int);
     void openNewSpriteWindow();
-
+    void themeBlack();
+    void themeWhite();
+    //void attachScrollBars();
 
 
 

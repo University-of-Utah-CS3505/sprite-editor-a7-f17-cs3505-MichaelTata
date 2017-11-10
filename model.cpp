@@ -297,21 +297,28 @@ void Model::open()
 QString fileName = QFileDialog::getOpenFileName();
     QFile file(fileName);
     qreal r = 0, g = 0, b = 0, a = 0;
+    int framesSize;
+    frames.clear();
     do{
         if(file.open(QIODevice::ReadOnly)){
             std::ifstream in(fileName.toStdString());
-            for(int y=0; y < currentImage.height(); y++){
-               for(int x=0; x < currentImage.width(); x++){
-                   QPoint coords(x,y);
-                   in >> r >> g >> b >> a;
-                   QColor color(r, g, b, a);
-                   currentImage.setPixelColor(coords, color);
-               }
+            in >> framesSize;
+            for(int i=0; i < framesSize; i++){
+                for(int y=0; y < currentImage.height(); y++){
+                    for(int x=0; x < currentImage.width(); x++){
+                        QPoint coords(x,y);
+                        in >> r >> g >> b >> a;
+                        QColor color(r, g, b, a);
+                        currentImage.setPixelColor(coords, color);
+                    }
+                }
+                addToFrames();
             }
         }
+
         file.close();
     } while (file.isOpen());
-    emit redrawImage(currentImage);
+    emit redrawImage(frames[0]);
 }
 
 void Model::save()
@@ -322,14 +329,19 @@ void Model::save()
     qreal r = 0, b = 0, g = 0, a = 0;
     if(file.open(QIODevice::WriteOnly)){
         std::ofstream out(fileName.toStdString());
-        for(int y=0; y < currentImage.height(); y++){
-           for(int x=0; x < currentImage.width(); x++){
-               currentImage.pixelColor(x,y).getRgbF(&r, &g, &b, &a);
-               str = str.number(r*255) + " " + str.number(g*255) + " " + str.number(b*255) + " " + str.number(a*255) + " ";
-               out << str.toStdString();
-           }
-           str.clear();
-           out << "\n";
+        qDebug() << frames;
+        out << frames.size() << " ";
+        for(auto i = frames.begin(); i != frames.end(); ++i){
+            //auto saveFrame = frames[i];
+            for(int y=0; y < currentImage.height(); y++){
+                for(int x=0; x < currentImage.width(); x++){
+                    i->pixelColor(x,y).getRgbF(&r, &g, &b, &a);
+                    str = str.number(r*255) + " " + str.number(g*255) + " " + str.number(b*255) + " " + str.number(a*255) + " ";
+                    out << str.toStdString();
+                }
+                str.clear();
+                out << "\n";
+            }
         }
     }
     file.close();

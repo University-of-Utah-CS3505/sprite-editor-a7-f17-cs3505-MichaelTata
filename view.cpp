@@ -87,7 +87,12 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->cpButton, &QPushButton::clicked, m, &Model::colorpickerSelected);
     connect(m, &Model::sendPreview, ui->previewWidget, &DrawingWidget::drawUpdatedImage);
 
+    //Themes
+    connect(ui->actionBlack, &QAction::triggered, this, &View::themeBlack);
+    connect(ui->actionWhite, &QAction::triggered, this, &View::themeWhite);
 
+    //Scroll Bar attempt that didn't work.
+    //connect(ui->drawingBoard, &DrawingWidget::drawingWidgetCreated, this, &View::attachScrollBars);
 }
 
 void View::openNewSpriteWindow()
@@ -102,6 +107,57 @@ void View::fpsChange(int change)
     frameTimer->stop();
     frameTimer->start(1000/change);
 }
+
+void View::themeBlack(){
+    this->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->fillButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->penButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->rectangleButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->eraseButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->ellipseButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->cpButton->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
+    ui->lineButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->undoButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->redoButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->zoomOutButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->zoomInButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->addFrameButton->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
+    ui->previewscrollbar->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->mainToolBar->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->menuBar->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
+    ui->menuFile->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
+}
+
+void View::themeWhite(){
+    this->setStyleSheet("background-color: white;");
+    ui->fillButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->penButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->rectangleButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->eraseButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->ellipseButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->cpButton->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
+    ui->lineButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->undoButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->redoButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->zoomOutButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->zoomInButton->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->addFrameButton->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
+    ui->previewscrollbar->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->mainToolBar->setStyleSheet("background-color: rgb(230, 230, 230);");
+    ui->menuBar->setStyleSheet("background-color: white; color: black");
+    ui->menuFile->setStyleSheet("background-color: white; color: black");
+}
+
+/*void View::attachScrollBars(){
+    QScrollArea* scrollArea = new QScrollArea(this);
+    scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea->setWidgetResizable(true);
+    //scrollArea->setGeometry(100, 100, 100, 100);
+    scrollArea->setWidget(ui->drawingBoard);
+    qDebug() << scrollArea->widget();
+}*/
 
 View::~View()
 {

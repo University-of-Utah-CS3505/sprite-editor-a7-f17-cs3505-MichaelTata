@@ -14,7 +14,7 @@ DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
     currImage.fill(Qt::transparent);
     tempImage = currImage;
 
-
+    //emit drawingWidgetCreated();
 }
 
 

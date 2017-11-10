@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>Icons/ellipse-icon.png</file>
+        <file>Icons/Eraser-2-icon.png</file>
+        <file>Icons/if_15.Pencil_290135.png</file>
+        <file>Icons/if_fill_45555(1).png</file>
+        <file>Icons/if_fill_45555.png</file>
+        <file>Icons/if_redo_37543.png</file>
+        <file>Icons/if_undo_37543.png</file>
+        <file>Icons/if_zoom_in_37559.png</file>
+        <file>Icons/if_zoom_out_37560.png</file>
+        <file>Icons/line-icon.png</file>
+        <file>Icons/rectangle-icon.png</file>
+    </qresource>
+</RCC>

@@ -40,14 +40,22 @@
         <item>
          <widget class="QPushButton" name="penButton">
           <property name="text">
-           <string>Pen</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/if_15.Pencil_290135.png</normaloff>:/new/prefix1/Icons/if_15.Pencil_290135.png</iconset>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="eraseButton">
           <property name="text">
-           <string>Eraser</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/Eraser-2-icon.png</normaloff>:/new/prefix1/Icons/Eraser-2-icon.png</iconset>
           </property>
          </widget>
         </item>
@@ -58,14 +66,28 @@
         <item>
          <widget class="QPushButton" name="lineButton">
           <property name="text">
-           <string>Line</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/line-icon.png</normaloff>:/new/prefix1/Icons/line-icon.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>23</width>
+            <height>23</height>
+           </size>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="fillButton">
           <property name="text">
-           <string>Fill</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/if_fill_45555(1).png</normaloff>:/new/prefix1/Icons/if_fill_45555(1).png</iconset>
           </property>
          </widget>
         </item>
@@ -76,14 +98,28 @@
         <item>
          <widget class="QPushButton" name="rectangleButton">
           <property name="text">
-           <string>Rectangle</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/rectangle-icon.png</normaloff>:/new/prefix1/Icons/rectangle-icon.png</iconset>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="ellipseButton">
           <property name="text">
-           <string>Ellipse</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/ellipse-icon.png</normaloff>:/new/prefix1/Icons/ellipse-icon.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -94,14 +130,22 @@
         <item>
          <widget class="QPushButton" name="redoButton">
           <property name="text">
-           <string>Redo</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/if_redo_37543.png</normaloff>:/new/prefix1/Icons/if_redo_37543.png</iconset>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="undoButton">
           <property name="text">
-           <string>Undo</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/if_undo_37543.png</normaloff>:/new/prefix1/Icons/if_undo_37543.png</iconset>
           </property>
          </widget>
         </item>
@@ -145,14 +189,22 @@
         <item>
          <widget class="QPushButton" name="zoomInButton">
           <property name="text">
-           <string>Zoom In</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/if_zoom_in_37559.png</normaloff>:/new/prefix1/Icons/if_zoom_in_37559.png</iconset>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="zoomOutButton">
           <property name="text">
-           <string>Zoom Out</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="images.qrc">
+            <normaloff>:/new/prefix1/Icons/if_zoom_out_37560.png</normaloff>:/new/prefix1/Icons/if_zoom_out_37560.png</iconset>
           </property>
          </widget>
         </item>
@@ -313,17 +365,25 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuThemes">
+     <property name="title">
+      <string>Themes</string>
+     </property>
+     <addaction name="actionWhite"/>
+     <addaction name="actionBlack"/>
+    </widget>
     <addaction name="actionNew"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
     <addaction name="actionExport_to_Gif"/>
+    <addaction name="menuThemes"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -355,6 +415,16 @@
     <string>Export to Gif</string>
    </property>
   </action>
+  <action name="actionWhite">
+   <property name="text">
+    <string>White</string>
+   </property>
+  </action>
+  <action name="actionBlack">
+   <property name="text">
+    <string>Black</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -365,6 +435,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>
