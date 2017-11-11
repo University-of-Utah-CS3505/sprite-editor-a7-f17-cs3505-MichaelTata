@@ -7,6 +7,7 @@
 #include "drawingwidget.h"
 #include <QObject>
 #include <QTimer>
+#include <QScrollArea>
 
 namespace Ui {
 class View;
@@ -33,11 +34,14 @@ public slots:
     void openNewSpriteWindow();
     void themeBlack();
     void themeWhite();
-    //void attachScrollBars();
+
+    //void changeHor();
+   // void attachScrollBars();
 
 
 
 signals:
+    //void horizChange();
 
 
 };

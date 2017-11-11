@@ -3,10 +3,17 @@
 #include <QMouseEvent>
 #include <math.h>
 
+#include <QDebug>
+
 
 DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
     currImage(100, 100, QImage::Format_ARGB32)
 {
+    horizontalScroll = 0;
+    verticalScroll = 0;
+
+
+
     scaleFactor = 1;
     //Default Gray drawing board, Can set variable size here.
     //currImage = QPixmap(500, 500).toImage();
@@ -14,9 +21,20 @@ DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
     currImage.fill(Qt::transparent);
     tempImage = currImage;
 
-    //emit drawingWidgetCreated();
+
 }
 
+void DrawingWidget::scrollHor(int change)
+{
+    horizontalScroll = change;
+    update();
+}
+
+void DrawingWidget::scrollVer(int change)
+{
+    verticalScroll = change;
+    update();
+}
 
 void DrawingWidget::createNewBoard(int w, int h)
 {
@@ -41,19 +59,32 @@ void DrawingWidget::drawUpdatedImage(QImage ourIm)
 
 void DrawingWidget::paintEvent(QPaintEvent *e)
 {
+    //Changes here to make scrolling work? depending on where we are in image
+    //By that i mean change tempimage.width for sw, and height for sh, which should change
+    //what portion of draw we are at.
+    //if defscale and draw scaled image..
+
+
+
     QPainter painter(this);
-    painter.drawImage(0, 0, tempImage, 0, 0, tempImage.width(), tempImage.height());
+
+    //if(defScale)
+
+        //qDebug() << tempImage.size().width() << "-" << tempImage.size().height();
+    painter.drawImage(0, 0, tempImage, horizontalScroll, verticalScroll, 0, 0);
+    //else
+       // painter.drawImage(0, 0, tempImage.scaled(200, 200, Qt::IgnoreAspectRatio), 0, 0);
 
 }
 
 void DrawingWidget::mousePressEvent(QMouseEvent *e)
 {
-    emit click(e);
+    emit click(e, horizontalScroll, verticalScroll);
 }
 
 void DrawingWidget::mouseReleaseEvent(QMouseEvent *e)
 {
-    emit unclick(e);
+    emit unclick(e, horizontalScroll, verticalScroll);
 }
 
 void DrawingWidget::resizeEvent(QResizeEvent *e)
@@ -70,6 +101,14 @@ void DrawingWidget::resizeEvent(QResizeEvent *e)
     //emit rescale(scale);
 
 }
+
+
+
+void DrawingWidget::setDefinitiveScale(int w, int h)
+{
+
+}
+
 
 void DrawingWidget::scaleIn(int passScaleFactor)
 {
@@ -96,7 +135,7 @@ void DrawingWidget::scaleOut(int passScaleFactor)
 
 void DrawingWidget::mouseMoveEvent(QMouseEvent *e)
 {
-    emit mouseMove(e);
+    emit mouseMove(e, horizontalScroll, verticalScroll);
 }
 
 void DrawingWidget::highlightPixel(QPoint point) {

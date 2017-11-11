@@ -244,15 +244,38 @@
     <item>
      <layout class="QVBoxLayout" name="drawingBoardLayout">
       <item>
-       <widget class="DrawingWidget" name="drawingBoard" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="DrawingWidget" name="drawingBoard" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <zorder>verticalScrollBar</zorder>
+          <zorder>horizontalScrollBar</zorder>
+          <zorder>verticalScrollBar</zorder>
+          <zorder>verticalScrollBar</zorder>
+          <zorder>verticalScrollBar</zorder>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollBar" name="verticalScrollBar">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QScrollBar" name="horizontalScrollBar">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -365,7 +388,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

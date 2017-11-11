@@ -11,6 +11,20 @@ View::View(Model* m, QWidget *parent) :
     newSprite = new CreateNewSprite();
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
 
     //Connection from createnewsprite window, which will send size info to drawing board and model.
@@ -69,6 +83,8 @@ View::View(Model* m, QWidget *parent) :
     connect(frameTimer, SIGNAL(timeout()), m, SLOT(frameRequested()));
     frameTimer->start(1000/ui->fpsSlider->value());
 
+
+    //Changes here for preview widget....
     ui->previewWidget->scaleIn(2);
 
     connect(ui->fpsSlider, &QSlider::valueChanged, this, &View::fpsChange);
@@ -91,13 +107,21 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->actionBlack, &QAction::triggered, this, &View::themeBlack);
     connect(ui->actionWhite, &QAction::triggered, this, &View::themeWhite);
 
+    //ScrollBar changes to signal drawingboard shift
+    connect(ui->horizontalScrollBar, &QScrollBar::valueChanged, ui->drawingBoard, &DrawingWidget::scrollHor);
+    connect(ui->verticalScrollBar, &QScrollBar::valueChanged, ui->drawingBoard, &DrawingWidget::scrollVer);
+
+
+
     //Scroll Bar attempt that didn't work.
     //connect(ui->drawingBoard, &DrawingWidget::drawingWidgetCreated, this, &View::attachScrollBars);
 }
 
+
 void View::openNewSpriteWindow()
 {
-
+    ui->horizontalScrollBar->setValue(0);
+    ui->verticalScrollBar->setValue(0);
     newSprite->show();
 }
 
@@ -148,16 +172,7 @@ void View::themeWhite(){
     ui->menuFile->setStyleSheet("background-color: white; color: black");
 }
 
-/*void View::attachScrollBars(){
-    QScrollArea* scrollArea = new QScrollArea(this);
-    scrollArea->setBackgroundRole(QPalette::Dark);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    scrollArea->setWidgetResizable(true);
-    //scrollArea->setGeometry(100, 100, 100, 100);
-    scrollArea->setWidget(ui->drawingBoard);
-    qDebug() << scrollArea->widget();
-}*/
+
 
 View::~View()
 {

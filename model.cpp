@@ -31,10 +31,13 @@ void Model::createNewSprite(int w, int h)
 {
     painter.end();
 
+    frames.clear();
+    undoes.clear();
+    redoes.clear();
+
+
     xScale = 1;
     yScale = 1;
-
-    //startNewImage(w, h, QImage::Format_ARGB32);
 
     currentImage = QImage(w, h, QImage::Format_ARGB32);
 
@@ -45,9 +48,19 @@ void Model::createNewSprite(int w, int h)
     currentColor = Qt::black;
     currentFrame = 0;
 
+    currentImage.fill(Qt::transparent);
+
     painter.begin(&currentImage);
 
     painter.setPen(currentColor);
+
+    frames.push_back(currentImage);
+    undoes.push_back(frames);
+
+
+
+    QString style = "background-color : rgb(%1, %2, %3); border: none;";
+    emit showColor(style.arg(0).arg(0).arg(0));
 
     emit sendNewInfo(w, h);
 
@@ -59,9 +72,9 @@ void Model::createNewSprite(int w, int h)
 //Slot for released mouse click event. So if we have a shape/line tool chosen
 //This will add the actual shape to the image. This is needed as manipulate image only handles
 //Previews, as the mouse event cannot be used to determine mouse button release, only move and click/drag
-void Model::addShapeToImage(QMouseEvent *e) {
+void Model::addShapeToImage(QMouseEvent *e, int horScroll, int verScroll) {
     QPointF firstPt(shapeCoordX, shapeCoordY);
-    QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
+    QPointF secondPt((e->pos().x()/xScale)+horScroll, (e->pos().y()/yScale)+verScroll);
     QRectF tempRec = getRectangle(firstPt, secondPt);
     switch(currentTool) {
         case 0:
@@ -98,10 +111,10 @@ void Model::addShapeToImage(QMouseEvent *e) {
 }
 
 //Slot to receive a drawing event. Used Specifically for when a click(or unclick) has occurred
-void Model::manipulateImage(QMouseEvent *e) {
+void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
     //qDebug() << "manipulating";
-    int tempX = e->pos().x() / xScale;
-    int tempY = e->pos().y() / yScale;
+    int tempX = (e->pos().x() / xScale) + horScroll;
+    int tempY = (e->pos().y() / yScale) + verScroll;
     QPoint point(tempX, tempY);
 
     //Left mouse button click or click+hold+drag?
@@ -128,15 +141,15 @@ void Model::manipulateImage(QMouseEvent *e) {
             break;
 
         case 4:
-            drawShapePreview(e);
+            drawShapePreview(e, horScroll, verScroll);
             break;
 
          case 5:
-            drawShapePreview(e);
+            drawShapePreview(e, horScroll, verScroll);
             break;
 
         case 6:
-           drawShapePreview(e);
+           drawShapePreview(e, horScroll, verScroll);
            break;
 
         case 7:
@@ -173,12 +186,6 @@ QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
         temp.setTopRight(pivot);
         return temp;
     }
-//    //Second pt is bottom right, pivot is top left.
-//    else if(secondPt.x() > pivot.x() && secondPt.y() > pivot.y())
-//    {
-//        QRectF temp(pivot, secondPt);
-//        return temp;
-//    }
     //Second pt is bottom right, pivot is top left.
     else
     {
@@ -187,28 +194,9 @@ QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
     }
 }
 
-void Model::frameRequested() {
-/*    if(frames.size() <= 1 && firstImage)
-    {
-        emit sendPreview(frames[currentPreviewFrame]);
-    }
-    else if(currentPreviewFrame == frames.size() - 1)
-    {
-        emit sendPreview(frames[currentPreviewFrame]);
-        currentPreviewFrame = 0;
-    }
-    else if(currentPreviewFrame < frames.size()-1)
-    {
+void Model::frameRequested()
+{
 
-        emit sendPreview(frames[currentPreviewFrame]);
-        currentPreviewFrame++;
-    }
-    else
-    {
-        currentPreviewFrame = 0;
-        emit sendPreview(frames[currentPreviewFrame]);
-    }
-*/
     if(currentPreviewFrame == frames.size() - 1){
         emit sendPreview(frames[currentPreviewFrame]);
         currentPreviewFrame = 0;
@@ -222,21 +210,8 @@ void Model::frameRequested() {
     }
 }
 
-void Model::addToFrames() {
-    /*
-    if(frames.size()==1 && firstImage)
-    {
-        //undoes.push_back();
-        frames[0] = currentImage;
-        firstImage = false;
-        currentPreviewFrame = 0;
-    }
-    else
-    {
-        frames.push_back(currentImage);
-        currentPreviewFrame = 0;
-    }
-    */
+void Model::addToFrames()
+{
 
     frames.push_back(currentImage);
     undoes.push_back(frames);
@@ -412,14 +387,14 @@ bool Model::validPixel(QPoint coords) {
     return true;
 }
 
-void Model::drawShapePreview(QMouseEvent *e) {
+void Model::drawShapePreview(QMouseEvent *e, int horScroll, int verScroll) {
     if(activePreview)
     {
         QImage tempIm = currentImage;
         QPainter tempPaint(&tempIm);
         tempPaint.setPen(currentColor);
         QPointF firstPt(shapeCoordX, shapeCoordY);
-        QPointF secondPt(e->pos().x()/xScale, e->pos().y()/yScale);
+        QPointF secondPt((e->pos().x()/xScale)+horScroll, (e->pos().y()/yScale)+verScroll);
         if(currentTool == 4)
         {
             tempPaint.drawLine(firstPt, secondPt);
@@ -437,8 +412,8 @@ void Model::drawShapePreview(QMouseEvent *e) {
     else
     {
         activePreview = true;
-        shapeCoordX = e->pos().x() / xScale;
-        shapeCoordY = e->pos().y() / yScale;
+        shapeCoordX = (e->pos().x() / xScale)+horScroll;
+        shapeCoordY = (e->pos().y() / yScale)+verScroll;
     }
 }
 

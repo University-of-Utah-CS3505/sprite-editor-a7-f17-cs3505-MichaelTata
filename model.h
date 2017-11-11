@@ -89,7 +89,7 @@ protected:
 //    void fillZone(QPoint);
 //    void fillPixel(QPoint, int direction);
     bool validPixel(QPoint);
-    void drawShapePreview(QMouseEvent *e);
+    void drawShapePreview(QMouseEvent *e,int,int);
     void fill(QPoint);
     void updateFrames();
     void recalcCurrentImage();
@@ -118,9 +118,9 @@ public slots:
 
     void createNewSprite(int, int);
 
-    void manipulateImage(QMouseEvent *e);
+    void manipulateImage(QMouseEvent *e, int, int);
 
-    void addShapeToImage(QMouseEvent *e);
+    void addShapeToImage(QMouseEvent *e, int, int);
 
     void changeFrame(int);
 

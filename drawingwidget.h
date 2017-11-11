@@ -2,6 +2,7 @@
 #define DRAWINGWIDGET_H
 
 
+
 #include <QPainter>
 #include <QImage>
 #include <QWidget>
@@ -18,6 +19,9 @@ private:
     QImage currImage;
     QImage tempImage;
     qreal scaleFactor;
+    bool defScale;
+    int horizontalScroll;
+    int verticalScroll;
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -28,19 +32,20 @@ protected:
 
 signals:
     //Signal for funneling mouse click
-    void click(QMouseEvent *e);
+    void click(QMouseEvent *e, int, int);
 
     //Signal for funneling mouse move
-    void mouseMove(QMouseEvent *e);
+    void mouseMove(QMouseEvent *e, int, int);
 
     //Signal for funneling unclick(Using this so we can create a "preview" of
     //where we are moving a line or rect if we are using them
-    void unclick(QMouseEvent *e);
+    void unclick(QMouseEvent *e, int, int);
 
     //used to control the rescale factor for our image, so we can resize and still maintain the original image
     void sendScaleIn(QSize);
 
     void sendScaleOut(QSize);
+
 
 
 public slots:
@@ -50,7 +55,14 @@ public slots:
 
     void scaleIn(int);
 
+    void scrollHor(int);
+
+    void scrollVer(int);
+
     void scaleOut(int);
+
+    //Testing this out for fixing the preview bug.
+    void setDefinitiveScale(int, int);
 
     void drawUpdatedImage(QImage ourIm);
 
