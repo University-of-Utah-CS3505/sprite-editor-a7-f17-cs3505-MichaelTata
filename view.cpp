@@ -10,8 +10,9 @@ View::View(Model* m, QWidget *parent) :
 
     newSprite = new CreateNewSprite();
 
-
-
+    //has to be done here to color the tools box. Unless you want to start by calling whiteTheme();.
+    ui->groupBox->setStyleSheet("background-color: rgb(230, 230, 230);");
+    //ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230);");
 
 
 
@@ -112,9 +113,6 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->verticalScrollBar, &QScrollBar::valueChanged, ui->drawingBoard, &DrawingWidget::scrollVer);
 
 
-
-    //Scroll Bar attempt that didn't work.
-    //connect(ui->drawingBoard, &DrawingWidget::drawingWidgetCreated, this, &View::attachScrollBars);
 }
 
 
@@ -134,22 +132,25 @@ void View::fpsChange(int change)
 
 void View::themeBlack(){
     this->setStyleSheet("background-color: rgb(20, 20, 20);");
-    ui->fillButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->penButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->rectangleButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->eraseButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->ellipseButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->cpButton->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
-    ui->lineButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->undoButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->redoButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->zoomOutButton->setStyleSheet("background-color: rgb(50, 50, 50);");
-    ui->zoomInButton->setStyleSheet("background-color: rgb(50, 50, 50);");
+    ui->fillButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->penButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->rectangleButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->eraseButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->ellipseButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->cpButton->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
+    ui->lineButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->undoButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->redoButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->zoomOutButton->setStyleSheet("background-color: rgb(20, 20, 20);");
+    ui->zoomInButton->setStyleSheet("background-color: rgb(20, 20, 20);");
     ui->addFrameButton->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
     ui->previewscrollbar->setStyleSheet("background-color: rgb(50, 50, 50);");
     ui->mainToolBar->setStyleSheet("background-color: rgb(50, 50, 50);");
     ui->menuBar->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
     ui->menuFile->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
+    ui->groupBox->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
+    //ui->drawingBoard->setStyleSheet("background-color: rgb(20, 20, 20)");
+    ui->groupBox2->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
 }
 
 void View::themeWhite(){
@@ -170,6 +171,9 @@ void View::themeWhite(){
     ui->mainToolBar->setStyleSheet("background-color: rgb(230, 230, 230);");
     ui->menuBar->setStyleSheet("background-color: white; color: black");
     ui->menuFile->setStyleSheet("background-color: white; color: black");
+    ui->groupBox->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
+    //ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
+    ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230); color: white");
 }
 
 
