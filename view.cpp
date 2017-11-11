@@ -52,6 +52,7 @@ View::View(Model* m, QWidget *parent) :
 
     //Connection from model to scrollbar
     connect(m, &Model::setMaxScroll, ui->previewscrollbar, &QScrollBar::setMaximum);
+    connect(m, &Model::setScrollPosition, ui->previewscrollbar, &QScrollBar::setValue);
     connect(ui->previewscrollbar, &QScrollBar::valueChanged, m, &Model::changeFrame);
 
     //Connection to fill an area.
@@ -91,6 +92,7 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->fpsSlider, &QSlider::valueChanged, this, &View::fpsChange);
 
     connect(ui->addFrameButton, &QPushButton::clicked, m, &Model::addToFrames);
+    connect(ui->deleteFrameButton, &QPushButton::clicked, m, &Model::deleteFromFrames);
 
     connect(ui->penButton, &QPushButton::clicked, m, &Model::penSelected);
 

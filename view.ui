@@ -283,6 +283,8 @@
           <property name="autoFillBackground">
            <bool>true</bool>
           </property>
+          <zorder>groupBox2</zorder>
+          <zorder></zorder>
          </widget>
         </item>
         <item>
@@ -415,6 +417,36 @@
          <property name="title">
           <string/>
          </property>
+         <widget class="QSlider" name="fpsSlider">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>320</y>
+            <width>200</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>60</number>
+          </property>
+          <property name="value">
+           <number>30</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <zorder>fpsSlider</zorder>
+         <zorder>pushButton</zorder>
         </widget>
         <zorder>groupBox2</zorder>
         <zorder>previewscrollbar</zorder>
@@ -423,31 +455,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QSlider" name="fpsSlider">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>60</number>
-        </property>
-        <property name="value">
-         <number>30</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+       <widget class="QPushButton" name="addFrameButton">
+        <property name="text">
+         <string>Add Current Frame</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="addFrameButton">
+       <widget class="QPushButton" name="deleteFrameButton">
         <property name="text">
-         <string>Add Current Frame</string>
+         <string>Delete Current Frame</string>
         </property>
        </widget>
       </item>
@@ -477,7 +494,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

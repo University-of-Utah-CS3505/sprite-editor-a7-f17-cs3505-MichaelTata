@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <queue>
 #include <fstream>
+#include <tuple>
 
 class Model : public QObject
 {
@@ -24,8 +25,8 @@ private:
     std::vector<QImage> frames;
     // undoes and redoes hold the different states of the current image
     // and allow for them to be undone or redone.
-    std::vector<std::vector<QImage>> undoes;
-    std::vector<std::vector<QImage>> redoes;
+    std::vector<std::tuple<std::vector<QImage>, int>> undoes;
+    std::vector<std::tuple<std::vector<QImage>, int>> redoes;
     // The view will show the current image and it is the only image
     // that can be worked on at a time.
     QImage currentImage;
@@ -109,6 +110,8 @@ signals:
 
     void setMaxScroll(int);
 
+    void setScrollPosition(int);
+
     void sendNewInfo(int, int);
 
 
@@ -147,6 +150,8 @@ public slots:
     void frameRequested();
 
     void addToFrames();
+
+    void deleteFromFrames();
 
     void undoAction();
 

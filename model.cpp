@@ -16,7 +16,8 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     currentImage.fill(Qt::transparent);
 
     frames.push_back(currentImage);
-    undoes.push_back(frames);
+    std::tuple<std::vector<QImage>, int> tempTuple (frames, 0);
+    undoes.push_back(tempTuple);
 
     currentTool = 0;
 
@@ -55,8 +56,8 @@ void Model::createNewSprite(int w, int h)
     painter.setPen(currentColor);
 
     frames.push_back(currentImage);
-    undoes.push_back(frames);
-
+    std::tuple<std::vector<QImage>, int> tempTuple (frames, 0);
+    undoes.push_back(tempTuple);
 
 
     QString style = "background-color : rgb(%1, %2, %3); border: none;";
@@ -118,8 +119,7 @@ void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
     QPoint point(tempX, tempY);
 
     //Left mouse button click or click+hold+drag?
-    if(e->buttons() == Qt::LeftButton)
-    {
+    if(e->buttons() == Qt::LeftButton) {
         switch(currentTool) {
         case 0:
             //Make sure we only allow ~25 or so undo otherwise program crashes
@@ -153,7 +153,9 @@ void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
            break;
 
         case 7:
-            changeColor(currentImage.pixelColor(point));
+            if(validPixel(point)) {
+                changeColor(currentImage.pixelColor(point));
+            }
             break;
         }
     }
@@ -196,7 +198,6 @@ QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
 
 void Model::frameRequested()
 {
-
     if(currentPreviewFrame == frames.size() - 1){
         emit sendPreview(frames[currentPreviewFrame]);
         currentPreviewFrame = 0;
@@ -210,65 +211,102 @@ void Model::frameRequested()
     }
 }
 
-void Model::addToFrames()
-{
+void Model::addToFrames() {
 
-    frames.push_back(currentImage);
-    undoes.push_back(frames);
+    frames.push_back(frames.back());
+    currentFrame = frames.size() - 1;
+    std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
+    undoes.push_back(tempTuple);
     redoes.clear();
     currentPreviewFrame = 0;
+
     emit setMaxScroll(frames.size() - 1);
+    emit setScrollPosition(currentFrame);
+
+
+}
+
+void Model::deleteFromFrames() {
+    if(currentFrame == 0 && frames.size() == 1) {
+        return;
+    }
+
+    std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
+    undoes.push_back(tempTuple);
+    frames.erase(frames.begin() + currentFrame);
+    redoes.clear();
+    currentPreviewFrame = 0;
+
+    if(currentFrame != 0) {
+        currentFrame -= 1;
+    }
+
+    recalcCurrentImage();
+    emit setMaxScroll(frames.size() - 1);
+    emit setScrollPosition(currentFrame);
+    emit redrawImage(currentImage);
 
 }
 void Model::changeFrame(int currFrame){
     currentFrame = currFrame;
     recalcCurrentImage();
+
     emit redrawImage(currentImage);
 }
 void Model::updateFrames(){
-    frames[currentFrame] = currentImage;
-    undoes.push_back(frames);
-    redoes.clear();
+    if(frames[currentFrame] != currentImage) {
+        frames[currentFrame] = currentImage;
+        std::tuple<std::vector<QImage>, int> tempTuple(frames, currentFrame);
+        undoes.push_back(tempTuple);
+        redoes.clear();
+    }
+
 }
 void Model::undoAction() {
-    if(undoes.size() > 1)
-    {
+
+    if(undoes.size() > 1) {
         redoes.push_back(undoes.back());
         undoes.pop_back();
-        frames = undoes.back();
+
+        frames = std::get<0>(undoes.back());
+
+        if(std::get<1>(redoes.back()) < currentFrame) {
+            currentFrame = std::get<1>(redoes.back());
+        }
+        else {
+            currentFrame = std::get<1>(undoes.back());
+        }
+
         recalcCurrentImage();
         emit redrawImage(currentImage);
         emit setMaxScroll(frames.size() - 1);
+        emit setScrollPosition(currentFrame);
     }
-
 }
 
 void Model::redoAction() {
-    if(redoes.size() > 0)
-    {
+    if(redoes.size() > 0) {
         undoes.push_back(redoes.back());
         redoes.pop_back();
-        frames = undoes.back();
+        frames = std::get<0>(undoes.back());
+        currentFrame = std::get<1>(undoes.back());
+
         recalcCurrentImage();
         emit redrawImage(currentImage);
         emit setMaxScroll(frames.size() - 1);
+        emit setScrollPosition(currentFrame);
     }
 }
 
 
-void Model::recalcCurrentImage()
-{
-
-//        currentFrame = 0;
+void Model::recalcCurrentImage() {
         painter.end();
         currentImage = frames[currentFrame];
         painter.begin(&currentImage);
         painter.setPen(currentColor);
-
 }
 
-void Model::open()
-{
+void Model::open() {
 QString fileName = QFileDialog::getOpenFileName();
     QFile file(fileName);
     qreal r = 0, g = 0, b = 0, a = 0;
@@ -296,8 +334,7 @@ QString fileName = QFileDialog::getOpenFileName();
     emit redrawImage(frames[0]);
 }
 
-void Model::save()
-{
+void Model::save() {
     QString fileName = QFileDialog::getSaveFileName();
     QFile file(fileName);
     QString str;
