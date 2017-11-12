@@ -220,6 +220,8 @@ void Model::addToFrames() {
     redoes.clear();
     currentPreviewFrame = 0;
 
+    qDebug() << "action saved to frame: " << currentFrame;
+
     emit setMaxScroll(frames.size() - 1);
     emit setScrollPosition(currentFrame);
 
@@ -259,6 +261,7 @@ void Model::updateFrames(){
         std::tuple<std::vector<QImage>, int> tempTuple(frames, currentFrame);
         undoes.push_back(tempTuple);
         redoes.clear();
+        qDebug() << "action saved to frame: " << currentFrame;
     }
 
 }
@@ -269,13 +272,22 @@ void Model::undoAction() {
         undoes.pop_back();
 
         frames = std::get<0>(undoes.back());
-
-        if(std::get<1>(redoes.back()) < currentFrame) {
-            currentFrame = std::get<1>(redoes.back());
-        }
-        else {
+        if(std::get<1>(redoes.back()) > std::get<1>(undoes.back())) {
             currentFrame = std::get<1>(undoes.back());
         }
+        else {
+            currentFrame = std::get<1>(redoes.back());
+        }
+//        if(std::get<1>(redoes.back()) < currentFrame) {
+//            currentFrame = std::get<1>(redoes.back());
+//            qDebug() << "setting current frame1 to: " << currentFrame;
+//        }
+//        else {
+//            currentFrame = std::get<1>(undoes.back());
+//            qDebug() << "setting current frame2 to: " << currentFrame;
+//            qDebug() << "redoes.back = " << std::get<1>(redoes.back());
+//        }
+
 
         recalcCurrentImage();
         emit redrawImage(currentImage);
