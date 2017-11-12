@@ -80,7 +80,12 @@ private:
     //As the first image needs to be added before drawing so we have a blank image in our frames
     bool firstImage;
 
+    //Used to determine whether or not we used new or load when creating a sprite
+    //So we can know whether or not to add an initial frame.
+    bool loadingImage;
+
     QRectF getRectangle(QPointF, QPointF);
+
     void changeColor(QColor);
 
 

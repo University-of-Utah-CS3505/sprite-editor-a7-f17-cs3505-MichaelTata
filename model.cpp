@@ -5,6 +5,8 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     xScale = 1;
     yScale = 1;
 
+    loadingImage = false;
+
     firstImage = true;
     currentPreviewFrame = 0;
     currentColor = Qt::black;
@@ -55,7 +57,11 @@ void Model::createNewSprite(int w, int h)
 
     painter.setPen(currentColor);
 
-    frames.push_back(currentImage);
+    if(!loadingImage)
+    {
+        frames.push_back(currentImage);
+
+    }
     std::tuple<std::vector<QImage>, int> tempTuple (frames, 0);
     undoes.push_back(tempTuple);
 
@@ -67,6 +73,7 @@ void Model::createNewSprite(int w, int h)
 
     emit redrawImage(currentImage);
 
+    loadingImage = false;
 }
 
 
@@ -213,14 +220,14 @@ void Model::frameRequested()
 
 void Model::addToFrames() {
 
-    frames.push_back(frames.back());
+    frames.push_back(currentImage);
     currentFrame = frames.size() - 1;
     std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
     undoes.push_back(tempTuple);
     redoes.clear();
     currentPreviewFrame = 0;
 
-    qDebug() << "action saved to frame: " << currentFrame;
+    //qDebug() << "action saved to frame: " << currentFrame;
 
     emit setMaxScroll(frames.size() - 1);
     emit setScrollPosition(currentFrame);
@@ -321,12 +328,21 @@ void Model::recalcCurrentImage() {
 void Model::open() {
 QString fileName = QFileDialog::getOpenFileName();
     QFile file(fileName);
+    loadingImage = true;
     qreal r = 0, g = 0, b = 0, a = 0;
     int framesSize;
+    int newHeight;
+    int newWidth;
+
     frames.clear();
     do{
         if(file.open(QIODevice::ReadOnly)){
             std::ifstream in(fileName.toStdString());
+            in >> newHeight;
+            in >> newWidth;
+
+            createNewSprite(newHeight, newWidth);
+
             in >> framesSize;
             for(int i=0; i < framesSize; i++){
                 for(int y=0; y < currentImage.height(); y++){
@@ -343,7 +359,8 @@ QString fileName = QFileDialog::getOpenFileName();
 
         file.close();
     } while (file.isOpen());
-    emit redrawImage(frames[0]);
+
+    emit redrawImage(currentImage);
 }
 
 void Model::save() {
@@ -353,7 +370,8 @@ void Model::save() {
     qreal r = 0, b = 0, g = 0, a = 0;
     if(file.open(QIODevice::WriteOnly)){
         std::ofstream out(fileName.toStdString());
-        qDebug() << frames;
+        //qDebug() << frames;
+        out << currentImage.height() << " " << currentImage.width() << "\n";
         out << frames.size() << " ";
         for(auto i = frames.begin(); i != frames.end(); ++i){
             //auto saveFrame = frames[i];
