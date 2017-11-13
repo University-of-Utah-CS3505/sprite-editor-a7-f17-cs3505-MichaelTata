@@ -16,6 +16,9 @@
 #include <queue>
 #include <fstream>
 #include <tuple>
+#include "Magick++.h"
+
+
 
 class Model : public QObject
 {

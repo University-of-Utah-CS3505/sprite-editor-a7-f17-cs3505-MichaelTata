@@ -1,4 +1,6 @@
 #include "model.h"
+using namespace std;
+using namespace Magick;
 
 Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32) {
     //Temporary default value as we use 500,500 for default image
@@ -30,8 +32,7 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     emit redrawImage(currentImage);
 }
 
-void Model::createNewSprite(int w, int h)
-{
+void Model::createNewSprite(int w, int h) {
     painter.end();
 
     frames.clear();
@@ -390,6 +391,20 @@ void Model::save() {
 }
 
 void Model::exportToGif() {
+
+
+//    Image newImage;
+//    newImage.type(TrueColorType);
+//    Pixels view(newImage);
+
+
+    //newImage.read_mask
+    //newImage.
+
+//    Image image( "100x100", "white" );
+//    image.pixelColor( 49, 49, "red" );
+//    image.write( "red_pixel.png" );
+    //Image image( "100x100", "white");
 
 }
 
