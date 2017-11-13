@@ -7,11 +7,10 @@
 
 
 DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
-    currImage(100, 100, QImage::Format_ARGB32)
-{
+    currImage(100, 100, QImage::Format_ARGB32) {
+
     horizontalScroll = 0;
     verticalScroll = 0;
-
 
 
     scaleFactor = 1;
@@ -24,20 +23,17 @@ DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
 
 }
 
-void DrawingWidget::scrollHor(int change)
-{
+void DrawingWidget::scrollHor(int change) {
     horizontalScroll = change;
     update();
 }
 
-void DrawingWidget::scrollVer(int change)
-{
+void DrawingWidget::scrollVer(int change) {
     verticalScroll = change;
     update();
 }
 
-void DrawingWidget::createNewBoard(int w, int h)
-{
+void DrawingWidget::createNewBoard(int w, int h) {
     scaleFactor = 1;
     currImage.fill(Qt::transparent);
 
@@ -49,16 +45,14 @@ void DrawingWidget::createNewBoard(int w, int h)
 }
 
 
-void DrawingWidget::drawUpdatedImage(QImage ourIm)
-{
+void DrawingWidget::drawUpdatedImage(QImage ourIm) {
     ourIm.setDevicePixelRatio(scaleFactor);
     currImage = ourIm;
     tempImage = currImage;
     update();
 }
 
-void DrawingWidget::paintEvent(QPaintEvent *e)
-{
+void DrawingWidget::paintEvent(QPaintEvent *e) {
     //Changes here to make scrolling work? depending on where we are in image
     //By that i mean change tempimage.width for sw, and height for sh, which should change
     //what portion of draw we are at.
@@ -77,18 +71,15 @@ void DrawingWidget::paintEvent(QPaintEvent *e)
 
 }
 
-void DrawingWidget::mousePressEvent(QMouseEvent *e)
-{
+void DrawingWidget::mousePressEvent(QMouseEvent *e) {
     emit click(e, horizontalScroll, verticalScroll);
 }
 
-void DrawingWidget::mouseReleaseEvent(QMouseEvent *e)
-{
+void DrawingWidget::mouseReleaseEvent(QMouseEvent *e) {
     emit unclick(e, horizontalScroll, verticalScroll);
 }
 
-void DrawingWidget::resizeEvent(QResizeEvent *e)
-{
+void DrawingWidget::resizeEvent(QResizeEvent *e) {
 
 
 
@@ -104,18 +95,13 @@ void DrawingWidget::resizeEvent(QResizeEvent *e)
 
 
 
-void DrawingWidget::setDefinitiveScale(int w, int h)
-{
+void DrawingWidget::setDefinitiveScale(int w, int h) {
 
 }
 
 
-void DrawingWidget::scaleIn(int passScaleFactor)
-{
+void DrawingWidget::scaleIn(int passScaleFactor) {
 
-
-    //scale.setWidth(scale.width() * passScaleFactor);
-    //scale.setHeight(scale.height()* passScaleFactor);
 
     scaleFactor /= passScaleFactor;
 
@@ -124,8 +110,7 @@ void DrawingWidget::scaleIn(int passScaleFactor)
     update();
 }
 
-void DrawingWidget::scaleOut(int passScaleFactor)
-{
+void DrawingWidget::scaleOut(int passScaleFactor) {
     scaleFactor *= passScaleFactor;
 
     currImage.setDevicePixelRatio(scaleFactor);
@@ -133,8 +118,7 @@ void DrawingWidget::scaleOut(int passScaleFactor)
     update();
 }
 
-void DrawingWidget::mouseMoveEvent(QMouseEvent *e)
-{
+void DrawingWidget::mouseMoveEvent(QMouseEvent *e) {
     emit mouseMove(e, horizontalScroll, verticalScroll);
 }
 

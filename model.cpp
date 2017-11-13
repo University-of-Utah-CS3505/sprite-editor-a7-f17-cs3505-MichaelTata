@@ -39,7 +39,6 @@ void Model::createNewSprite(int w, int h) {
     undoes.clear();
     redoes.clear();
 
-
     xScale = 1;
     yScale = 1;
 
@@ -58,14 +57,11 @@ void Model::createNewSprite(int w, int h) {
 
     painter.setPen(currentColor);
 
-    if(!loadingImage)
-    {
+    if(!loadingImage){
         frames.push_back(currentImage);
-
     }
     std::tuple<std::vector<QImage>, int> tempTuple (frames, 0);
     undoes.push_back(tempTuple);
-
 
     QString style = "background-color : rgb(%1, %2, %3); border: none;";
     emit showColor(style.arg(0).arg(0).arg(0));
@@ -174,14 +170,12 @@ void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
 
 QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
     //Second Pt is top left of rect, pivot is bottom right.
-    if(secondPt.x() < pivot.x() && secondPt.y() < pivot.y())
-    {
+    if(secondPt.x() < pivot.x() && secondPt.y() < pivot.y()) {
         QRectF temp(secondPt, pivot);
         return temp;
     }
     //Second pt is top right of rect, pivot is bottom left.
-    else if(secondPt.x() > pivot.x() && secondPt.y() < pivot.y())
-    {
+    else if(secondPt.x() > pivot.x() && secondPt.y() < pivot.y()) {
         QRectF temp;
         temp.setTopRight(secondPt);
         temp.setBottomLeft(pivot);
@@ -189,16 +183,14 @@ QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
         return temp;
     }
     // Second pt is bottom left of rect, pivot is top right.
-    else if(secondPt.x() < pivot.x() && secondPt.y() > pivot.y())
-    {
+    else if(secondPt.x() < pivot.x() && secondPt.y() > pivot.y()) {
         QRectF temp;
         temp.setBottomLeft(secondPt);
         temp.setTopRight(pivot);
         return temp;
     }
     //Second pt is bottom right, pivot is top left.
-    else
-    {
+    else {
         QRectF temp(pivot, secondPt);
         return temp;
     }
@@ -228,12 +220,8 @@ void Model::addToFrames() {
     redoes.clear();
     currentPreviewFrame = 0;
 
-    //qDebug() << "action saved to frame: " << currentFrame;
-
     emit setMaxScroll(frames.size() - 1);
     emit setScrollPosition(currentFrame);
-
-
 }
 
 void Model::deleteFromFrames() {
@@ -241,16 +229,19 @@ void Model::deleteFromFrames() {
         return;
     }
 
-    std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
-    undoes.push_back(tempTuple);
     frames.erase(frames.begin() + currentFrame);
     redoes.clear();
     currentPreviewFrame = 0;
+
+    std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
+    undoes.push_back(tempTuple);
+
 
     if(currentFrame != 0) {
         currentFrame -= 1;
     }
 
+    qDebug() << "action saved to frame: " << currentFrame;
     recalcCurrentImage();
     emit setMaxScroll(frames.size() - 1);
     emit setScrollPosition(currentFrame);
@@ -276,26 +267,24 @@ void Model::updateFrames(){
 void Model::undoAction() {
 
     if(undoes.size() > 1) {
+
         redoes.push_back(undoes.back());
         undoes.pop_back();
-
         frames = std::get<0>(undoes.back());
-        if(std::get<1>(redoes.back()) > std::get<1>(undoes.back())) {
+
+        if(frames.size() < std::get<0>(undoes.back()).size()) {
+            undidDeleteFrame = true;
+        }
+        else {
+            undidDeleteFrame = false;
+        }
+
+        if((std::get<1>(redoes.back()) > std::get<1>(undoes.back())) || undidDeleteFrame) {
             currentFrame = std::get<1>(undoes.back());
         }
         else {
             currentFrame = std::get<1>(redoes.back());
         }
-//        if(std::get<1>(redoes.back()) < currentFrame) {
-//            currentFrame = std::get<1>(redoes.back());
-//            qDebug() << "setting current frame1 to: " << currentFrame;
-//        }
-//        else {
-//            currentFrame = std::get<1>(undoes.back());
-//            qDebug() << "setting current frame2 to: " << currentFrame;
-//            qDebug() << "redoes.back = " << std::get<1>(redoes.back());
-//        }
-
 
         recalcCurrentImage();
         emit redrawImage(currentImage);
@@ -305,11 +294,19 @@ void Model::undoAction() {
 }
 
 void Model::redoAction() {
+
     if(redoes.size() > 0) {
         undoes.push_back(redoes.back());
+        int frameChanged = std::get<1>(undoes.back());
         redoes.pop_back();
+        if((frames.size() > std::get<0>(undoes.back()).size()) && frameChanged > 0) {
+            currentFrame = frameChanged - 1;
+        }
+        else {
+            currentFrame = frameChanged;
+        }
+
         frames = std::get<0>(undoes.back());
-        currentFrame = std::get<1>(undoes.back());
 
         recalcCurrentImage();
         emit redrawImage(currentImage);
@@ -317,7 +314,6 @@ void Model::redoAction() {
         emit setScrollPosition(currentFrame);
     }
 }
-
 
 void Model::recalcCurrentImage() {
         painter.end();
@@ -391,6 +387,25 @@ void Model::save() {
 }
 
 void Model::exportToGif() {
+//    QString str = "test.jpg";
+//    frames[1].save(str, "JPEG");
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    buffer.open(QIODevice::WriteOnly);
+    frames[0].save(&buffer, "PNG");
+    Blob b(&buffer, 100);
+
+    //Magick::Image img1("100x100", "white");
+
+//    Magick::Image img1;
+//    img1.size("100x100");
+//    img1.magick("RGBA");
+
+
+//    newImage.pixelColor(49, 49, "red");
+    //newImage.write("red_pixel.png");
+
+
 
 
 //    Image newImage;
@@ -407,8 +422,6 @@ void Model::exportToGif() {
     //Image image( "100x100", "white");
 
 }
-
-
 
 
 void Model::scaleOut() {
@@ -431,7 +444,6 @@ void Model::fill(QPoint coords) {
     if (colorBeingFilled == currentColor)
         return;
     currentImage.setPixelColor(coords, currentColor);
-
 
     std::queue<QPoint> que;
     que.push(coords);
@@ -470,29 +482,24 @@ bool Model::validPixel(QPoint coords) {
 }
 
 void Model::drawShapePreview(QMouseEvent *e, int horScroll, int verScroll) {
-    if(activePreview)
-    {
+    if(activePreview) {
         QImage tempIm = currentImage;
         QPainter tempPaint(&tempIm);
         tempPaint.setPen(currentColor);
         QPointF firstPt(shapeCoordX, shapeCoordY);
         QPointF secondPt((e->pos().x()/xScale)+horScroll, (e->pos().y()/yScale)+verScroll);
-        if(currentTool == 4)
-        {
+        if(currentTool == 4) {
             tempPaint.drawLine(firstPt, secondPt);
         }
-        else if(currentTool == 5)
-        {
+        else if(currentTool == 5) {
             tempPaint.drawRect(getRectangle(firstPt, secondPt));
         }
-        else if(currentTool == 6)
-        {
+        else if(currentTool == 6) {
             tempPaint.drawEllipse(getRectangle(firstPt, secondPt));
         }
         emit redrawImage(tempIm);
     }
-    else
-    {
+    else {
         activePreview = true;
         shapeCoordX = (e->pos().x() / xScale)+horScroll;
         shapeCoordY = (e->pos().y() / yScale)+verScroll;
@@ -528,7 +535,6 @@ void Model::lineSelected() {
     painter.setPen(currentColor);
 
     currentTool = 4;
-
 }
 
 void Model::rectSelected() {

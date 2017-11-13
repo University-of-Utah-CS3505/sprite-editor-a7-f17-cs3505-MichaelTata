@@ -7,9 +7,10 @@ using namespace Magick;
 
 int main(int argc, char *argv[])
 {
-    InitializeMagick(argv[0]);
-    QApplication a(argc, argv);
 
+    QApplication a(argc, argv);
+    InitializeMagick(argv[0]);
+    //Magick::Image tester("100x100", "white");
     qDebug() << argv[0];
     Model m;
     View v(&m);

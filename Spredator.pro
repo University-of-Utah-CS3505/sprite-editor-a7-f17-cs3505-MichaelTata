@@ -40,15 +40,11 @@ RESOURCES += \
     images.qrc
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/lib/ -lCORE_RL_Magick++_
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/lib/ -lCORE_RL_Magick++_d
-else:unix: LIBS += -L$$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/lib/ -lCORE_RL_Magick++_
 
-INCLUDEPATH += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/include
-DEPENDPATH += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/include
+unix|win32: LIBS += -L$$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/lib/ -lCORE_RL_Magick++_
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/lib/libCORE_RL_Magick++_.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/lib/libCORE_RL_Magick++_d.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/lib/CORE_RL_Magick++_.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/lib/CORE_RL_Magick++_d.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/release/lib/libCORE_RL_Magick++_.a
+INCLUDEPATH += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/include
+DEPENDPATH += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/lib/CORE_RL_Magick++_.lib
+else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/lib/libCORE_RL_Magick++_.a

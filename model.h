@@ -17,6 +17,11 @@
 #include <fstream>
 #include <tuple>
 #include "Magick++.h"
+#include <QBuffer>
+
+
+using namespace std;
+using namespace Magick;
 
 
 
@@ -86,6 +91,8 @@ private:
     //Used to determine whether or not we used new or load when creating a sprite
     //So we can know whether or not to add an initial frame.
     bool loadingImage;
+
+    bool undidDeleteFrame = false;
 
     QRectF getRectangle(QPointF, QPointF);
 
