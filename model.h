@@ -16,8 +16,8 @@
 #include <queue>
 #include <fstream>
 #include <tuple>
-#include "Magick++.h"
 #include <QBuffer>
+#include <Magick++.h>
 
 
 using namespace std;

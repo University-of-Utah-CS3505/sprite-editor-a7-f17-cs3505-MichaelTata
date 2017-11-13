@@ -39,12 +39,7 @@ FORMS    += view.ui \
 RESOURCES += \
     images.qrc
 
+INCLUDEPATH += "$$PWD/MagickLibraries_DLL/include"
 
-
-unix|win32: LIBS += -L$$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/lib/ -lCORE_RL_Magick++_
-
-INCLUDEPATH += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/include
-DEPENDPATH += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/include
-
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/lib/CORE_RL_Magick++_.lib
-else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../build-Spredator-Desktop_Qt_5_9_1_MSVC2017_64bit-Debug/debug/lib/libCORE_RL_Magick++_.a
+# $$PWD/MagickLibraries_DLL/CORE_RL_Magick++.dll -lQt5Widgetsd -lQt5Guid -lQt5Cored
+LIBS += "$$PWD/MagickLibraries_DLL/CORE_RL_Magick++_.lib"

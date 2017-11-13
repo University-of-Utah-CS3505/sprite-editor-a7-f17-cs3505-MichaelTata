@@ -387,26 +387,32 @@ void Model::save() {
 }
 
 void Model::exportToGif() {
-//    QString str = "test.jpg";
-//    frames[1].save(str, "JPEG");
-    QByteArray ba;
-    QBuffer buffer(&ba);
-    buffer.open(QIODevice::WriteOnly);
-    frames[0].save(&buffer, "PNG");
-    Blob b(&buffer, 100);
+
+      //InitializeMagick("");
+//    QByteArray ba;
+//    QBuffer buffer(&ba);
+//    buffer.open(QIODevice::WriteOnly);
+//    frames[0].save(&buffer, "PNG");
+//    Blob b(&buffer, 100);
+
+    //Magick::Image testImage(b);
 
     //Magick::Image img1("100x100", "white");
+    //vector<Magick::Image> testVect;
+    //Magick::Image img1;
+    //img1.pixelColor();
 
-//    Magick::Image img1;
-//    img1.size("100x100");
-//    img1.magick("RGBA");
+   //img1.
 
+//    Magick::Image img2;
+//    img2.size("100x100");
+//    img2.magick("RGBA");
 
 //    newImage.pixelColor(49, 49, "red");
-    //newImage.write("red_pixel.png");
+    //img1.write("red_pixel.png");
 
-
-
+    //testVect.push_back(img1);
+    //testVect.push_back(img2);
 
 //    Image newImage;
 //    newImage.type(TrueColorType);
@@ -420,7 +426,7 @@ void Model::exportToGif() {
 //    image.pixelColor( 49, 49, "red" );
 //    image.write( "red_pixel.png" );
     //Image image( "100x100", "white");
-
+    //Magick::writeImages(testVect.begin(),testVect.end(), "C:\\2.gif");
 }
 
 
