@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>View</string>
+   <string>Spredator</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -283,8 +283,6 @@
           <property name="autoFillBackground">
            <bool>true</bool>
           </property>
-          <zorder>groupBox2</zorder>
-          <zorder></zorder>
          </widget>
         </item>
         <item>
@@ -445,8 +443,6 @@
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
-         <zorder>fpsSlider</zorder>
-         <zorder>pushButton</zorder>
         </widget>
         <zorder>groupBox2</zorder>
         <zorder>previewscrollbar</zorder>
@@ -494,7 +490,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
