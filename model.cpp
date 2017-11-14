@@ -258,14 +258,15 @@ void Model::changeFrame(int currFrame){
 }
 void Model::updateFrames(){
 
+    if(currentFrame < frames.size()) {
         if(frames[currentFrame] != currentImage) {
             frames[currentFrame] = currentImage;
             std::tuple<std::vector<QImage>, int> tempTuple(frames, currentFrame);
             undoes.push_back(tempTuple);
             redoes.clear();
             qDebug() << "action saved to frame: " << currentFrame;
-         }
-
+        }
+    }
 }
 void Model::undoAction() {
 
@@ -378,7 +379,7 @@ void Model::open() {
             }
             file.close();
         } while (file.isOpen());
-       // emit redrawImage(currentImage);
+        emit redrawImage(currentImage);
     }
 }
 
@@ -391,7 +392,6 @@ void Model::save() {
         qreal r = 0, b = 0, g = 0, a = 0;
         if(file.open(QIODevice::WriteOnly)){
             std::ofstream out(fileName.toStdString());
-
 
             out << currentImage.height() << " " << currentImage.width() << "\n";
             out << frames.size() << "\n";
@@ -427,13 +427,11 @@ void Model::exportToGif() {
     }
 }
 
-
 void Model::scaleOut() {
     xScale/=2;
     yScale/=2;
     emit sendScaleOut(2);
 }
-
 
 void Model::scaleIn() {
     xScale *= 2;
