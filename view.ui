@@ -79,7 +79,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/if_15.Pencil_290135.png</normaloff>:/new/prefix1/Icons/if_15.Pencil_290135.png</iconset>
        </property>
       </widget>
@@ -96,7 +96,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/Eraser-2-icon.png</normaloff>:/new/prefix1/Icons/Eraser-2-icon.png</iconset>
        </property>
       </widget>
@@ -113,7 +113,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/if_fill_45555(1).png</normaloff>:/new/prefix1/Icons/if_fill_45555(1).png</iconset>
        </property>
       </widget>
@@ -130,7 +130,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/rectangle-icon.png</normaloff>:/new/prefix1/Icons/rectangle-icon.png</iconset>
        </property>
       </widget>
@@ -147,7 +147,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/if_zoom_out_37560.png</normaloff>:/new/prefix1/Icons/if_zoom_out_37560.png</iconset>
        </property>
       </widget>
@@ -164,7 +164,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/if_redo_37543.png</normaloff>:/new/prefix1/Icons/if_redo_37543.png</iconset>
        </property>
       </widget>
@@ -184,7 +184,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/if_undo_37543.png</normaloff>:/new/prefix1/Icons/if_undo_37543.png</iconset>
        </property>
       </widget>
@@ -201,7 +201,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/line-icon.png</normaloff>:/new/prefix1/Icons/line-icon.png</iconset>
        </property>
        <property name="iconSize">
@@ -224,7 +224,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/ellipse-icon.png</normaloff>:/new/prefix1/Icons/ellipse-icon.png</iconset>
        </property>
        <property name="iconSize">
@@ -247,8 +247,49 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="images.qrc">
+        <iconset>
          <normaloff>:/new/prefix1/Icons/if_zoom_in_37559.png</normaloff>:/new/prefix1/Icons/if_zoom_in_37559.png</iconset>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="colorbutton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>340</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background: black; border: none;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="cpButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>370</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Color Picker</string>
        </property>
       </widget>
      </widget>
@@ -337,69 +378,6 @@
         <property name="autoFillBackground">
          <bool>true</bool>
         </property>
-        <widget class="QScrollBar" name="previewscrollbar">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>240</y>
-           <width>160</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <number>0</number>
-         </property>
-         <property name="pageStep">
-          <number>1</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="cpButton">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>340</y>
-           <width>91</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Color Picker</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="colorbutton">
-         <property name="geometry">
-          <rect>
-           <x>120</x>
-           <y>340</y>
-           <width>61</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background: black; border: none;</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="flat">
-          <bool>true</bool>
-         </property>
-        </widget>
         <widget class="QGroupBox" name="groupBox2">
          <property name="geometry">
           <rect>
@@ -419,7 +397,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>320</y>
+            <y>10</y>
             <width>200</width>
             <height>22</height>
            </rect>
@@ -830,25 +808,55 @@
            </widget>
           </widget>
          </widget>
+         <widget class="QPushButton" name="addFrameButton">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>40</y>
+            <width>200</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Add Current Frame</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="deleteFrameButton">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>80</y>
+            <width>200</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Delete Current Frame</string>
+          </property>
+         </widget>
+         <widget class="QScrollBar" name="previewscrollbar">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>260</y>
+            <width>160</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>0</number>
+          </property>
+          <property name="pageStep">
+           <number>1</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
         </widget>
-        <zorder>groupBox2</zorder>
-        <zorder>previewscrollbar</zorder>
-        <zorder>cpButton</zorder>
-        <zorder>colorbutton</zorder>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="addFrameButton">
-        <property name="text">
-         <string>Add Current Frame</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="deleteFrameButton">
-        <property name="text">
-         <string>Delete Current Frame</string>
-        </property>
        </widget>
       </item>
       <item>
@@ -947,8 +955,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

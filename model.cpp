@@ -67,7 +67,7 @@ void Model::createNewSprite(int w, int h) {
 
     emit sendNewInfo(w, h);
 
-    redrawImageF();
+    emit redrawImage(currentImage);
 
     loadingImage = false;
 }
@@ -211,8 +211,17 @@ void Model::frameRequested()
 }
 
 void Model::addToFrames() {
-    frames.insert(frames.begin() + currentFrame + 1, currentImage);
-    currentFrame += 1;
+
+    if(frames.size() == 0)
+        {
+            frames.push_back(currentImage);
+        }
+        else
+        {
+            frames.insert(frames.begin() + currentFrame + 1, currentImage);
+            currentFrame += 1;
+        }
+
     std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
     undoes.push_back(tempTuple);
     redoes.clear();
@@ -252,13 +261,14 @@ void Model::changeFrame(int currFrame){
     redrawImageF();
 }
 void Model::updateFrames(){
-    if(frames[currentFrame] != currentImage) {
-        frames[currentFrame] = currentImage;
-        std::tuple<std::vector<QImage>, int> tempTuple(frames, currentFrame);
-        undoes.push_back(tempTuple);
-        redoes.clear();
-        qDebug() << "action saved to frame: " << currentFrame;
-    }
+
+        if(frames[currentFrame] != currentImage) {
+            frames[currentFrame] = currentImage;
+            std::tuple<std::vector<QImage>, int> tempTuple(frames, currentFrame);
+            undoes.push_back(tempTuple);
+            redoes.clear();
+            qDebug() << "action saved to frame: " << currentFrame;
+         }
 
 }
 void Model::undoAction() {
@@ -372,7 +382,7 @@ void Model::open() {
             }
             file.close();
         } while (file.isOpen());
-        redrawImageF();
+       // emit redrawImage(currentImage);
     }
 }
 
@@ -385,9 +395,10 @@ void Model::save() {
         qreal r = 0, b = 0, g = 0, a = 0;
         if(file.open(QIODevice::WriteOnly)){
             std::ofstream out(fileName.toStdString());
-            //qDebug() << frames;
+
+
             out << currentImage.height() << " " << currentImage.width() << "\n";
-            out << frames.size() << " ";
+            out << frames.size() << "\n";
             for(auto i = frames.begin(); i != frames.end(); ++i){
                 //auto saveFrame = frames[i];
                 for(int y=0; y < currentImage.height(); y++){
