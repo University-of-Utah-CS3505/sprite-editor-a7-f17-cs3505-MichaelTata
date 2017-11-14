@@ -17,7 +17,7 @@
 #include <fstream>
 #include <tuple>
 #include <QBuffer>
-#include <gif.h>
+
 
 using namespace std;
 

@@ -1,4 +1,5 @@
 #include "model.h"
+#include <gif.h>
 using namespace std;
 
 Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32) {
@@ -406,19 +407,18 @@ void Model::save() {
 }
 
 void Model::exportToGif() {
- //   struct GifWriter gifMe;
-  //  GifBegin(gifMe, "test.gif", currentImage.width(), currentImage.height(), 100);
-  //  GifWriteFrame();
-
-    QImage &startImg = frames[0];
-    GifWriter writer;
-    GifBegin(&writer, "test.gif", currentImage.width(), currentImage.height(), 100);
-    for (QImage &a : frames) {
-        QByteArray alpha8((char *)a.bits(), a.byteCount());
-        GifWriteFrame(&writer, (uint8_t *)alpha8.data(), a.width(), a.height(), 100);
+    // Much of this code was taken and modified from an issue posted on Github.
+    // https://github.com/ginsweater/gif-h/issues/3
+    QString fileName = QFileDialog::getSaveFileName();
+    if(fileName != NULL){
+        GifWriter writer;
+        GifBegin(&writer, fileName.toStdString().c_str(), currentImage.width(), currentImage.height(), 100);
+        for (QImage &frame : frames) {
+            QByteArray alpha8((char *)frame.bits(), frame.byteCount());
+            GifWriteFrame(&writer, (uint8_t *)alpha8.data(), frame.width(), frame.height(), 100);
+        }
+        GifEnd(&writer);
     }
-    GifEnd(&writer);
-
 }
 
 
