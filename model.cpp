@@ -375,6 +375,7 @@ void Model::open() {
         emit redrawImage(currentImage);
         emit setMaxScroll(frames.size() - 1);
         emit setScrollPosition(0);
+
     }
 }
 
@@ -384,9 +385,11 @@ void Model::save() {
         QFile file(fileName);
         QString str;
         qreal r = 0, b = 0, g = 0, a = 0;
-        if(file.open(QIODevice::WriteOnly)){
-            std::ofstream out(fileName.toStdString());
 
+            std::ofstream out(fileName.toStdString()+".ssp");
+
+            if(out.good())
+            {
             out << currentImage.height() << " " << currentImage.width() << "\n";
             out << frames.size() << "\n";
             for(auto i = frames.begin(); i != frames.end(); ++i){
@@ -400,7 +403,7 @@ void Model::save() {
                     out << "\n";
                 }
             }
-        }
+            }
         file.close();
     }
 }
@@ -408,13 +411,14 @@ void Model::save() {
 void Model::exportToGif() {
     // Much of this code was taken and modified from an issue posted on Github.
     // https://github.com/ginsweater/gif-h/issues/3
-    QString fileName = QFileDialog::getSaveFileName();
+    QString fileName = QFileDialog::getSaveFileName() + ".GIF" ;
+
     if(fileName != NULL){
         GifWriter writer;
-        GifBegin(&writer, fileName.toStdString().c_str(), currentImage.width(), currentImage.height(), 50, 16);
+        GifBegin(&writer, (fileName.toStdString().c_str()), currentImage.width(), currentImage.height(), (100/framerate), 16);
         for (QImage &frame : frames) {
             QByteArray alpha8((char *)frame.bits(), frame.byteCount());
-            GifWriteFrame(&writer, (uint8_t *)alpha8.data(), frame.width(), frame.height(), 50);
+            GifWriteFrame(&writer, (uint8_t *)alpha8.data(), frame.width(), frame.height(), (100/framerate));
         }
         GifEnd(&writer);
     }
@@ -465,6 +469,12 @@ void Model::fill(QPoint coords) {
             }
         }
     }
+}
+
+void Model::changeFramerate(int pass)
+{
+    framerate = pass;
+
 }
 
 bool Model::validPixel(QPoint coords) {

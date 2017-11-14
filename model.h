@@ -94,6 +94,16 @@ private:
     // This QRectF object holds the current working rectangle for a draw image.
     QRectF getRectangle(QPointF, QPointF);
 
+<<<<<<< HEAD
+=======
+    void changeColor(QColor);
+
+
+
+    int framerate;
+
+
+>>>>>>> e09e80ff1d133c3b8d24dfb3931fe85c0e26ed35
 public:
     explicit Model(QObject* parent = 0);
 
@@ -217,6 +227,9 @@ public slots:
     void open();
     void save();
     void exportToGif();
+    void changeFramerate(int);
+
+
 };
 
 #endif // MODEL_H
