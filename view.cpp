@@ -4,23 +4,20 @@
 
 View::View(Model* m, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::View)
-{
+    ui(new Ui::View) {
+
     ui->setupUi(this);
 
     newSprite = new CreateNewSprite();
 
     connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
 
-    //Connection from createnewsprite window, which will send size info to drawing board and model.
+    // Connection from createnewsprite window, which will send size info to drawing board and model.
 
     connect(m, &Model::sendNewInfo, ui->drawingBoard, &DrawingWidget::createNewBoard);
 
-    //Connection to model to create a new sprite
+    // Connection to model to create a new sprite.
     connect(newSprite, &CreateNewSprite::sendSpriteInfo, m, &Model::createNewSprite);
-
-
-
 
     connect(ui->actionLoad, &QAction::triggered, m, &Model::open);
 
@@ -28,18 +25,24 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->actionExport_to_Gif, &QAction::triggered, m, &Model::exportToGif);
 
 
-    //Connection to redraw the board. Model sends new image to be drawn to drawing widget.
+    // Connection to redraw the board. Model sends new image to be drawn to drawing widget.
     connect(m, &Model::redrawImage, ui->drawingBoard, &DrawingWidget::drawUpdatedImage);
 
-    //Connection from a drawing board click to an image manipulation in the model.
+    // Connection from a drawing board click to an image manipulation in the model.
     connect(ui->drawingBoard, &DrawingWidget::click, m, &Model::manipulateImage);
 
-    //Connection from model to scrollbar
+    // Connection from model to scrollbar.
     connect(m, &Model::setMaxScroll, ui->previewscrollbar, &QScrollBar::setMaximum);
     connect(m, &Model::setScrollPosition, ui->previewscrollbar, &QScrollBar::setValue);
     connect(ui->previewscrollbar, &QScrollBar::valueChanged, m, &Model::changeFrame);
 
+
+    connect(ui->previewscrollbar, &QScrollBar::valueChanged, m, &Model::changeFramerate);
+
     //Connection to fill an area.
+
+    // Connection to fill an area.
+
 
     connect(ui->drawingBoard, &DrawingWidget::mouseMove, m, &Model::manipulateImage);
 
@@ -70,7 +73,7 @@ View::View(Model* m, QWidget *parent) :
     frameTimer->start(1000/ui->fpsSlider->value());
 
 
-    //Changes here for preview widget....
+    // Changes here for preview widget....
     ui->previewWidget->scaleIn(2);
 
 
@@ -95,11 +98,10 @@ View::View(Model* m, QWidget *parent) :
     connect(m, &Model::sendPreviewLeft, ui->previewWidgetLeft, &DrawingWidget::drawUpdatedImage);
     connect(m, &Model::sendPreviewRight, ui->previewWidgetRight, &DrawingWidget::drawUpdatedImage);
 
-    //Themes
     connect(ui->actionDark, &QAction::triggered, this, &View::themeDark);
     connect(ui->actionLight, &QAction::triggered, this, &View::themeLight);
 
-    //ScrollBar changes to signal drawingboard shift
+    // ScrollBar changes to signal drawingboard shift.
     connect(ui->horizontalScrollBar, &QScrollBar::valueChanged, ui->drawingBoard, &DrawingWidget::scrollHor);
     connect(ui->verticalScrollBar, &QScrollBar::valueChanged, ui->drawingBoard, &DrawingWidget::scrollVer);
 

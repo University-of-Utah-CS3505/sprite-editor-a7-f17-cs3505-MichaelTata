@@ -90,6 +90,10 @@ private:
     void changeColor(QColor);
 
 
+
+    int framerate;
+
+
 public:
     explicit Model(QObject* parent = 0);
 
@@ -142,6 +146,9 @@ public slots:
     void open();
     void save();
     void exportToGif();
+    void changeFramerate(int);
+
+
 };
 
 #endif // MODEL_H
