@@ -10,21 +10,7 @@ View::View(Model* m, QWidget *parent) :
 
     newSprite = new CreateNewSprite();
 
-    //has to be done here to color the tools box. Unless you want to start by calling whiteTheme();.
-    ui->groupBox->setStyleSheet("background-color: rgb(230, 230, 230);");
-    //ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230);");
-
-
-
-
-
-
-
-
-
-
-
-
+    //themeWhite();
 
     connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
 
@@ -114,8 +100,8 @@ View::View(Model* m, QWidget *parent) :
     connect(m, &Model::sendPreviewRight, ui->previewWidgetRight, &DrawingWidget::drawUpdatedImage);
 
     //Themes
-    connect(ui->actionBlack, &QAction::triggered, this, &View::themeBlack);
-    connect(ui->actionWhite, &QAction::triggered, this, &View::themeWhite);
+    connect(ui->actionDark, &QAction::triggered, this, &View::themeDark);
+    connect(ui->actionLight, &QAction::triggered, this, &View::themeLight);
 
     //ScrollBar changes to signal drawingboard shift
     connect(ui->horizontalScrollBar, &QScrollBar::valueChanged, ui->drawingBoard, &DrawingWidget::scrollHor);
@@ -139,7 +125,7 @@ void View::fpsChange(int change)
     frameTimer->start(1000/change);
 }
 
-void View::themeBlack(){
+void View::themeDark(){
     this->setStyleSheet("background-color: rgb(20, 20, 20);");
     ui->fillButton->setStyleSheet("background-color: rgb(20, 20, 20);");
     ui->penButton->setStyleSheet("background-color: rgb(20, 20, 20);");
@@ -158,31 +144,29 @@ void View::themeBlack(){
     ui->menuBar->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
     ui->menuFile->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
     ui->groupBox->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
-    //ui->drawingBoard->setStyleSheet("background-color: rgb(20, 20, 20)");
     ui->groupBox2->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
 }
 
-void View::themeWhite(){
-    this->setStyleSheet("background-color: white;");
-    ui->fillButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->penButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->rectangleButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->eraseButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->ellipseButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->cpButton->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
-    ui->lineButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->undoButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->redoButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->zoomOutButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->zoomInButton->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->addFrameButton->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
-    ui->previewscrollbar->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->mainToolBar->setStyleSheet("background-color: rgb(230, 230, 230);");
-    ui->menuBar->setStyleSheet("background-color: white; color: black");
-    ui->menuFile->setStyleSheet("background-color: white; color: black");
-    ui->groupBox->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
-    //ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
-    ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230); color: white");
+void View::themeLight(){
+    this->setStyleSheet("");
+    ui->fillButton->setStyleSheet("");
+    ui->penButton->setStyleSheet("");
+    ui->rectangleButton->setStyleSheet("");
+    ui->eraseButton->setStyleSheet("");
+    ui->ellipseButton->setStyleSheet("");
+    ui->cpButton->setStyleSheet("");
+    ui->lineButton->setStyleSheet("");
+    ui->undoButton->setStyleSheet("");
+    ui->redoButton->setStyleSheet("");
+    ui->zoomOutButton->setStyleSheet("");
+    ui->zoomInButton->setStyleSheet("");
+    ui->addFrameButton->setStyleSheet("");
+    ui->previewscrollbar->setStyleSheet("");
+    ui->mainToolBar->setStyleSheet("");
+    ui->menuBar->setStyleSheet("");
+    ui->menuFile->setStyleSheet("");
+    ui->groupBox->setStyleSheet("");
+    ui->groupBox2->setStyleSheet("");
 }
 
 

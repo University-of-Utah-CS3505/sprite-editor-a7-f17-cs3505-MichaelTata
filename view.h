@@ -31,8 +31,8 @@ private:
 public slots:
     void fpsChange(int);
     void openNewSpriteWindow();
-    void themeBlack();
-    void themeWhite();
+    void themeDark();
+    void themeLight();
 
 signals:
 
