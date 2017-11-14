@@ -110,7 +110,7 @@ void View::openNewSpriteWindow()
 void View::fpsChange(int change)
 {
 
-    QString temp = "FPS: " + QString::number(change);
+    QString temp = "FPS:" + QString::number(change);
 
     frameTimer->stop();
     frameTimer->start(1000/change);
