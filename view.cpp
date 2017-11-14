@@ -10,21 +10,7 @@ View::View(Model* m, QWidget *parent) :
 
     newSprite = new CreateNewSprite();
 
-    //has to be done here to color the tools box. Unless you want to start by calling whiteTheme();.
-    ui->groupBox->setStyleSheet("background-color: rgb(230, 230, 230);");
-    //ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230);");
-
-
-
-
-
-
-
-
-
-
-
-
+    themeWhite();
 
     connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
 
@@ -156,7 +142,6 @@ void View::themeBlack(){
     ui->menuBar->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
     ui->menuFile->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
     ui->groupBox->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
-    //ui->drawingBoard->setStyleSheet("background-color: rgb(20, 20, 20)");
     ui->groupBox2->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
 }
 
@@ -179,7 +164,6 @@ void View::themeWhite(){
     ui->menuBar->setStyleSheet("background-color: white; color: black");
     ui->menuFile->setStyleSheet("background-color: white; color: black");
     ui->groupBox->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
-    //ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230); color: black");
     ui->groupBox2->setStyleSheet("background-color: rgb(230, 230, 230); color: white");
 }
 

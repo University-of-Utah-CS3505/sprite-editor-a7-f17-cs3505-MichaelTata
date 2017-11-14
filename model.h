@@ -21,8 +21,7 @@
 
 using namespace std;
 
-class Model : public QObject
-{
+class Model : public QObject {
     Q_OBJECT
 private:
     // frames will contain all of the frames, or images, of the current project.
@@ -93,10 +92,10 @@ private:
 
 
 public:
-    explicit Model(QObject *parent = 0);
+    explicit Model(QObject* parent = 0);
 protected:
     bool validPixel(QPoint);
-    void drawShapePreview(QMouseEvent *e,int,int);
+    void drawShapePreview(QMouseEvent* e,int,int);
     void fill(QPoint);
     void updateFrames();
     void recalcCurrentImage();
@@ -130,9 +129,9 @@ public slots:
 
     void createNewSprite(int, int);
 
-    void manipulateImage(QMouseEvent *e, int, int);
+    void manipulateImage(QMouseEvent* e, int, int);
 
-    void addShapeToImage(QMouseEvent *e, int, int);
+    void addShapeToImage(QMouseEvent* e, int, int);
 
     void changeFrame(int);
 

@@ -378,12 +378,11 @@ void Model::open() {
             }
             file.close();
         } while (file.isOpen());
-       // emit redrawImage(currentImage);
+        emit redrawImage(currentImage);
     }
 }
 
 void Model::save() {
-
     QString fileName = QFileDialog::getSaveFileName();
     if(fileName != NULL){
         QFile file(fileName);
