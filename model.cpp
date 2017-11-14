@@ -319,65 +319,70 @@ void Model::recalcCurrentImage() {
 }
 
 void Model::open() {
-QString fileName = QFileDialog::getOpenFileName();
-    QFile file(fileName);
-    loadingImage = true;
-    qreal r = 0, g = 0, b = 0, a = 0;
-    int framesSize;
-    int newHeight;
-    int newWidth;
+    QString fileName = QFileDialog::getOpenFileName();
+    if(fileName != NULL){
+        QFile file(fileName);
+        loadingImage = true;
+        qreal r = 0, g = 0, b = 0, a = 0;
+        int framesSize;
+        int newHeight;
+        int newWidth;
 
-    frames.clear();
-    do{
-        if(file.open(QIODevice::ReadOnly)){
-            std::ifstream in(fileName.toStdString());
-            in >> newHeight;
-            in >> newWidth;
+        frames.clear();
+        do{
+            if(file.open(QIODevice::ReadOnly)){
+                std::ifstream in(fileName.toStdString());
+                in >> newHeight;
+                in >> newWidth;
 
-            createNewSprite(newHeight, newWidth);
+                createNewSprite(newHeight, newWidth);
 
-            in >> framesSize;
-            for(int i=0; i < framesSize; i++){
-                for(int y=0; y < currentImage.height(); y++){
-                    for(int x=0; x < currentImage.width(); x++){
-                        QPoint coords(x,y);
-                        in >> r >> g >> b >> a;
-                        QColor color(r, g, b, a);
-                        currentImage.setPixelColor(coords, color);
+                in >> framesSize;
+                for(int i=0; i < framesSize; i++){
+                    for(int y=0; y < currentImage.height(); y++){
+                        for(int x=0; x < currentImage.width(); x++){
+                            QPoint coords(x,y);
+                            in >> r >> g >> b >> a;
+                            QColor color(r, g, b, a);
+                            currentImage.setPixelColor(coords, color);
+                        }
                     }
+                    addToFrames();
                 }
-                addToFrames();
             }
-        }
-        file.close();
-    } while (file.isOpen());
-    emit redrawImage(currentImage);
+            file.close();
+        } while (file.isOpen());
+        emit redrawImage(currentImage);
+    }
 }
 
 void Model::save() {
+
     QString fileName = QFileDialog::getSaveFileName();
-    QFile file(fileName);
-    QString str;
-    qreal r = 0, b = 0, g = 0, a = 0;
-    if(file.open(QIODevice::WriteOnly)){
-        std::ofstream out(fileName.toStdString());
-        //qDebug() << frames;
-        out << currentImage.height() << " " << currentImage.width() << "\n";
-        out << frames.size() << " ";
-        for(auto i = frames.begin(); i != frames.end(); ++i){
-            //auto saveFrame = frames[i];
-            for(int y=0; y < currentImage.height(); y++){
-                for(int x=0; x < currentImage.width(); x++){
-                    i->pixelColor(x,y).getRgbF(&r, &g, &b, &a);
-                    str = str.number(r*255) + " " + str.number(g*255) + " " + str.number(b*255) + " " + str.number(a*255) + " ";
-                    out << str.toStdString();
+    if(fileName != NULL){
+        QFile file(fileName);
+        QString str;
+        qreal r = 0, b = 0, g = 0, a = 0;
+        if(file.open(QIODevice::WriteOnly)){
+            std::ofstream out(fileName.toStdString());
+            //qDebug() << frames;
+            out << currentImage.height() << " " << currentImage.width() << "\n";
+            out << frames.size() << " ";
+            for(auto i = frames.begin(); i != frames.end(); ++i){
+                //auto saveFrame = frames[i];
+                for(int y=0; y < currentImage.height(); y++){
+                    for(int x=0; x < currentImage.width(); x++){
+                        i->pixelColor(x,y).getRgbF(&r, &g, &b, &a);
+                        str = str.number(r*255) + " " + str.number(g*255) + " " + str.number(b*255) + " " + str.number(a*255) + " ";
+                        out << str.toStdString();
+                    }
+                    str.clear();
+                    out << "\n";
                 }
-                str.clear();
-                out << "\n";
             }
         }
+        file.close();
     }
-    file.close();
 }
 
 void Model::exportToGif() {
@@ -490,7 +495,10 @@ void Model::changeColor(QColor penColor) {
 
 //All tool selection slots go here.
 void Model::colorOpen() {
-    changeColor(QColorDialog::getColor(Qt::white,nullptr,"Choose Color"));
+    QColor col = QColorDialog::getColor(Qt::white,nullptr,"Choose Color");
+    if(col.isValid()){
+        changeColor(col);
+    }
 }
 
 
