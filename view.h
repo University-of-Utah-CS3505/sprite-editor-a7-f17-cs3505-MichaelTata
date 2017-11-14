@@ -42,6 +42,8 @@ public slots:
     // This slot changes the theme of the editor to a light theme.
     void themeLight();
 
+
+
 signals:
 };
 

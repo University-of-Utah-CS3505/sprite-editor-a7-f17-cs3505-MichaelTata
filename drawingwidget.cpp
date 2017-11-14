@@ -1,9 +1,4 @@
 #include "drawingwidget.h"
-#include <iostream>
-#include <QMouseEvent>
-#include <math.h>
-
-#include <QDebug>
 
 
 DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
@@ -34,7 +29,6 @@ void DrawingWidget::createNewBoard(int w, int h) {
     tempImage = currImage;
 }
 
-
 void DrawingWidget::drawUpdatedImage(QImage ourIm) {
     ourIm.setDevicePixelRatio(scaleFactor);
     currImage = ourIm;
@@ -43,12 +37,8 @@ void DrawingWidget::drawUpdatedImage(QImage ourIm) {
 }
 
 void DrawingWidget::paintEvent(QPaintEvent *e) {
-    //Changes here to make scrolling work? depending on where we are in image
-    //By that i mean change tempimage.width for sw, and height for sh, which should change
-    //what portion of draw we are at.
-    //if defscale and draw scaled image..
-    QPainter painter(this);
 
+    QPainter painter(this);
     painter.drawImage(0, 0, tempImage, horizontalScroll, verticalScroll, 0, 0);
 }
 
