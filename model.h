@@ -18,7 +18,6 @@
 #include <tuple>
 #include <QBuffer>
 
-
 using namespace std;
 
 class Model : public QObject
@@ -94,6 +93,7 @@ private:
 
 public:
     explicit Model(QObject *parent = 0);
+
 protected:
     bool validPixel(QPoint);
     void drawShapePreview(QMouseEvent *e,int,int);
@@ -101,77 +101,45 @@ protected:
     void updateFrames();
     void recalcCurrentImage();
     void redrawImageF();
+
 signals:
     void redrawImage(QImage&);
-
     //Sends image to preview to be displayed
     void sendPreview(QImage&);
-
     void sendScaleIn(int);
-
     void sendScaleOut(int);
-
     void sendHighlight(QPoint);
-
     void showColor(QString);
-
     void setMaxScroll(int);
-
     void setScrollPosition(int);
-
     void sendNewInfo(int, int);
-
     void sendPreviewMid(QImage&);
     void sendPreviewLeft(QImage&);
     void sendPreviewRight(QImage&);
 
-
 public slots:
-
     void createNewSprite(int, int);
-
     void manipulateImage(QMouseEvent *e, int, int);
-
     void addShapeToImage(QMouseEvent *e, int, int);
-
     void changeFrame(int);
-
     void scaleIn();
-
     void scaleOut();
-
     void colorOpen();
-
     void penSelected();
-
     void rectSelected();
-
     void lineSelected();
-
     void fillSelected();
-
     void ellipseSelected();
-
     void eraseSelected();
-
     void colorpickerSelected();
-
     void frameRequested();
-
     void addToFrames();
-
     void deleteFromFrames();
-
     void undoAction();
-
     void redoAction();
-
     void open();
-
     void save();
-
     void exportToGif();
-
 };
 
 #endif // MODEL_H

@@ -1,6 +1,5 @@
 #include "model.h"
 #include <gif.h>
-using namespace std;
 
 Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32_Premultiplied) {
     // Temporary default value as we use 100x100 for default image.
@@ -14,7 +13,6 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     currentColor = Qt::black;
     currentFrame = 0;
 
-    // Default value until we add load and creation of custom sized sprite.
     currentImage.fill(Qt::transparent);
 
     frames.push_back(currentImage);
@@ -72,9 +70,9 @@ void Model::createNewSprite(int w, int h) {
 }
 
 
-//Slot for released mouse click event. So if we have a shape/line tool chosen
-//This will add the actual shape to the image. This is needed as manipulate image only handles
-//Previews, as the mouse event cannot be used to determine mouse button release, only move and click/drag
+// Slot for released mouse click event. So if we have a shape/line tool chosen.
+// This will add the actual shape to the image. This is needed as manipulate image only handles
+// previews, as the mouse event cannot be used to determine mouse button release, only move and click/drag.
 void Model::addShapeToImage(QMouseEvent *e, int horScroll, int verScroll) {
     QPointF firstPt(shapeCoordX, shapeCoordY);
     QPointF secondPt((e->pos().x()/xScale)+horScroll, (e->pos().y()/yScale)+verScroll);
@@ -110,19 +108,18 @@ void Model::addShapeToImage(QMouseEvent *e, int horScroll, int verScroll) {
     activePreview = false;
 }
 
-//Slot to receive a drawing event. Used Specifically for when a click(or unclick) has occurred
+// Slot to receive a drawing event. Used Specifically for when a click(or unclick) has occurred.
 void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
     //qDebug() << "manipulating";
     int tempX = (e->pos().x() / xScale) + horScroll;
     int tempY = (e->pos().y() / yScale) + verScroll;
     QPoint point(tempX, tempY);
 
-    //Left mouse button click or click+hold+drag?
+    // Left mouse button click or click+hold+drag?
     if(e->buttons() == Qt::LeftButton) {
         switch(currentTool) {
         case 0:
-            //Make sure we only allow ~25 or so undo otherwise program crashes
-            //undoes.push_back(currentImage);
+            // Make sure we only allow ~25 or so undo otherwise program crashes.
             painter.drawPoint(point);
             emit redrawImage(currentImage);
             break;
@@ -164,12 +161,12 @@ void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
 }
 
 QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
-    //Second Pt is top left of rect, pivot is bottom right.
+    // Second Pt is top left of rect, pivot is bottom right.
     if(secondPt.x() < pivot.x() && secondPt.y() < pivot.y()) {
         QRectF temp(secondPt, pivot);
         return temp;
     }
-    //Second pt is top right of rect, pivot is bottom left.
+    // Second pt is top right of rect, pivot is bottom left.
     else if(secondPt.x() > pivot.x() && secondPt.y() < pivot.y()) {
         QRectF temp;
         temp.setTopRight(secondPt);
@@ -184,15 +181,14 @@ QRectF Model::getRectangle(QPointF pivot, QPointF secondPt) {
         temp.setTopRight(pivot);
         return temp;
     }
-    //Second pt is bottom right, pivot is top left.
+    // Second pt is bottom right, pivot is top left.
     else {
         QRectF temp(pivot, secondPt);
         return temp;
     }
 }
 
-void Model::frameRequested()
-{
+void Model::frameRequested() {
     if(currentPreviewFrame == frames.size() - 1){
         emit sendPreview(frames[currentPreviewFrame]);
         currentPreviewFrame = 0;
@@ -250,13 +246,15 @@ void Model::deleteFromFrames() {
     redrawImageF();
 
 }
-void Model::changeFrame(int currFrame){
+
+void Model::changeFrame(int currFrame) {
     currentFrame = currFrame;
     recalcCurrentImage();
 
     redrawImageF();
 }
-void Model::updateFrames(){
+
+void Model::updateFrames() {
 
         if(frames[currentFrame] != currentImage) {
             frames[currentFrame] = currentImage;
@@ -267,10 +265,9 @@ void Model::updateFrames(){
          }
 
 }
+
 void Model::undoAction() {
-
     if(undoes.size() > 1) {
-
         redoes.push_back(undoes.back());
         undoes.pop_back();
         frames = std::get<0>(undoes.back());
@@ -297,7 +294,6 @@ void Model::undoAction() {
 }
 
 void Model::redoAction() {
-
     if(redoes.size() > 0) {
         undoes.push_back(redoes.back());
         int frameChanged = std::get<1>(undoes.back());
@@ -324,15 +320,15 @@ void Model::recalcCurrentImage() {
         painter.setPen(currentColor);
 }
 
-void Model::redrawImageF(){
+void Model::redrawImageF() {
     emit redrawImage(currentImage);
     updateFrames();
     QImage blank;
     emit sendPreviewMid(frames[currentFrame]);
-    if(frames.size() == 1){
+    if(frames.size() == 1) {
         emit sendPreviewLeft(blank);
         emit sendPreviewRight(blank);
-    } else if(currentFrame == 0){
+    } else if(currentFrame == 0) {
         emit sendPreviewLeft(blank);
         emit sendPreviewRight(frames[currentFrame + 1]);
     } else if (currentFrame == frames.size() -1) {
@@ -378,25 +374,22 @@ void Model::open() {
             }
             file.close();
         } while (file.isOpen());
-       // emit redrawImage(currentImage);
+        emit redrawImage(currentImage);
     }
 }
 
 void Model::save() {
-
     QString fileName = QFileDialog::getSaveFileName();
-    if(fileName != NULL){
+    if(fileName != NULL) {
         QFile file(fileName);
         QString str;
         qreal r = 0, b = 0, g = 0, a = 0;
         if(file.open(QIODevice::WriteOnly)){
             std::ofstream out(fileName.toStdString());
 
-
             out << currentImage.height() << " " << currentImage.width() << "\n";
             out << frames.size() << "\n";
             for(auto i = frames.begin(); i != frames.end(); ++i){
-                //auto saveFrame = frames[i];
                 for(int y=0; y < currentImage.height(); y++){
                     for(int x=0; x < currentImage.width(); x++){
                         i->pixelColor(x,y).getRgbF(&r, &g, &b, &a);
@@ -427,13 +420,11 @@ void Model::exportToGif() {
     }
 }
 
-
 void Model::scaleOut() {
     xScale/=2;
     yScale/=2;
     emit sendScaleOut(2);
 }
-
 
 void Model::scaleIn() {
     xScale *= 2;
@@ -475,6 +466,7 @@ void Model::fill(QPoint coords) {
         }
     }
 }
+
 bool Model::validPixel(QPoint coords) {
     int px = coords.rx();
     int py = coords.ry();
@@ -520,7 +512,7 @@ void Model::changeColor(QColor penColor) {
     emit showColor(style.arg(penColor.red()).arg(penColor.green()).arg(penColor.blue()));
 }
 
-//All tool selection slots go here.
+// All tool selection slots go here.
 void Model::colorOpen() {
     QColor col = QColorDialog::getColor(Qt::white,nullptr,"Choose Color");
     if(col.isValid()){
@@ -528,37 +520,30 @@ void Model::colorOpen() {
     }
 }
 
-
 void Model::penSelected() {
     painter.setPen(currentColor);
     currentTool = 0;
 }
 
 void Model::lineSelected() {
-    //want to set activePreview to false to begin this tool.
     activePreview = false;
 
-    //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
 
     currentTool = 4;
 }
 
 void Model::rectSelected() {
-    //want to set activePreview to false to begin this tool.
     activePreview = false;
 
-    //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
 
     currentTool = 5;
 }
 
 void Model::ellipseSelected() {
-    //want to set activePreview to false to begin this tool.
     activePreview = false;
 
-    //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
 
     currentTool = 6;
@@ -569,7 +554,6 @@ void Model::eraseSelected() {
 }
 
 void Model::fillSelected() {
-    //Want to set pen back to currentColor if it was changed by erase tool.
     painter.setPen(currentColor);
     currentTool = 3;
 }
