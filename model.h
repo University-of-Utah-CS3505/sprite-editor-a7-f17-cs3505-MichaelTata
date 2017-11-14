@@ -26,6 +26,7 @@ class Model : public QObject
 private:
     // frames will contain all of the frames, or images, of the current project.
     std::vector<QImage> frames;
+
     // undoes and redoes hold the different states of the current image
     // and allow for them to be undone or redone.
     std::vector<std::tuple<std::vector<QImage>, int>> undoes;
@@ -33,7 +34,7 @@ private:
     // The view will show the current image and it is the only image
     // that can be worked on at a time.
     QImage currentImage;
-    //QImage startNewImage;
+    // QImage startNewImage;
 
     /* The current tool directs how the image will be manipulated.
      * An encoding for the tools would work best to distinguish them
@@ -50,38 +51,43 @@ private:
      * Add more tools as needed.
      */
 
-    //This is used to keep track of what frame we are currently
-    //sending to be previewed.
+    // This is used to keep track of what frame we are currently
+    // sending to be previewed.
     int currentPreviewFrame;
 
-    //This is used to keep track of cwhat frame you are currently editing.
+    // This is used to keep track of cwhat frame you are currently editing.
     int currentFrame;
 
+    // This currentTool variable holds the integer that defines what tool is currently being used.
     int currentTool;
+
+    // These scale variables handle the scaling for the zoom function.
     double xScale;
     double yScale;
 
-    //These variables are used exclusively for drawing shapes/lines.
-    //We need the starting coord and to know when we are making a shape, this way we can make a preview.
+    // These variables are used exclusively for drawing shapes/lines.
+    // We need the starting coord and to know when we are making a shape, this way we can make a preview.
     int shapeCoordX;
     int shapeCoordY;
     bool activePreview;
 
+    // These variables capture what color we have chosen, and the color being filled for fill tool.
     QColor currentColor;
     QColor colorBeingFilled;
-    QPointF currentPoint;
 
+    // This is the current painter object being used and a dialog for the color picker.
     QPainter painter;
     QColorDialog colorPicker;
+
     // This file dialog will handle creating a new project, saving, loading, and exporting a gif.
     QFileDialog fileDia;
 
-    //Used to temporarily get around the flicker on preview.
-    //As the first image needs to be added before drawing so we have a blank image in our frames
+    // Used to temporarily get around the flicker on preview.
+    // As the first image needs to be added before drawing so we have a blank image in our frames
     bool firstImage;
 
-    //Used to determine whether or not we used new or load when creating a sprite
-    //So we can know whether or not to add an initial frame.
+    // Used to determine whether or not we used new or load when creating a sprite
+    // So we can know whether or not to add an initial frame.
     bool loadingImage;
 
     bool undidDeleteFrame = false;
@@ -89,7 +95,6 @@ private:
     QRectF getRectangle(QPointF, QPointF);
 
     void changeColor(QColor);
-
 
 public:
     explicit Model(QObject *parent = 0);
@@ -104,7 +109,7 @@ protected:
 
 signals:
     void redrawImage(QImage&);
-    //Sends image to preview to be displayed
+    // Sends image to preview to be displayed
     void sendPreview(QImage&);
     void sendScaleIn(int);
     void sendScaleOut(int);

@@ -21,7 +21,6 @@ signals:
 public slots:
     void getInfoToSend();
 
-
 private:
     Ui::NewSpriteWindow *ui;
 };

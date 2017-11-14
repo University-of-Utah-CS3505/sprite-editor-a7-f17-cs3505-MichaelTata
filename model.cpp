@@ -70,7 +70,6 @@ void Model::createNewSprite(int w, int h) {
     loadingImage = false;
 }
 
-
 // Slot for released mouse click event. So if we have a shape/line tool chosen.
 // This will add the actual shape to the image. This is needed as manipulate image only handles
 // previews, as the mouse event cannot be used to determine mouse button release, only move and click/drag.
@@ -245,7 +244,6 @@ void Model::deleteFromFrames() {
     emit setMaxScroll(frames.size() - 1);
     emit setScrollPosition(currentFrame);
     redrawImageF();
-
 }
 
 void Model::changeFrame(int currFrame) {
@@ -371,11 +369,13 @@ void Model::open() {
                             currentImage.setPixelColor(coords, color);
                         }
                     }
-                    addToFrames();
+                    addToFrames();                   
                 }
             }
             file.close();
         } while (file.isOpen());
+        undoes.clear();
+        redoes.clear();
         emit redrawImage(currentImage);
         emit setMaxScroll(frames.size() - 1);
         emit setScrollPosition(0);
