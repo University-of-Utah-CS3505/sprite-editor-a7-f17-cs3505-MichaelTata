@@ -110,7 +110,6 @@ void Model::addShapeToImage(QMouseEvent *e, int horScroll, int verScroll) {
 
 // Slot to receive a drawing event. Used Specifically for when a click(or unclick) has occurred.
 void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
-    //qDebug() << "manipulating";
     int tempX = (e->pos().x() / xScale) + horScroll;
     int tempY = (e->pos().y() / yScale) + verScroll;
     QPoint point(tempX, tempY);
@@ -238,8 +237,6 @@ void Model::deleteFromFrames() {
     if(currentFrame != 0) {
         currentFrame -= 1;
     }
-
-    qDebug() << "action saved to frame: " << currentFrame;
     recalcCurrentImage();
     emit setMaxScroll(frames.size() - 1);
     emit setScrollPosition(currentFrame);
@@ -261,7 +258,6 @@ void Model::updateFrames() {
             std::tuple<std::vector<QImage>, int> tempTuple(frames, currentFrame);
             undoes.push_back(tempTuple);
             redoes.clear();
-            qDebug() << "action saved to frame: " << currentFrame;
         }
     }
 }
