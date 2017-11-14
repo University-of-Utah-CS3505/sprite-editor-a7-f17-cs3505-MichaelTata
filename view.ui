@@ -251,12 +251,12 @@
          <normaloff>:/new/prefix1/Icons/if_zoom_in_37559.png</normaloff>:/new/prefix1/Icons/if_zoom_in_37559.png</iconset>
        </property>
       </widget>
-      <widget class="QPushButton" name="colorbutton">
+      <widget class="QPushButton" name="colorButton">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>340</y>
-         <width>61</width>
+         <x>2</x>
+         <y>370</y>
+         <width>41</width>
          <height>21</height>
         </rect>
        </property>
@@ -282,14 +282,18 @@
       <widget class="QPushButton" name="cpButton">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>370</y>
-         <width>61</width>
+         <x>2</x>
+         <y>340</y>
+         <width>41</width>
          <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>Color Picker</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="images.qrc">
+         <normaloff>:/new/prefix1/Icons/if_stock_3d-color-picker_21508.png</normaloff>:/new/prefix1/Icons/if_stock_3d-color-picker_21508.png</iconset>
        </property>
       </widget>
      </widget>
@@ -889,7 +893,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
