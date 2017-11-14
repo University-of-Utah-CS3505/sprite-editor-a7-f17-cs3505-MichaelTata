@@ -63,8 +63,9 @@ void Model::createNewSprite(int w, int h) {
     emit showColor(style.arg(0).arg(0).arg(0));
 
     emit sendNewInfo(w, h);
-
     emit redrawImage(currentImage);
+    emit setMaxScroll(frames.size() - 1);
+    emit setScrollPosition(currentFrame);
 
     loadingImage = false;
 }
