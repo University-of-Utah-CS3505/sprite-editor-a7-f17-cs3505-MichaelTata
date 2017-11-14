@@ -17,13 +17,9 @@
 #include <fstream>
 #include <tuple>
 #include <QBuffer>
-#include <Magick++.h>
-
+#include <gif.h>
 
 using namespace std;
-using namespace Magick;
-
-
 
 class Model : public QObject
 {

@@ -31,7 +31,8 @@ SOURCES += main.cpp\
 HEADERS  += view.h \
     model.h \
     drawingwidget.h \
-    createnewsprite.h
+    createnewsprite.h \
+    gif.h
 
 FORMS    += view.ui \
     createnewsprite.ui
@@ -39,15 +40,3 @@ FORMS    += view.ui \
 RESOURCES += \
     images.qrc
 
-#INCLUDEPATH += "$$PWD/include"
-
-#LIBS += "$$PWD/CORE_RL_Magick++_.lib"
-
-
-unix|win32: LIBS += -L$$PWD/./ -lCORE_RL_Magick++_
-
-INCLUDEPATH += $$PWD/include/.
-DEPENDPATH += $$PWD/include/.
-
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/./CORE_RL_Magick++_.lib
-else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/./libCORE_RL_Magick++_.a
