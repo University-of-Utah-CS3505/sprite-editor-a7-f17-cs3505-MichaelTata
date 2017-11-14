@@ -1,8 +1,6 @@
 #ifndef DRAWINGWIDGET_H
 #define DRAWINGWIDGET_H
 
-
-
 #include <QPainter>
 #include <QImage>
 #include <QWidget>
@@ -41,12 +39,11 @@ signals:
     //where we are moving a line or rect if we are using them
     void unclick(QMouseEvent *e, int, int);
 
-    //used to control the rescale factor for our image, so we can resize and still maintain the original image
+    //used to control the rescale factor zooming in our image, so we can resize and still maintain the original image
     void sendScaleIn(QSize);
 
+    //used to control the rescale factor zooming out our image, so we can resize and still maintain the original image
     void sendScaleOut(QSize);
-
-
 
 public slots:
     void createNewBoard(int, int);
@@ -65,7 +62,6 @@ public slots:
     void setDefinitiveScale(int, int);
 
     void drawUpdatedImage(QImage ourIm);
-
 };
 
 #endif // DRAWINGWIDGET_H

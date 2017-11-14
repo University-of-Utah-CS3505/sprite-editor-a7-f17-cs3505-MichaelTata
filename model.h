@@ -94,16 +94,9 @@ private:
     // This QRectF object holds the current working rectangle for a draw image.
     QRectF getRectangle(QPointF, QPointF);
 
-<<<<<<< HEAD
-=======
-    void changeColor(QColor);
-
-
-
+    // This deals with the rate of the gif that is exported.
     int framerate;
 
-
->>>>>>> e09e80ff1d133c3b8d24dfb3931fe85c0e26ed35
 public:
     explicit Model(QObject* parent = 0);
 
@@ -223,12 +216,20 @@ public slots:
     // This slot deals with undoing an action.
     void undoAction();
 
+    // This slot deals with redoing an action.
     void redoAction();
-    void open();
-    void save();
-    void exportToGif();
-    void changeFramerate(int);
 
+    // This slot deals with opening a sprite file.
+    void open();
+
+    // This slot deals with saving a sprite file.
+    void save();
+
+    // This slot deals with exporting the sprite frames to a gif file.
+    void exportToGif();
+
+    // This slot deals with changing the framerate of the preview.
+    void changeFramerate(int);
 
 };
 
