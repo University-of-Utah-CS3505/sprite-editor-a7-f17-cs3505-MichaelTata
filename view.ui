@@ -79,7 +79,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/if_15.Pencil_290135.png</normaloff>:/new/prefix1/Icons/if_15.Pencil_290135.png</iconset>
        </property>
       </widget>
@@ -96,7 +96,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/Eraser-2-icon.png</normaloff>:/new/prefix1/Icons/Eraser-2-icon.png</iconset>
        </property>
       </widget>
@@ -113,7 +113,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/if_fill_45555(1).png</normaloff>:/new/prefix1/Icons/if_fill_45555(1).png</iconset>
        </property>
       </widget>
@@ -130,7 +130,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/rectangle-icon.png</normaloff>:/new/prefix1/Icons/rectangle-icon.png</iconset>
        </property>
       </widget>
@@ -147,7 +147,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/if_zoom_out_37560.png</normaloff>:/new/prefix1/Icons/if_zoom_out_37560.png</iconset>
        </property>
       </widget>
@@ -164,7 +164,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/if_redo_37543.png</normaloff>:/new/prefix1/Icons/if_redo_37543.png</iconset>
        </property>
       </widget>
@@ -184,7 +184,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/if_undo_37543.png</normaloff>:/new/prefix1/Icons/if_undo_37543.png</iconset>
        </property>
       </widget>
@@ -201,7 +201,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/line-icon.png</normaloff>:/new/prefix1/Icons/line-icon.png</iconset>
        </property>
        <property name="iconSize">
@@ -224,7 +224,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/ellipse-icon.png</normaloff>:/new/prefix1/Icons/ellipse-icon.png</iconset>
        </property>
        <property name="iconSize">
@@ -247,7 +247,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="images.qrc">
          <normaloff>:/new/prefix1/Icons/if_zoom_in_37559.png</normaloff>:/new/prefix1/Icons/if_zoom_in_37559.png</iconset>
        </property>
       </widget>
@@ -818,7 +818,7 @@
            </rect>
           </property>
           <property name="text">
-           <string>Add Current Frame</string>
+           <string>Duplicate Current Frame</string>
           </property>
          </widget>
          <widget class="QPushButton" name="deleteFrameButton">
@@ -955,6 +955,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>
