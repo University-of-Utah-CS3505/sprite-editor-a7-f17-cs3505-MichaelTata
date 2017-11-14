@@ -212,9 +212,8 @@ void Model::frameRequested()
 }
 
 void Model::addToFrames() {
-
-    frames.push_back(currentImage);
-    currentFrame = frames.size() - 1;
+    frames.insert(frames.begin() + currentFrame + 1, currentImage);
+    currentFrame += 1;
     std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
     undoes.push_back(tempTuple);
     redoes.clear();
@@ -235,7 +234,6 @@ void Model::deleteFromFrames() {
 
     std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
     undoes.push_back(tempTuple);
-
 
     if(currentFrame != 0) {
         currentFrame -= 1;
@@ -307,7 +305,6 @@ void Model::redoAction() {
         }
 
         frames = std::get<0>(undoes.back());
-
         recalcCurrentImage();
         emit redrawImage(currentImage);
         emit setMaxScroll(frames.size() - 1);
@@ -353,10 +350,8 @@ QString fileName = QFileDialog::getOpenFileName();
                 addToFrames();
             }
         }
-
         file.close();
     } while (file.isOpen());
-
     emit redrawImage(currentImage);
 }
 
@@ -397,7 +392,8 @@ void Model::exportToGif() {
 
     //Magick::Image testImage(b);
 
-    //Magick::Image img1("100x100", "white");
+    //Magick::Image img1;
+    Magick::Image img1("100x100", "red");
     //vector<Magick::Image> testVect;
     //Magick::Image img1;
     //img1.pixelColor();

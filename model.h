@@ -40,7 +40,6 @@ private:
     QImage currentImage;
     //QImage startNewImage;
 
-
     /* The current tool directs how the image will be manipulated.
      * An encoding for the tools would work best to distinguish them
      * from each other.
