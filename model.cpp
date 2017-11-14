@@ -256,14 +256,15 @@ void Model::changeFrame(int currFrame) {
 
 void Model::updateFrames() {
 
+    if(currentFrame < frames.size()) {
         if(frames[currentFrame] != currentImage) {
             frames[currentFrame] = currentImage;
             std::tuple<std::vector<QImage>, int> tempTuple(frames, currentFrame);
             undoes.push_back(tempTuple);
             redoes.clear();
             qDebug() << "action saved to frame: " << currentFrame;
-         }
-
+        }
+    }
 }
 
 void Model::undoAction() {
