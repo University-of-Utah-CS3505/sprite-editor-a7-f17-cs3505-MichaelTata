@@ -89,6 +89,7 @@ View::View(Model* m, QWidget *parent) :
     //Changes here for preview widget....
     ui->previewWidget->scaleIn(2);
 
+
     connect(ui->fpsSlider, &QSlider::valueChanged, this, &View::fpsChange);
 
     connect(ui->addFrameButton, &QPushButton::clicked, m, &Model::addToFrames);
@@ -105,6 +106,9 @@ View::View(Model* m, QWidget *parent) :
     connect(ui->eraseButton, &QPushButton::clicked, m, &Model::eraseSelected);
     connect(ui->cpButton, &QPushButton::clicked, m, &Model::colorpickerSelected);
     connect(m, &Model::sendPreview, ui->previewWidget, &DrawingWidget::drawUpdatedImage);
+    connect(m, &Model::sendPreviewMid, ui->previewWidgetMid, &DrawingWidget::drawUpdatedImage);
+    connect(m, &Model::sendPreviewLeft, ui->previewWidgetLeft, &DrawingWidget::drawUpdatedImage);
+    connect(m, &Model::sendPreviewRight, ui->previewWidgetRight, &DrawingWidget::drawUpdatedImage);
 
     //Themes
     connect(ui->actionBlack, &QAction::triggered, this, &View::themeBlack);

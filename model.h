@@ -108,6 +108,7 @@ protected:
     void fill(QPoint);
     void updateFrames();
     void recalcCurrentImage();
+    void redrawImageF();
 signals:
     void redrawImage(QImage&);
 
@@ -128,6 +129,9 @@ signals:
 
     void sendNewInfo(int, int);
 
+    void sendPreviewMid(QImage&);
+    void sendPreviewLeft(QImage&);
+    void sendPreviewRight(QImage&);
 
 
 

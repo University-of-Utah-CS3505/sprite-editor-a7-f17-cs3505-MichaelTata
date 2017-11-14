@@ -29,7 +29,7 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
 
     painter.setPen(currentColor);
 
-    emit redrawImage(currentImage);
+    redrawImageF();
 }
 
 void Model::createNewSprite(int w, int h) {
@@ -68,7 +68,7 @@ void Model::createNewSprite(int w, int h) {
 
     emit sendNewInfo(w, h);
 
-    emit redrawImage(currentImage);
+    redrawImageF();
 
     loadingImage = false;
 }
@@ -96,19 +96,19 @@ void Model::addShapeToImage(QMouseEvent *e, int horScroll, int verScroll) {
 
         case 4:
             painter.drawLine(firstPt, secondPt);      
-            emit redrawImage(currentImage);
+            redrawImageF();
             updateFrames();
         break;
 
         case 5:
             painter.drawRect(tempRec);
-            emit redrawImage(currentImage);
+            redrawImageF();
             updateFrames();
         break;
 
         case 6:
             painter.drawEllipse(tempRec);         
-            emit redrawImage(currentImage);
+            redrawImageF();
             updateFrames();
         break;
     }
@@ -129,19 +129,19 @@ void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
             //Make sure we only allow ~25 or so undo otherwise program crashes
             //undoes.push_back(currentImage);
             painter.drawPoint(point);
-            emit redrawImage(currentImage);
+            redrawImageF();
             break;
 
          case 1:
             if(validPixel(point)) {
                 currentImage.setPixelColor(point, Qt::transparent);
-                emit redrawImage(currentImage);
+                redrawImageF();
             }
             break;
 
         case 3:
             fill(point);
-            emit redrawImage(currentImage);
+            redrawImageF();
             break;
 
         case 4:
@@ -243,14 +243,14 @@ void Model::deleteFromFrames() {
     recalcCurrentImage();
     emit setMaxScroll(frames.size() - 1);
     emit setScrollPosition(currentFrame);
-    emit redrawImage(currentImage);
+    redrawImageF();
 
 }
 void Model::changeFrame(int currFrame){
     currentFrame = currFrame;
     recalcCurrentImage();
 
-    emit redrawImage(currentImage);
+    redrawImageF();
 }
 void Model::updateFrames(){
     if(frames[currentFrame] != currentImage) {
@@ -285,7 +285,7 @@ void Model::undoAction() {
         }
 
         recalcCurrentImage();
-        emit redrawImage(currentImage);
+        redrawImageF();
         emit setMaxScroll(frames.size() - 1);
         emit setScrollPosition(currentFrame);
     }
@@ -306,7 +306,7 @@ void Model::redoAction() {
 
         frames = std::get<0>(undoes.back());
         recalcCurrentImage();
-        emit redrawImage(currentImage);
+        redrawImageF();
         emit setMaxScroll(frames.size() - 1);
         emit setScrollPosition(currentFrame);
     }
@@ -317,6 +317,26 @@ void Model::recalcCurrentImage() {
         currentImage = frames[currentFrame];
         painter.begin(&currentImage);
         painter.setPen(currentColor);
+}
+
+void Model::redrawImageF(){
+    emit redrawImage(currentImage);
+    updateFrames();
+    QImage blank;
+    emit sendPreviewMid(frames[currentFrame]);
+    if(frames.size() == 1){
+        emit sendPreviewLeft(blank);
+        emit sendPreviewRight(blank);
+    } else if(currentFrame == 0){
+        emit sendPreviewLeft(blank);
+        emit sendPreviewRight(frames[currentFrame + 1]);
+    } else if (currentFrame == frames.size() -1) {
+        emit sendPreviewRight(blank);
+        emit sendPreviewLeft(frames[currentFrame - 1]);
+    } else {
+        emit sendPreviewLeft(frames[currentFrame - 1]);
+        emit sendPreviewRight(frames[currentFrame + 1]);
+    }
 }
 
 void Model::open() {
@@ -353,7 +373,7 @@ void Model::open() {
             }
             file.close();
         } while (file.isOpen());
-        emit redrawImage(currentImage);
+        redrawImageF();
     }
 }
 
@@ -388,7 +408,7 @@ void Model::save() {
 
 void Model::exportToGif() {
 
-      //InitializeMagick("");
+      InitializeMagick("");
 //    QByteArray ba;
 //    QBuffer buffer(&ba);
 //    buffer.open(QIODevice::WriteOnly);
@@ -398,7 +418,7 @@ void Model::exportToGif() {
     //Magick::Image testImage(b);
 
     //Magick::Image img1;
-    Magick::Image img1("100x100", "red");
+    //Magick::Image img1("100x100", "red");
     //vector<Magick::Image> testVect;
     //Magick::Image img1;
     //img1.pixelColor();
@@ -429,6 +449,7 @@ void Model::exportToGif() {
 //    image.write( "red_pixel.png" );
     //Image image( "100x100", "white");
     //Magick::writeImages(testVect.begin(),testVect.end(), "C:\\2.gif");
+
 }
 
 
