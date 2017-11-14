@@ -69,7 +69,7 @@ void DrawingWidget::setDefinitiveScale(int w, int h) {
 }
 
 
-void DrawingWidget::scaleIn(int passScaleFactor) {
+void DrawingWidget::scaleIn(double passScaleFactor) {
     scaleFactor /= passScaleFactor;
 
     currImage.setDevicePixelRatio(scaleFactor);
@@ -77,7 +77,7 @@ void DrawingWidget::scaleIn(int passScaleFactor) {
     update();
 }
 
-void DrawingWidget::scaleOut(int passScaleFactor) {
+void DrawingWidget::scaleOut(double passScaleFactor) {
     scaleFactor *= passScaleFactor;
 
     currImage.setDevicePixelRatio(scaleFactor);

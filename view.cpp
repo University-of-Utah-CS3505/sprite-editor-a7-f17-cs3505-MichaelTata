@@ -90,6 +90,7 @@ View::View(Model* m, QWidget *parent) :
     ui->previewWidget->scaleIn(2);
 
 
+
     connect(ui->fpsSlider, &QSlider::valueChanged, this, &View::fpsChange);
 
     connect(ui->addFrameButton, &QPushButton::clicked, m, &Model::addToFrames);

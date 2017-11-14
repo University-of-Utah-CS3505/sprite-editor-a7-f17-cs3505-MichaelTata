@@ -427,10 +427,10 @@
           </property>
           <property name="geometry">
            <rect>
-            <x>70</x>
-            <y>190</y>
-            <width>70</width>
-            <height>70</height>
+            <x>50</x>
+            <y>200</y>
+            <width>200</width>
+            <height>150</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -556,10 +556,10 @@
           </property>
           <property name="geometry">
            <rect>
-            <x>0</x>
-            <y>190</y>
-            <width>70</width>
-            <height>70</height>
+            <x>50</x>
+            <y>100</y>
+            <width>200</width>
+            <height>150</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -685,10 +685,10 @@
           </property>
           <property name="geometry">
            <rect>
-            <x>140</x>
-            <y>190</y>
-            <width>70</width>
-            <height>70</height>
+            <x>50</x>
+            <y>300</y>
+            <width>200</width>
+            <height>150</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -837,14 +837,11 @@
          <widget class="QScrollBar" name="previewscrollbar">
           <property name="geometry">
            <rect>
-            <x>30</x>
-            <y>260</y>
-            <width>160</width>
-            <height>16</height>
+            <x>20</x>
+            <y>170</y>
+            <width>16</width>
+            <height>160</height>
            </rect>
-          </property>
-          <property name="minimum">
-           <number>0</number>
           </property>
           <property name="maximum">
            <number>0</number>
@@ -853,9 +850,16 @@
            <number>1</number>
           </property>
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Vertical</enum>
           </property>
          </widget>
+         <zorder>fpsSlider</zorder>
+         <zorder>previewWidgetLeft</zorder>
+         <zorder>addFrameButton</zorder>
+         <zorder>deleteFrameButton</zorder>
+         <zorder>previewWidgetMid</zorder>
+         <zorder>previewWidgetRight</zorder>
+         <zorder>previewscrollbar</zorder>
         </widget>
        </widget>
       </item>
