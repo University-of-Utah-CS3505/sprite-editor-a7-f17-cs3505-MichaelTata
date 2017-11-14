@@ -55,6 +55,8 @@ View::View(Model* m, QWidget *parent) :
     connect(m, &Model::setScrollPosition, ui->previewscrollbar, &QScrollBar::setValue);
     connect(ui->previewscrollbar, &QScrollBar::valueChanged, m, &Model::changeFrame);
 
+    connect(ui->previewscrollbar, &QScrollBar::valueChanged, m, &Model::changeFramerate);
+
     //Connection to fill an area.
 
     connect(ui->drawingBoard, &DrawingWidget::mouseMove, m, &Model::manipulateImage);

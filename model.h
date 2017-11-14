@@ -92,6 +92,10 @@ private:
     void changeColor(QColor);
 
 
+
+    int framerate;
+
+
 public:
     explicit Model(QObject *parent = 0);
 protected:
@@ -171,6 +175,8 @@ public slots:
     void save();
 
     void exportToGif();
+
+    void changeFramerate(int);
 
 };
 
