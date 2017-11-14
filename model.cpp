@@ -372,6 +372,10 @@ void Model::open() {
         } while (file.isOpen());
         undoes.clear();
         redoes.clear();
+
+        std::tuple<std::vector<QImage>, int> tempTuple (frames, currentFrame);
+        undoes.push_back(tempTuple);
+
         emit redrawImage(currentImage);
         emit setMaxScroll(frames.size() - 1);
         emit setScrollPosition(0);
