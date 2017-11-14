@@ -10,8 +10,6 @@ View::View(Model* m, QWidget *parent) :
 
     newSprite = new CreateNewSprite();
 
-    //themeWhite();
-
     connect(ui->actionNew, &QAction::triggered, this, &View::openNewSpriteWindow);
 
     //Connection from createnewsprite window, which will send size info to drawing board and model.
@@ -140,7 +138,7 @@ void View::themeDark(){
     ui->previewscrollbar->setStyleSheet("background-color: rgb(50, 50, 50);");
     ui->mainToolBar->setStyleSheet("background-color: rgb(50, 50, 50);");
     ui->menuBar->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
-    ui->menuFile->setStyleSheet("background-color: rgb(20, 20, 20); color: white");
+    ui->menuFile->setStyleSheet("background-color: rgb(20, 20, 20); selection-background-color: rgb(50, 50, 50); color: white");
     ui->groupBox->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
     ui->groupBox2->setStyleSheet("background-color: rgb(50, 50, 50); color: white");
 }
