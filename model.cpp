@@ -55,6 +55,8 @@ void Model::createNewSprite(int w, int h) {
 
     if(!loadingImage){
         frames.push_back(currentImage);
+        emit setMaxScroll(frames.size() - 1);
+        emit setScrollPosition(currentFrame);
     }
     std::tuple<std::vector<QImage>, int> tempTuple (frames, 0);
     undoes.push_back(tempTuple);
@@ -64,8 +66,6 @@ void Model::createNewSprite(int w, int h) {
 
     emit sendNewInfo(w, h);
     emit redrawImage(currentImage);
-    emit setMaxScroll(frames.size() - 1);
-    emit setScrollPosition(currentFrame);
 
     loadingImage = false;
 }
@@ -377,6 +377,8 @@ void Model::open() {
             file.close();
         } while (file.isOpen());
         emit redrawImage(currentImage);
+        emit setMaxScroll(frames.size() - 1);
+        emit setScrollPosition(0);
     }
 }
 
