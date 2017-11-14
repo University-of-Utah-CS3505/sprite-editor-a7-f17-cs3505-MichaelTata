@@ -39,7 +39,15 @@ FORMS    += view.ui \
 RESOURCES += \
     images.qrc
 
-INCLUDEPATH += "$$PWD/MagickLibraries_DLL/include"
+#INCLUDEPATH += "$$PWD/include"
 
-# $$PWD/MagickLibraries_DLL/CORE_RL_Magick++.dll -lQt5Widgetsd -lQt5Guid -lQt5Cored
-LIBS += "$$PWD/MagickLibraries_DLL/CORE_RL_Magick++_.lib"
+#LIBS += "$$PWD/CORE_RL_Magick++_.lib"
+
+
+unix|win32: LIBS += -L$$PWD/./ -lCORE_RL_Magick++_
+
+INCLUDEPATH += $$PWD/include/.
+DEPENDPATH += $$PWD/include/.
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/./CORE_RL_Magick++_.lib
+else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/./libCORE_RL_Magick++_.a

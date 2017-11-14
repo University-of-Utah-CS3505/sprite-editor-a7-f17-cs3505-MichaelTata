@@ -402,6 +402,7 @@ void Model::exportToGif() {
     //Magick::Image img1;
     //img1.pixelColor();
 
+    //Magick::Image img1("100x100", "white");
    //img1.
 
 //    Magick::Image img2;
