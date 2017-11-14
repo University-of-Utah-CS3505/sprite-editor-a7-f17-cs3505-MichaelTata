@@ -7,7 +7,7 @@
 
 
 DrawingWidget::DrawingWidget(QWidget *parent) : QWidget(parent),
-    currImage(100, 100, QImage::Format_ARGB32) {
+    currImage(100, 100, QImage::Format_ARGB32_Premultiplied) {
 
     horizontalScroll = 0;
     verticalScroll = 0;
@@ -30,7 +30,7 @@ void DrawingWidget::scrollVer(int change) {
 void DrawingWidget::createNewBoard(int w, int h) {
     scaleFactor = 1;
     currImage.fill(Qt::transparent);
-    currImage= QImage(w, h,  QImage::Format_ARGB32 );
+    currImage= QImage(w, h,  QImage::Format_ARGB32_Premultiplied );
     tempImage = currImage;
 }
 

@@ -2,8 +2,8 @@
 #include <gif.h>
 using namespace std;
 
-Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32) {
-    //Temporary default value as we use 500,500 for default image
+Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32_Premultiplied) {
+    // Temporary default value as we use 100x100 for default image.
     xScale = 1;
     yScale = 1;
 
@@ -14,9 +14,7 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     currentColor = Qt::black;
     currentFrame = 0;
 
-    //currentImage(64, 64, QImage::Format_ARGB32);
-    //Default value until we add load and creation of custom sized sprite
-    //currentImage = QPixmap(64, 64).toImage();
+    // Default value until we add load and creation of custom sized sprite.
     currentImage.fill(Qt::transparent);
 
     frames.push_back(currentImage);
@@ -28,6 +26,7 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
     painter.begin(&currentImage);
 
     painter.setPen(currentColor);
+
 
     redrawImageF();
 }
@@ -42,7 +41,7 @@ void Model::createNewSprite(int w, int h) {
     xScale = 1;
     yScale = 1;
 
-    currentImage = QImage(w, h, QImage::Format_ARGB32);
+    currentImage = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
 
     currentTool = 0;
 
@@ -412,10 +411,10 @@ void Model::exportToGif() {
     QString fileName = QFileDialog::getSaveFileName();
     if(fileName != NULL){
         GifWriter writer;
-        GifBegin(&writer, fileName.toStdString().c_str(), currentImage.width(), currentImage.height(), 100);
+        GifBegin(&writer, fileName.toStdString().c_str(), currentImage.width(), currentImage.height(), 50, 16);
         for (QImage &frame : frames) {
             QByteArray alpha8((char *)frame.bits(), frame.byteCount());
-            GifWriteFrame(&writer, (uint8_t *)alpha8.data(), frame.width(), frame.height(), 100);
+            GifWriteFrame(&writer, (uint8_t *)alpha8.data(), frame.width(), frame.height(), 50);
         }
         GifEnd(&writer);
     }
