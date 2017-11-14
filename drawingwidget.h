@@ -53,13 +53,13 @@ public slots:
 
     void highlightPixel(QPoint coords);
 
-    void scaleIn(int);
+    void scaleIn(double);
 
     void scrollHor(int);
 
     void scrollVer(int);
 
-    void scaleOut(int);
+    void scaleOut(double);
 
     //Testing this out for fixing the preview bug.
     void setDefinitiveScale(int, int);

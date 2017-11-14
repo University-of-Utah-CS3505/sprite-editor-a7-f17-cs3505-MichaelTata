@@ -27,7 +27,6 @@ Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::
 
     painter.setPen(currentColor);
 
-
     redrawImageF();
 }
 
@@ -82,33 +81,30 @@ void Model::addShapeToImage(QMouseEvent *e, int horScroll, int verScroll) {
     QRectF tempRec = getRectangle(firstPt, secondPt);
     switch(currentTool) {
         case 0:
-            updateFrames();
+            redrawImageF();
         break;
 
         case 1:
-            updateFrames();
+            redrawImageF();
         break;
 
         case 3:
-            updateFrames();
+            redrawImageF();
         break;
 
         case 4:
             painter.drawLine(firstPt, secondPt);      
             redrawImageF();
-            updateFrames();
         break;
 
         case 5:
             painter.drawRect(tempRec);
             redrawImageF();
-            updateFrames();
         break;
 
         case 6:
             painter.drawEllipse(tempRec);         
             redrawImageF();
-            updateFrames();
         break;
     }
     activePreview = false;
@@ -128,19 +124,19 @@ void Model::manipulateImage(QMouseEvent *e, int horScroll, int verScroll) {
             //Make sure we only allow ~25 or so undo otherwise program crashes
             //undoes.push_back(currentImage);
             painter.drawPoint(point);
-            redrawImageF();
+            emit redrawImage(currentImage);
             break;
 
          case 1:
             if(validPixel(point)) {
                 currentImage.setPixelColor(point, Qt::transparent);
-                redrawImageF();
+                emit redrawImage(currentImage);
             }
             break;
 
         case 3:
             fill(point);
-            redrawImageF();
+            emit redrawImage(currentImage);
             break;
 
         case 4:
