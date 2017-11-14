@@ -13,8 +13,7 @@ namespace Ui {
 class View;
 }
 
-class View : public QMainWindow
-{
+class View : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -35,14 +34,7 @@ public slots:
     void themeBlack();
     void themeWhite();
 
-    //void changeHor();
-   // void attachScrollBars();
-
-
-
 signals:
-    //void horizChange();
-
 
 };
 

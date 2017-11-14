@@ -58,8 +58,6 @@ private:
     //This is used to keep track of cwhat frame you are currently editing.
     int currentFrame;
 
-
-
     int currentTool;
     double xScale;
     double yScale;
@@ -97,8 +95,6 @@ private:
 public:
     explicit Model(QObject *parent = 0);
 protected:
-//    void fillZone(QPoint);
-//    void fillPixel(QPoint, int direction);
     bool validPixel(QPoint);
     void drawShapePreview(QMouseEvent *e,int,int);
     void fill(QPoint);
@@ -128,7 +124,6 @@ signals:
     void sendPreviewMid(QImage&);
     void sendPreviewLeft(QImage&);
     void sendPreviewRight(QImage&);
-
 
 
 public slots:
