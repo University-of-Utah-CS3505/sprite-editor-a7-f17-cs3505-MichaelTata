@@ -1,6 +1,5 @@
 #include "model.h"
 using namespace std;
-using namespace Magick;
 
 Model::Model(QObject *parent) : QObject(parent), currentImage(100, 100, QImage::Format_ARGB32) {
     //Temporary default value as we use 500,500 for default image
@@ -407,48 +406,18 @@ void Model::save() {
 }
 
 void Model::exportToGif() {
+ //   struct GifWriter gifMe;
+  //  GifBegin(gifMe, "test.gif", currentImage.width(), currentImage.height(), 100);
+  //  GifWriteFrame();
 
-      InitializeMagick("");
-//    QByteArray ba;
-//    QBuffer buffer(&ba);
-//    buffer.open(QIODevice::WriteOnly);
-//    frames[0].save(&buffer, "PNG");
-//    Blob b(&buffer, 100);
-
-    //Magick::Image testImage(b);
-
-    //Magick::Image img1;
-    //Magick::Image img1("100x100", "red");
-    //vector<Magick::Image> testVect;
-    //Magick::Image img1;
-    //img1.pixelColor();
-
-    //Magick::Image img1("100x100", "white");
-   //img1.
-
-//    Magick::Image img2;
-//    img2.size("100x100");
-//    img2.magick("RGBA");
-
-//    newImage.pixelColor(49, 49, "red");
-    //img1.write("red_pixel.png");
-
-    //testVect.push_back(img1);
-    //testVect.push_back(img2);
-
-//    Image newImage;
-//    newImage.type(TrueColorType);
-//    Pixels view(newImage);
-
-
-    //newImage.read_mask
-    //newImage.
-
-//    Image image( "100x100", "white" );
-//    image.pixelColor( 49, 49, "red" );
-//    image.write( "red_pixel.png" );
-    //Image image( "100x100", "white");
-    //Magick::writeImages(testVect.begin(),testVect.end(), "C:\\2.gif");
+    QImage &startImg = frames[0];
+    GifWriter writer;
+    GifBegin(&writer, "test.gif", currentImage.width(), currentImage.height(), 100);
+    for (QImage &a : frames) {
+        QByteArray alpha8((char *)a.bits(), a.byteCount());
+        GifWriteFrame(&writer, (uint8_t *)alpha8.data(), a.width(), a.height(), 100);
+    }
+    GifEnd(&writer);
 
 }
 
